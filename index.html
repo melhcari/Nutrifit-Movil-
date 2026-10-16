@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nutrifit - Planes nutricionales personalizados">
+    <title>Nutrifit | Nutrición Inteligente</title>
+
+    <!-- FUENTE POPPINS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Estilos Externos -->
+    <link rel="stylesheet" href="css/habitos.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/peso.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+    <!-- FUERZA DE ESTILOS PARA ANDROID Y AJUSTES SOLICITADOS -->
+    <style>
+        body, h1, h2, h3, p, a, button, span, div {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .hero h1 { font-weight: 700 !important; color: #1a1a1a; }
+        .hero h1 span { font-weight: 800 !important; color: #28a745; }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .btn-main {
+            background-color: #28a745 !important;
+            color: white !important;
+            padding: 12px 30px !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            border: none !important;
+        }
+        .btn-secondary {
+            background-color: transparent !important;
+            color: #1a1a1a !important;
+            border: 2px solid #1a1a1a !important;
+            padding: 10px 30px !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Menú lateral */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .side-panel.active { right: 0 !important; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1999;
+        }
+        .overlay.active { display: block !important; }
+
+        /* Estilos para los carruseles móviles */
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 10px 20px 30px 20px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* NUEVO: Tarjetas Verdes Cuadradas (Estilo de Vida y Servicios) */
+        .carousel-item.square-card-green {
+            min-width: 260px;
+            width: 260px;
+            min-height: 280px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            white-space: normal;
+        }
+
+        /* Otras Tarjetas Cuadradas (Aprende e Historias) */
+        .carousel-item.square-card {
+            min-width: 250px;
+            width: 250px;
+            height: auto;
+            min-height: 250px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            white-space: normal;
+        }
+
+        /* Tarjetas de Planes */
+        .carousel-item {
+            min-width: 280px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+        }
+        .plan-title {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+
+        /* CORRECCIÓN: FAQ */
+        .faq-item {
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .faq-question {
+            padding: 20px;
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+        .faq-answer {
+            display: none;
+            padding: 0 20px 20px 20px;
+            color: #666;
+            background-color: #ffffff;
+            border-radius: 0 0 8px 8px;
+        }
+        .faq-answer p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                background-position: left center !important;
+                background-size: cover !important;
+                padding-top: 120px !important;
+            }
+            .hero h1 { font-size: 2.2rem !important; }
+            .nav-menu.active {
+                left: 0 !important;
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header-navbar">
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
+
+        <button class="menu-toggle" id="mobile-menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-menu" id="nav-menu">
+            <a href="#inicio" class="nav-link menu-item">INICIO</a>
+            <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>
+            <a href="#planes" class="nav-link menu-item">PLANES</a>
+            <a href="recetas.html" class="nav-link menu-item">RECETAS</a>
+            <a href="ejercicios.html" class="nav-link menu-item">EJERCICIOS</a>
+            <a href="#aprende" class="nav-link menu-item">APRENDE</a>
+            <a href="#faq" class="nav-link menu-item">FAQ</a>
+
+            <div id="menuLoginSection" class="mobile-login-btn show">
+                <button onclick="abrirPanelPersonalizado();">
+                    <i class="fa-solid fa-user"></i> Iniciar Sesión
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Tu salud comienza en el <span>plato</span></h1>
+            <p>Planes nutricionales personalizados para alcanzar tu mejor versión con ciencia y equilibrio.</p>
+            <div class="hero-btns">
+                <button onclick="document.getElementById('planes').scrollIntoView();" class="btn-main">Ver Planes</button>
+                <button onclick="abrirPanelPersonalizado();" class="btn-secondary">Comenzar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ESTILO DE VIDA -->
+    <section id="estilo-vida" style="padding: 60px 0 20px 0; text-align: center;">
+        <div style="padding: 0 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700;">No es dieta, es <span style="color: #28a745;">estilo de vida</span></h2>
+            <p style="margin-bottom: 30px; color: #555;">Lo que pones en tu plato hoy, define tu energía de mañana.</p>
+        </div>
+
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-brain" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Enfoque Mental</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental".</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-heart-pulse" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Salud a Largo Plazo</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-battery-full" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Energía Real</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Olvídate del bajón de la tarde con hidratación y nutrientes reales.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" style="padding: 20px 0 60px 0; text-align: center;">
+        <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 30px; padding: 0 20px;">Servicios Especializados</h2>
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-apple-whole" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Control de Peso</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Estrategias sostenibles para perder grasa o ganar masa.</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-person-running" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Nutrición Deportiva</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Optimiza tu rendimiento y recuperación.</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-clipboard-check" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Educación Alimentaria</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Aprende a leer etiquetas y elegir mejores alimentos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANES -->
+    <section id="planes" class="plans-section" style="padding: 60px 0; text-align: center;">
+        <div data-aos="fade-up" style="padding: 0 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700;">Planes a tu medida</h2>
+            <p style="margin-bottom: 30px; color: #555;">Elige el camino que mejor se adapte a tus objetivos y presupuesto.</p>
+        </div>
+        <div class="carousel-container" data-aos="fade-up">
+            <!-- Plan Básico -->
+            <div class="plan-card carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px;">
+                <div style="font-size: 0.9rem; margin-bottom: 10px;">Esencial</div>
+                <h3 class="plan-title">Plan Básico</h3>
+                <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$450<span style="font-size: 1rem;">/mes</span></div>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Calculadora de macros</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Tracker de agua</li>
+                    <li style="color: #888;"><i class="fa-solid fa-xmark"></i> Menú personalizado</li>
+                </ul>
+                <button class="btn-main" style="width: 100%;">Seleccionar</button>
+            </div>
+            <!-- Plan Integral -->
+            <div class="plan-card popular carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px; position: relative;">
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #28a745; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; width: max-content;">Más Popular</div>
+                <h3 class="plan-title">Plan Integral</h3>
+                <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$850<span style="font-size: 1rem;">/mes</span></div>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Todo lo del Básico</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Menú semanal</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Soporte VIP WhatsApp</li>
+                </ul>
+                <button class="btn-main" style="width: 100%;">Elegir este Plan</button>
+            </div>
+            <!-- Plan Pro -->
+            <div class="plan-card carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px;">
+                <div style="font-size: 0.9rem; margin-bottom: 10px;">Pro</div>
+                <h3 class="plan-title">Plan Pro Sport</h3>
+                <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$1,200<span style="font-size: 1rem;">/mes</span></div>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Todo lo Integral</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Videollamada quincenal</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Protocolo suplementos</li>
+                </ul>
+                <button class="btn-main" style="width: 100%;">Seleccionar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER ESTADÍSTICAS -->
+    <section style="background: #28a745; color: white; padding: 50px 20px; display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; gap: 20px;">
+        <div data-aos="zoom-in">
+            <i class="fa-solid fa-bolt" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0;">500+</h2>
+            <p style="font-weight: 600; letter-spacing: 1px;">DIETAS GENERADAS</p>
+        </div>
+        <div data-aos="zoom-in" data-aos-delay="100">
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0;">1200+</h2>
+            <p style="font-weight: 600; letter-spacing: 1px;">VASOS REGISTRADOS</p>
+        </div>
+        <div data-aos="zoom-in" data-aos-delay="200">
+            <i class="fa-solid fa-flask" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0;">100%</h2>
+            <p style="font-weight: 600; letter-spacing: 1px;">BASADO EN CIENCIA</p>
+        </div>
+    </section>
+
+    <!-- APRENDE CON NUTRIFIT -->
+    <section id="aprende" style="padding: 60px 0; text-align: center; background: #f9f9f9;">
+        <div style="padding: 0 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700;">Aprende con Nutrifit</h2>
+            <p style="margin-bottom: 30px; color: #555;">Información basada en ciencia para que entiendas el <em>por qué</em> detrás de tu dieta.</p>
+        </div>
+
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
+                <div style="height: 150px; position: relative;">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80" alt="Conceptos" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">CONCEPTOS</span>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">¿Qué es el Déficit Calórico?</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">Es la única forma real de perder grasa. Consiste en consumir menos calorías de las que tu cuerpo quema.</p>
+                </div>
+            </div>
+
+            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
+                <div style="height: 150px; position: relative;">
+                    <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=500&q=80" alt="Suplementos" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">SUPLEMENTOS</span>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">El uso de suplementos</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">La Proteína en polvo solo es comida rápida para alcanzar tus macros, y la creatina ayuda al rendimiento.</p>
+                </div>
+            </div>
+
+            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
+                <div style="height: 150px; position: relative;">
+                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80" alt="Mito" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">MITO</span>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">"Sudar mucho quema grasa"</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">Falso. Sudar es el mecanismo de tu cuerpo para enfriarse. Pierdes agua, no grasa.</p>
+                </div>
+            </div>
+
+            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
+                <div style="height: 150px; position: relative;">
+                    <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&q=80" alt="Mito" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">MITO</span>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">"Los carbos de noche engordan"</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">Tu cuerpo no tiene un reloj que apaga el metabolismo a las 6 PM. Lo que importa es el total de calorías.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTORIAS DE ÉXITO -->
+    <section style="padding: 60px 0; text-align: center;">
+        <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 30px; padding: 0 20px;">Historias de Éxito</h2>
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p style="font-style: italic; color: #555; margin-bottom: 15px;">"¡Bajé 4 kilos en mi primer mes sin dejar de comer rico!"</p>
+                <h4 style="margin: 0;">- Mariana G.</h4>
+            </div>
+            <div class="card carousel-item square-card" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p style="font-style: italic; color: #555; margin-bottom: 15px;">"El tracker de agua me ayuda a no olvidarme de hidratarme."</p>
+                <h4 style="margin: 0;">- Carlos M.</h4>
+            </div>
+            <div class="card carousel-item square-card" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p style="font-style: italic; color: #555; margin-bottom: 15px;">"Ya no tengo que esperar para tener mi plan de aumento muscular."</p>
+                <h4 style="margin: 0;">- Roberto V.</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES -->
+    <section id="faq" style="padding: 60px 20px; max-width: 800px; margin: 0 auto;">
+        <h2 style="font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 40px;">Preguntas Frecuentes</h2>
+
+        <div class="faq-item">
+            <h3 class="faq-question">
+                ¿Es gratis usar la calculadora?
+                <i class="fa-solid fa-chevron-down faq-icon" style="transition: transform 0.3s ease;"></i>
+            </h3>
+            <div class="faq-answer">
+                <p>Sí, registrarte y obtener tus macros es gratis.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question">
+                ¿Necesito saber cocinar?
+                <i class="fa-solid fa-chevron-down faq-icon" style="transition: transform 0.3s ease;"></i>
+            </h3>
+            <div class="faq-answer">
+                <p>Para nada. Son súper prácticos y fáciles de preparar.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question">
+                ¿Cómo calcula mis calorías?
+                <i class="fa-solid fa-chevron-down faq-icon" style="transition: transform 0.3s ease;"></i>
+            </h3>
+            <div class="faq-answer">
+                <p>Utilizamos la fórmula científica de Harris-Benedict.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer style="background: #2d3436; color: white; text-align: center; padding: 40px 20px;">
+    <h2 style="font-weight: 700; margin-bottom: 10px;">Comienza hoy mismo</h2>
+    <p style="color: #aaa; margin-bottom: 20px;">García, Nuevo León | soporte@nutrifit.com</p>
+    <div style="display: flex; justify-content: center; gap: 20px; font-size: 1.5rem;">
+        <i class="fa-brands fa-instagram" style="cursor: pointer;"></i>
+        <i class="fa-brands fa-facebook" style="cursor: pointer;"></i>
+        <i class="fa-brands fa-whatsapp" style="cursor: pointer;"></i>
+    </div>
+</footer>
+
+<!-- PANEL LATERAL DE INICIO DE SESIÓN -->
+<div id="overlay" class="overlay" onclick="cerrarPanelPersonalizado()"></div>
+<aside id="sidePanel" class="side-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-weight: 700; margin: 0; font-size: 1.2rem;">Mi Perfil</h2>
+        <button onclick="cerrarPanelPersonalizado()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <div id="authContainer">
+        <form id="authForm" style="display: flex; flex-direction: column; gap: 15px;">
+            <h3 style="text-align: center; margin-bottom: 10px;">Bienvenido de nuevo</h3>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-size: 0.9rem; font-weight: 600;">Correo Electrónico</label>
+                <input type="email" id="identificador" required placeholder="tu@email.com" style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-size: 0.9rem; font-weight: 600;">Contraseña</label>
+                <input type="password" id="password" required placeholder="••••••••" style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <a href="#" style="font-size: 0.8rem; color: #28a745; text-align: right; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+            <button type="submit" style="background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">Iniciar Sesión</button>
+            <div style="text-align: center; margin: 15px 0; color: #888; font-size: 0.9rem;">o continua con</div>
+            <button type="button" style="background: white; color: #333; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="18"> Google
+            </button>
+        </form>
+        <p style="text-align: center; font-size: 0.9rem; margin-top: 20px;">¿No tienes cuenta? <a href="#" style="color: #28a745; font-weight: 600; text-decoration: none;">Regístrate</a></p>
+    </div>
+</aside>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Inicializar animaciones
+    AOS.init({ duration: 1000, once: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. Lógica del menú de hamburguesa ---
+        const menuBtn = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        if(menuBtn && navMenu) {
+            menuBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                navMenu.classList.toggle('active');
+            });
+        }
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // --- 2. Lógica del Acordeón para Preguntas Frecuentes (FAQ) ---
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('.faq-icon');
+
+                // Toggle display block/none
+                if (answer.style.display === 'none' || answer.style.display === '') {
+                    answer.style.display = 'block';
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    answer.style.display = 'none';
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+    });
+
+    // --- 3. Funciones del Panel de Inicio de Sesión ---
+    function abrirPanelPersonalizado() {
+        const navMenu = document.getElementById('nav-menu');
+        if (navMenu) navMenu.classList.remove('active');
+        document.getElementById('sidePanel').classList.add('active');
+        document.getElementById('overlay').classList.add('active');
+    }
+
+    function cerrarPanelPersonalizado() {
+        document.getElementById('sidePanel').classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+</script>
+</body>
+</html>
