@@ -1,7 +1,7 @@
 export default async (request) => {
-    const responder = (datos, estado = 200) =>
-        new Response(JSON.stringify(datos), {
-            status: estado,
+    const json = (data, status = 200) =>
+        new Response(JSON.stringify(data), {
+            status,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "Cache-Control": "no-store"
@@ -9,18 +9,20 @@ export default async (request) => {
         });
 
     if (request.method !== "POST") {
-        return responder({
+        return json({
             success: false,
             message: "La función está activa y espera una solicitud POST."
         }, 405);
     }
 
-    const secret = (process.env.RECAPTCHA_SECRET_KEY || "").trim();
+    const secret = (
+        process.env.RECAPTCHA_SECRET_KEY || ""
+    ).trim();
 
     if (!secret) {
-        return responder({
+        return json({
             success: false,
-            message: "Falta RECAPTCHA_SECRET_KEY en las variables de Netlify."
+            message: "Falta RECAPTCHA_SECRET_KEY en Netlify."
         }, 500);
     }
 
@@ -30,23 +32,23 @@ export default async (request) => {
         const body = await request.json();
         token = typeof body.token === "string" ? body.token : "";
     } catch {
-        return responder({
+        return json({
             success: false,
-            message: "La solicitud del CAPTCHA no contiene JSON válido."
+            message: "La solicitud del CAPTCHA no es válida."
         }, 400);
     }
 
     if (!token) {
-        return responder({
+        return json({
             success: false,
-            message: "No recibimos la respuesta del CAPTCHA. Márcalo e inténtalo otra vez."
+            message: "No se recibió la respuesta del CAPTCHA."
         }, 400);
     }
 
-    let resultado;
+    let result;
 
     try {
-        const respuesta = await fetch(
+        const response = await fetch(
             "https://www.google.com/recaptcha/api/siteverify",
             {
                 method: "POST",
@@ -54,88 +56,88 @@ export default async (request) => {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 body: new URLSearchParams({
-                    secret: secret,
+                    secret,
                     response: token
                 })
             }
         );
 
-        resultado = await respuesta.json();
+        result = await response.json();
 
     } catch (error) {
-        console.error("Error contactando a Google reCAPTCHA:", error);
+        console.error("Error al contactar a Google:", error);
 
-        return responder({
+        return json({
             success: false,
-            message: "Netlify no pudo contactar al servicio de Google reCAPTCHA."
+            message: "Netlify no pudo contactar a Google reCAPTCHA."
         }, 502);
     }
 
-    const errores = Array.isArray(resultado["error-codes"])
-        ? resultado["error-codes"]
+    const errors = Array.isArray(result["error-codes"])
+        ? result["error-codes"]
         : [];
 
-    // Mostrar una explicación útil sin revelar la clave secreta.
-    if (!resultado.success) {
-        console.error("Google reCAPTCHA rechazó la verificación:", errores);
+    if (!result.success) {
+        console.error("Google rechazó el CAPTCHA:", errors);
 
-        let mensaje = "Google rechazó el CAPTCHA. Revisa las claves configuradas.";
+        let message =
+            "Google rechazó la respuesta. Revisa las claves configuradas.";
 
         if (
-            errores.includes("missing-input-secret") ||
-            errores.includes("invalid-input-secret")
+            errors.includes("invalid-input-secret") ||
+            errors.includes("missing-input-secret")
         ) {
-            mensaje =
-                "La clave secreta configurada en Netlify falta o no es válida. Revisa RECAPTCHA_SECRET_KEY en Production.";
+            message =
+                "La clave secreta falta o no es válida. Revisa RECAPTCHA_SECRET_KEY en Production.";
         } else if (
-            errores.includes("missing-input-response") ||
-            errores.includes("invalid-input-response")
+            errors.includes("invalid-input-response") ||
+            errors.includes("missing-input-response")
         ) {
-            mensaje =
-                "Google recibió una respuesta CAPTCHA vacía o inválida. Vuelve a marcar la casilla e inténtalo otra vez.";
-        } else if (errores.includes("timeout-or-duplicate")) {
-            mensaje =
-                "La respuesta del CAPTCHA venció o ya se utilizó. Completa una nueva verificación e intenta ingresar inmediatamente.";
-        } else if (errores.includes("bad-request")) {
-            mensaje =
-                "Google recibió una solicitud CAPTCHA incorrecta. Revisa la configuración de la función.";
+            message =
+                "La respuesta del CAPTCHA es inválida. Recarga la página y vuelve a marcar la casilla.";
+        } else if (errors.includes("timeout-or-duplicate")) {
+            message =
+                "El CAPTCHA venció o ya fue utilizado. Marca la casilla nuevamente e intenta ingresar enseguida.";
+        } else if (errors.includes("bad-request")) {
+            message =
+                "Google recibió una solicitud incorrecta. Revisa la configuración.";
         }
 
-        return responder({
+        return json({
             success: false,
-            message: mensaje,
-            errorCodes: errores
+            message,
+            errorCodes: errors
         }, 400);
     }
 
-    const normalizarDominio = (valor) =>
-        String(valor || "")
+    const normalizeHost = (value) =>
+        String(value || "")
             .trim()
             .toLowerCase()
             .replace(/^https?:\/\//, "")
             .split("/")[0]
             .replace(/:\d+$/, "");
 
-    const dominiosPermitidos = (
+    const allowedHosts = (
         process.env.RECAPTCHA_ALLOWED_HOSTS ||
         "nutrifilt-movil.netlify.app"
     )
         .split(",")
-        .map(normalizarDominio)
+        .map(normalizeHost)
         .filter(Boolean);
 
-    const dominioRecibido = normalizarDominio(resultado.hostname);
+    const hostname = normalizeHost(result.hostname);
 
-    if (!dominiosPermitidos.includes(dominioRecibido)) {
-        console.error("Dominio CAPTCHA no permitido:", dominioRecibido);
+    if (!allowedHosts.includes(hostname)) {
+        console.error("Dominio recibido:", hostname);
 
-        return responder({
+        return json({
             success: false,
             message:
-                "Google validó la respuesta, pero el dominio recibido no coincide con RECAPTCHA_ALLOWED_HOSTS.",
-            hostname: dominioRecibido
+                "El CAPTCHA fue validado por Google, pero el dominio no coincide con la lista permitida.",
+            hostname
         }, 400);
     }
 
-    return responder({ success: true });
+    return json({ success: true });
 };
