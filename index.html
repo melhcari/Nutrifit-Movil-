@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 
-    <!-- FUERZA DE ESTILOS PARA ANDROID Y AJUSTES SOLICITADOS -->
+    <!-- FUERZA DE ESTILOS PARA ANDROID -->
     <style>
         body, h1, h2, h3, p, a, button, span, div {
             font-family: 'Poppins', sans-serif !important;
@@ -43,6 +43,7 @@
             border-radius: 30px !important;
             font-weight: 600 !important;
             border: none !important;
+            cursor: pointer;
         }
         .btn-secondary {
             background-color: transparent !important;
@@ -92,11 +93,8 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .carousel-container::-webkit-scrollbar {
-            display: none;
-        }
+        .carousel-container::-webkit-scrollbar { display: none; }
 
-        /* NUEVO: Tarjetas Verdes Cuadradas (Estilo de Vida y Servicios) */
         .carousel-item.square-card-green {
             min-width: 260px;
             width: 260px;
@@ -111,7 +109,6 @@
             white-space: normal;
         }
 
-        /* Otras Tarjetas Cuadradas (Aprende e Historias) */
         .carousel-item.square-card {
             min-width: 250px;
             width: 250px;
@@ -124,18 +121,14 @@
             white-space: normal;
         }
 
-        /* Tarjetas de Planes */
         .carousel-item {
             min-width: 280px;
             scroll-snap-align: center;
             flex-shrink: 0;
         }
-        .plan-title {
-            color: #ffffff !important;
-            font-weight: 700 !important;
-        }
+        .plan-title { color: #ffffff !important; font-weight: 700 !important; }
 
-        /* CORRECCIÓN: FAQ */
+        /* FAQ */
         .faq-item {
             background-color: #ffffff;
             border-radius: 8px;
@@ -163,10 +156,7 @@
             background-color: #ffffff;
             border-radius: 0 0 8px 8px;
         }
-        .faq-answer p {
-            margin: 0;
-            line-height: 1.6;
-        }
+        .faq-answer p { margin: 0; line-height: 1.6; }
 
         @media (max-width: 768px) {
             .hero {
@@ -178,6 +168,7 @@
             .nav-menu.active {
                 left: 0 !important;
                 display: flex !important;
+                flex-direction: column;
             }
         }
     </style>
@@ -188,7 +179,7 @@
     <nav class="navbar">
         <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
 
-        <button class="menu-toggle" id="mobile-menu">
+        <button class="menu-toggle" id="mobile-menu" aria-label="Abrir Menú">
             <i class="fa-solid fa-bars"></i>
         </button>
 
@@ -202,8 +193,8 @@
             <a href="#faq" class="nav-link menu-item">FAQ</a>
 
             <div id="menuLoginSection" class="mobile-login-btn show">
-                <button onclick="abrirPanelPersonalizado();">
-                    <i class="fa-solid fa-user"></i> Iniciar Sesión
+                <button id="btnAbrirLogin">
+                    <i class="fa-solid fa-user"></i> <span id="txtBotonPerfil">Iniciar Sesión</span>
                 </button>
             </div>
         </div>
@@ -217,8 +208,8 @@
             <h1>Tu salud comienza en el <span>plato</span></h1>
             <p>Planes nutricionales personalizados para alcanzar tu mejor versión con ciencia y equilibrio.</p>
             <div class="hero-btns">
-                <button onclick="document.getElementById('planes').scrollIntoView();" class="btn-main">Ver Planes</button>
-                <button onclick="abrirPanelPersonalizado();" class="btn-secondary">Comenzar</button>
+                <button id="btnVerPlanes" class="btn-main">Ver Planes</button>
+                <button id="btnComenzar" class="btn-secondary">Comenzar</button>
             </div>
         </div>
     </section>
@@ -364,50 +355,6 @@
                     <p style="font-size: 0.9rem; color: #666; margin: 0;">La Proteína en polvo solo es comida rápida para alcanzar tus macros, y la creatina ayuda al rendimiento.</p>
                 </div>
             </div>
-
-            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
-                <div style="height: 150px; position: relative;">
-                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80" alt="Mito" style="width: 100%; height: 100%; object-fit: cover;">
-                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">MITO</span>
-                </div>
-                <div style="padding: 20px;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">"Sudar mucho quema grasa"</h3>
-                    <p style="font-size: 0.9rem; color: #666; margin: 0;">Falso. Sudar es el mecanismo de tu cuerpo para enfriarse. Pierdes agua, no grasa.</p>
-                </div>
-            </div>
-
-            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
-                <div style="height: 150px; position: relative;">
-                    <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&q=80" alt="Mito" style="width: 100%; height: 100%; object-fit: cover;">
-                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">MITO</span>
-                </div>
-                <div style="padding: 20px;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">"Los carbos de noche engordan"</h3>
-                    <p style="font-size: 0.9rem; color: #666; margin: 0;">Tu cuerpo no tiene un reloj que apaga el metabolismo a las 6 PM. Lo que importa es el total de calorías.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- HISTORIAS DE ÉXITO -->
-    <section style="padding: 60px 0; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 30px; padding: 0 20px;">Historias de Éxito</h2>
-        <div class="carousel-container" data-aos="fade-up">
-            <div class="card carousel-item square-card" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p style="font-style: italic; color: #555; margin-bottom: 15px;">"¡Bajé 4 kilos en mi primer mes sin dejar de comer rico!"</p>
-                <h4 style="margin: 0;">- Mariana G.</h4>
-            </div>
-            <div class="card carousel-item square-card" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p style="font-style: italic; color: #555; margin-bottom: 15px;">"El tracker de agua me ayuda a no olvidarme de hidratarme."</p>
-                <h4 style="margin: 0;">- Carlos M.</h4>
-            </div>
-            <div class="card carousel-item square-card" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                <div style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p style="font-style: italic; color: #555; margin-bottom: 15px;">"Ya no tengo que esperar para tener mi plan de aumento muscular."</p>
-                <h4 style="margin: 0;">- Roberto V.</h4>
-            </div>
         </div>
     </section>
 
@@ -434,37 +381,23 @@
                 <p>Para nada. Son súper prácticos y fáciles de preparar.</p>
             </div>
         </div>
-
-        <div class="faq-item">
-            <h3 class="faq-question">
-                ¿Cómo calcula mis calorías?
-                <i class="fa-solid fa-chevron-down faq-icon" style="transition: transform 0.3s ease;"></i>
-            </h3>
-            <div class="faq-answer">
-                <p>Utilizamos la fórmula científica de Harris-Benedict.</p>
-            </div>
-        </div>
     </section>
 </main>
 
 <footer style="background: #2d3436; color: white; text-align: center; padding: 40px 20px;">
     <h2 style="font-weight: 700; margin-bottom: 10px;">Comienza hoy mismo</h2>
     <p style="color: #aaa; margin-bottom: 20px;">García, Nuevo León | soporte@nutrifit.com</p>
-    <div style="display: flex; justify-content: center; gap: 20px; font-size: 1.5rem;">
-        <i class="fa-brands fa-instagram" style="cursor: pointer;"></i>
-        <i class="fa-brands fa-facebook" style="cursor: pointer;"></i>
-        <i class="fa-brands fa-whatsapp" style="cursor: pointer;"></i>
-    </div>
 </footer>
 
-<!-- PANEL LATERAL DE INICIO DE SESIÓN -->
-<div id="overlay" class="overlay" onclick="cerrarPanelPersonalizado()"></div>
+<!-- PANEL LATERAL DE INICIO DE SESIÓN / PERFIL -->
+<div id="overlay" class="overlay"></div>
 <aside id="sidePanel" class="side-panel">
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
         <h2 style="font-weight: 700; margin: 0; font-size: 1.2rem;">Mi Perfil</h2>
-        <button onclick="cerrarPanelPersonalizado()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        <button id="btnCerrarPanel" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
     </div>
 
+    <!-- FORMULARIO CUANDO NO HA INICIADO SESIÓN -->
     <div id="authContainer">
         <form id="authForm" style="display: flex; flex-direction: column; gap: 15px;">
             <h3 style="text-align: center; margin-bottom: 10px;">Bienvenido de nuevo</h3>
@@ -476,72 +409,180 @@
                 <label style="font-size: 0.9rem; font-weight: 600;">Contraseña</label>
                 <input type="password" id="password" required placeholder="••••••••" style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
             </div>
-            <a href="#" style="font-size: 0.8rem; color: #28a745; text-align: right; text-decoration: none;">¿Olvidaste tu contraseña?</a>
-            <button type="submit" style="background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">Iniciar Sesión</button>
-            <div style="text-align: center; margin: 15px 0; color: #888; font-size: 0.9rem;">o continua con</div>
-            <button type="button" style="background: white; color: #333; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="18"> Google
+            <button type="submit" style="background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">
+                Iniciar Sesión / Registrarse
             </button>
         </form>
-        <p style="text-align: center; font-size: 0.9rem; margin-top: 20px;">¿No tienes cuenta? <a href="#" style="color: #28a745; font-weight: 600; text-decoration: none;">Regístrate</a></p>
+    </div>
+
+    <!-- SECCIÓN CUANDO YA ESTÁ LOGUEADO -->
+    <div id="userProfileContainer" style="display: none; text-align: center;">
+        <i class="fa-solid fa-circle-user" style="font-size: 4rem; color: #28a745; margin-bottom: 10px;"></i>
+        <h3 id="userEmailText" style="font-size: 1rem; word-break: break-all;">usuario@email.com</h3>
+        <p style="color: #28a745; font-weight: bold; font-size: 0.85rem;">✓ Cuenta Verificada</p>
+        <button id="btnCerrarSesion" style="background: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; margin-top: 20px; cursor: pointer;">
+            Cerrar Sesión
+        </button>
     </div>
 </aside>
 
-<!-- SCRIPTS -->
+<!-- LIBRERÍAS DE ANIMACIÓN Y SCRIPT MÓDULO INTEGRADO -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    // Inicializar animaciones
-    AOS.init({ duration: 1000, once: true });
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        sendEmailVerification,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAoowzmCUuoyNQcrbEU60TknICVaA22StA",
+        authDomain: "tarea-588d2.firebaseapp.com",
+        projectId: "tarea-588d2",
+        storageBucket: "tarea-588d2.firebasestorage.app",
+        messagingSenderId: "1097872716155",
+        appId: "1:1097872716155:web:b71f4a189ba2f1a993cdde",
+        measurementId: "G-09ZTK2VCLG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
     document.addEventListener('DOMContentLoaded', () => {
-        // --- 1. Lógica del menú de hamburguesa ---
-        const menuBtn = document.getElementById('mobile-menu');
-        const navMenu = document.getElementById('nav-menu');
-        const menuItems = document.querySelectorAll('.menu-item');
+        if (typeof AOS !== 'undefined') AOS.init({ duration: 1000, once: true });
 
-        if(menuBtn && navMenu) {
-            menuBtn.addEventListener('click', (e) => {
-                e.preventDefault();
+        // Elementos del DOM
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        const sidePanel = document.getElementById('sidePanel');
+        const overlay = document.getElementById('overlay');
+        const btnAbrirLogin = document.getElementById('btnAbrirLogin');
+        const btnCerrarPanel = document.getElementById('btnCerrarPanel');
+        const btnComenzar = document.getElementById('btnComenzar');
+        const btnVerPlanes = document.getElementById('btnVerPlanes');
+
+        // Toggle del Menú Hamburguesa
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 navMenu.classList.toggle('active');
             });
         }
-        menuItems.forEach(item => {
+
+        // Cierre del menú hamburguesa al pulsar cualquier enlace
+        document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', () => {
-                navMenu.classList.remove('active');
+                if (navMenu) navMenu.classList.remove('active');
             });
         });
 
-        // --- 2. Lógica del Acordeón para Preguntas Frecuentes (FAQ) ---
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                const icon = question.querySelector('.faq-icon');
+        // Abrir y Cerrar Panel Lateral
+        const abrirPanel = () => {
+            if (navMenu) navMenu.classList.remove('active');
+            if (sidePanel) sidePanel.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+        };
 
-                // Toggle display block/none
-                if (answer.style.display === 'none' || answer.style.display === '') {
-                    answer.style.display = 'block';
-                    icon.style.transform = 'rotate(180deg)';
+        const cerrarPanel = () => {
+            if (sidePanel) sidePanel.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+        };
+
+        if (btnAbrirLogin) btnAbrirLogin.addEventListener('click', abrirPanel);
+        if (btnComenzar) btnComenzar.addEventListener('click', abrirPanel);
+        if (btnCerrarPanel) btnCerrarPanel.addEventListener('click', cerrarPanel);
+        if (overlay) overlay.addEventListener('click', cerrarPanel);
+
+        if (btnVerPlanes) {
+            btnVerPlanes.addEventListener('click', () => {
+                document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // FAQ Acordeón
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const ans = q.nextElementSibling;
+                const icon = q.querySelector('.faq-icon');
+                if (ans.style.display === 'block') {
+                    ans.style.display = 'none';
+                    if (icon) icon.style.transform = 'rotate(0deg)';
                 } else {
-                    answer.style.display = 'none';
-                    icon.style.transform = 'rotate(0deg)';
+                    ans.style.display = 'block';
+                    if (icon) icon.style.transform = 'rotate(180deg)';
                 }
             });
         });
+
+        // Autenticación Formulario
+        const authForm = document.getElementById('authForm');
+        if (authForm) {
+            authForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('identificador').value.trim();
+                const password = document.getElementById('password').value;
+
+                try {
+                    const userCred = await signInWithEmailAndPassword(auth, email, password);
+                    if (!userCred.user.emailVerified) {
+                        alert("⚠️ Debes confirmar tu correo electrónico antes de ingresar.");
+                        await signOut(auth);
+                        return;
+                    }
+                    alert("¡Sesión iniciada correctamente!");
+                    cerrarPanel();
+                } catch (err) {
+                    if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+                        if (confirm("No se encontró la cuenta. ¿Deseas registrar un nuevo usuario con estos datos?")) {
+                            try {
+                                const newAcc = await createUserWithEmailAndPassword(auth, email, password);
+                                await sendEmailVerification(newAcc.user);
+                                alert("¡Registro exitoso! Revisa tu bandeja de entrada para verificar tu correo.");
+                                await signOut(auth);
+                            } catch (regErr) {
+                                alert("Error en el registro: " + regErr.message);
+                            }
+                        }
+                    } else {
+                        alert("Error: " + err.message);
+                    }
+                }
+            });
+        }
+
+        // Botón Cerrar Sesión
+        const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+        if (btnCerrarSesion) {
+            btnCerrarSesion.addEventListener('click', async () => {
+                await signOut(auth);
+                alert("Sesión cerrada correctamente.");
+                cerrarPanel();
+            });
+        }
+
+        // Observador de Estado de Autenticación
+        onAuthStateChanged(auth, (user) => {
+            const authContainer = document.getElementById('authContainer');
+            const userProfileContainer = document.getElementById('userProfileContainer');
+            const txtBotonPerfil = document.getElementById('txtBotonPerfil');
+            const userEmailText = document.getElementById('userEmailText');
+
+            if (user && user.emailVerified) {
+                if (authContainer) authContainer.style.display = 'none';
+                if (userProfileContainer) userProfileContainer.style.display = 'block';
+                if (txtBotonPerfil) txtBotonPerfil.textContent = 'Mi Cuenta';
+                if (userEmailText) userEmailText.textContent = user.email;
+            } else {
+                if (authContainer) authContainer.style.display = 'flex';
+                if (userProfileContainer) userProfileContainer.style.display = 'none';
+                if (txtBotonPerfil) txtBotonPerfil.textContent = 'Iniciar Sesión';
+            }
+        });
     });
-
-    // --- 3. Funciones del Panel de Inicio de Sesión ---
-    function abrirPanelPersonalizado() {
-        const navMenu = document.getElementById('nav-menu');
-        if (navMenu) navMenu.classList.remove('active');
-        document.getElementById('sidePanel').classList.add('active');
-        document.getElementById('overlay').classList.add('active');
-    }
-
-    function cerrarPanelPersonalizado() {
-        document.getElementById('sidePanel').classList.remove('active');
-        document.getElementById('overlay').classList.remove('active');
-    }
 </script>
 </body>
 </html>
