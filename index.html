@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nutrifit - Planes nutricionales personalizados">
+    <title>Nutrifit | Nutrición Inteligente</title>
+
+    <!-- FUENTE POPPINS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Estilos Externos -->
+    <link rel="stylesheet" href="css/habitos.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/peso.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+    <!-- FUERZA DE ESTILOS PARA ANDROID -->
+    <style>
+        body, h1, h2, h3, p, a, button, span, div {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .hero h1 { font-weight: 700 !important; color: #1a1a1a; }
+        .hero h1 span { font-weight: 800 !important; color: #28a745; }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .btn-main {
+            background-color: #28a745 !important;
+            color: white !important;
+            padding: 12px 30px !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: transparent !important;
+            color: #1a1a1a !important;
+            border: 2px solid #1a1a1a !important;
+            padding: 10px 30px !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Menú lateral */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .side-panel.active { right: 0 !important; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1999;
+        }
+        .overlay.active { display: block !important; }
+
+        /* Estilos para los carruseles móviles */
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 10px 20px 30px 20px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .carousel-container::-webkit-scrollbar { display: none; }
+
+        .carousel-item.square-card-green {
+            min-width: 260px;
+            width: 260px;
+            min-height: 280px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            white-space: normal;
+        }
+
+        .carousel-item.square-card {
+            min-width: 250px;
+            width: 250px;
+            height: auto;
+            min-height: 250px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            white-space: normal;
+        }
+
+        .carousel-item {
+            min-width: 280px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+        }
+        .plan-title { color: #ffffff !important; font-weight: 700 !important; }
+
+        /* FAQ */
+        .faq-item {
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .faq-question {
+            padding: 20px;
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+        .faq-answer {
+            display: none;
+            padding: 0 20px 20px 20px;
+            color: #666;
+            background-color: #ffffff;
+            border-radius: 0 0 8px 8px;
+        }
+        .faq-answer p { margin: 0; line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            .hero {
+                background-position: left center !important;
+                background-size: cover !important;
+                padding-top: 120px !important;
+            }
+            .hero h1 { font-size: 2.2rem !important; }
+            .nav-menu.active {
+                left: 0 !important;
+                display: flex !important;
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <style>
+        .captcha-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; overflow: hidden; }
+        #recaptcha-container { max-width: 100%; min-height: 0; }
+        .captcha-help { margin: 0; color: #666; font-size: 0.78rem; text-align: center; }
+        @media (max-width: 360px) {
+            #recaptcha-container { transform: scale(.88); transform-origin: top center; height: 68px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header-navbar">
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
+
+        <button class="menu-toggle" id="mobile-menu" aria-label="Abrir Menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-menu" id="nav-menu">
+            <a href="#inicio" class="nav-link menu-item">INICIO</a>
+            <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>
+            <a href="#planes" class="nav-link menu-item">PLANES</a>
+            <a href="recetas.html" class="nav-link menu-item">RECETAS</a>
+            <a href="ejercicios.html" class="nav-link menu-item">EJERCICIOS</a>
+            <a href="#aprende" class="nav-link menu-item">APRENDE</a>
+            <a href="#faq" class="nav-link menu-item">FAQ</a>
+
+            <div id="menuLoginSection" class="mobile-login-btn show">
+                <button id="btnAbrirLogin">
+                    <i class="fa-solid fa-user"></i> <span id="txtBotonPerfil">Iniciar Sesión</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Tu salud comienza en el <span>plato</span></h1>
+            <p>Planes nutricionales personalizados para alcanzar tu mejor versión con ciencia y equilibrio.</p>
+            <div class="hero-btns">
+                <button id="btnVerPlanes" class="btn-main">Ver Planes</button>
+                <button id="btnComenzar" class="btn-secondary">Comenzar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ESTILO DE VIDA -->
+    <section id="estilo-vida" style="padding: 60px 0 20px 0; text-align: center;">
+        <div style="padding: 0 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700;">No es dieta, es <span style="color: #28a745;">estilo de vida</span></h2>
+            <p style="margin-bottom: 30px; color: #555;">Lo que pones en tu plato hoy, define tu energía de mañana.</p>
+        </div>
+
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-brain" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Enfoque Mental</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Alimenta tu cerebro. Un buen balance de macros elimina la "neblina mental".</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-heart-pulse" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Salud a Largo Plazo</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Prevenir es más barato que curar. Invierte en tu cuerpo hoy.</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-battery-full" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Energía Real</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Olvídate del bajón de la tarde con hidratación y nutrientes reales.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" style="padding: 20px 0 60px 0; text-align: center;">
+        <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 30px; padding: 0 20px;">Servicios Especializados</h2>
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-apple-whole" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Control de Peso</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Estrategias sostenibles para perder grasa o ganar masa.</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-person-running" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Nutrición Deportiva</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Optimiza tu rendimiento y recuperación.</p>
+            </div>
+            <div class="card carousel-item square-card-green" style="background: #28a745; color: white; border-radius: 15px;">
+                <i class="fa-solid fa-clipboard-check" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Educación Alimentaria</h3>
+                <p style="margin: 0; font-size: 0.95rem;">Aprende a leer etiquetas y elegir mejores alimentos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANES -->
+    <section id="planes" class="plans-section" style="padding: 60px 0; text-align: center;">
+        <div data-aos="fade-up" style="padding: 0 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700;">Planes a tu medida</h2>
+            <p style="margin-bottom: 30px; color: #555;">Elige el camino que mejor se adapte a tus objetivos y presupuesto.</p>
+        </div>
+        <div class="carousel-container" data-aos="fade-up">
+            <!-- Plan Básico -->
+            <div class="plan-card carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px;">
+                <div style="font-size: 0.9rem; margin-bottom: 10px;">Esencial</div>
+                <h3 class="plan-title">Plan Básico</h3>
+                <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$450<span style="font-size: 1rem;">/mes</span></div>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Calculadora de macros</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Tracker de agua</li>
+                    <li style="color: #888;"><i class="fa-solid fa-xmark"></i> Menú personalizado</li>
+                </ul>
+                <button class="btn-main" style="width: 100%;">Seleccionar</button>
+            </div>
+            <!-- Plan Integral -->
+            <div class="plan-card popular carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px; position: relative;">
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #28a745; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; width: max-content;">Más Popular</div>
+                <h3 class="plan-title">Plan Integral</h3>
+                <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$850<span style="font-size: 1rem;">/mes</span></div>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Todo lo del Básico</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Menú semanal</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Soporte VIP WhatsApp</li>
+                </ul>
+                <button class="btn-main" style="width: 100%;">Elegir este Plan</button>
+            </div>
+            <!-- Plan Pro -->
+            <div class="plan-card carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px;">
+                <div style="font-size: 0.9rem; margin-bottom: 10px;">Pro</div>
+                <h3 class="plan-title">Plan Pro Sport</h3>
+                <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$1,200<span style="font-size: 1rem;">/mes</span></div>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Todo lo Integral</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Videollamada quincenal</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Protocolo suplementos</li>
+                </ul>
+                <button class="btn-main" style="width: 100%;">Seleccionar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER ESTADÍSTICAS -->
+    <section style="background: #28a745; color: white; padding: 50px 20px; display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; gap: 20px;">
+        <div data-aos="zoom-in">
+            <i class="fa-solid fa-bolt" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0;">500+</h2>
+            <p style="font-weight: 600; letter-spacing: 1px;">DIETAS GENERADAS</p>
+        </div>
+        <div data-aos="zoom-in" data-aos-delay="100">
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0;">1200+</h2>
+            <p style="font-weight: 600; letter-spacing: 1px;">VASOS REGISTRADOS</p>
+        </div>
+        <div data-aos="zoom-in" data-aos-delay="200">
+            <i class="fa-solid fa-flask" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0;">100%</h2>
+            <p style="font-weight: 600; letter-spacing: 1px;">BASADO EN CIENCIA</p>
+        </div>
+    </section>
+
+    <!-- APRENDE CON NUTRIFIT -->
+    <section id="aprende" style="padding: 60px 0; text-align: center; background: #f9f9f9;">
+        <div style="padding: 0 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700;">Aprende con Nutrifit</h2>
+            <p style="margin-bottom: 30px; color: #555;">Información basada en ciencia para que entiendas el <em>por qué</em> detrás de tu dieta.</p>
+        </div>
+
+        <div class="carousel-container" data-aos="fade-up">
+            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
+                <div style="height: 150px; position: relative;">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80" alt="Conceptos" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">CONCEPTOS</span>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">¿Qué es el Déficit Calórico?</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">Es la única forma real de perder grasa. Consiste en consumir menos calorías de las que tu cuerpo quema.</p>
+                </div>
+            </div>
+
+            <div class="card carousel-item square-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: left;">
+                <div style="height: 150px; position: relative;">
+                    <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=500&q=80" alt="Suplementos" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span style="position: absolute; bottom: 10px; left: 10px; background:#28a745;color:white;padding:5px 10px;border-radius:15px;font-size:0.8rem;font-weight:bold;">SUPLEMENTOS</span>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">El uso de suplementos</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">La Proteína en polvo solo es comida rápida para alcanzar tus macros, y la creatina ayuda al rendimiento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES -->
+    <section id="faq" style="padding: 60px 20px; max-width: 800px; margin: 0 auto;">
+        <h2 style="font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 40px;">Preguntas Frecuentes</h2>
+
+        <div class="faq-item">
+            <h3 class="faq-question">
+                ¿Es gratis usar la calculadora?
+                <i class="fa-solid fa-chevron-down faq-icon" style="transition: transform 0.3s ease;"></i>
+            </h3>
+            <div class="faq-answer">
+                <p>Sí, registrarte y obtener tus macros es gratis.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question">
+                ¿Necesito saber cocinar?
+                <i class="fa-solid fa-chevron-down faq-icon" style="transition: transform 0.3s ease;"></i>
+            </h3>
+            <div class="faq-answer">
+                <p>Para nada. Son súper prácticos y fáciles de preparar.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer style="background: #2d3436; color: white; text-align: center; padding: 40px 20px;">
+    <h2 style="font-weight: 700; margin-bottom: 10px;">Comienza hoy mismo</h2>
+    <p style="color: #aaa; margin-bottom: 20px;">García, Nuevo León | soporte@nutrifit.com</p>
+</footer>
+
+<!-- PANEL LATERAL DE INICIO DE SESIÓN / PERFIL -->
+<div id="overlay" class="overlay"></div>
+<aside id="sidePanel" class="side-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-weight: 700; margin: 0; font-size: 1.2rem;">Mi Perfil</h2>
+        <button id="btnCerrarPanel" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <!-- FORMULARIO CUANDO NO HA INICIADO SESIÓN -->
+    <div id="authContainer">
+        <form id="authForm" style="display: flex; flex-direction: column; gap: 13px;" novalidate>
+            <h3 style="text-align: center; margin-bottom: 4px;">Bienvenido a NutriFit</h3>
+            <p style="text-align:center; color:#666; font-size:0.88rem; margin:0 0 5px;">Inicia sesión o crea tu propia cuenta.</p>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label for="identificador" style="font-size: 0.9rem; font-weight: 600;">Correo electrónico</label>
+                <input type="email" id="identificador" autocomplete="email" required placeholder="tu@email.com" style="width:100%; box-sizing:border-box; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label for="password" style="font-size: 0.9rem; font-weight: 600;">Contraseña</label>
+                <input type="password" id="password" autocomplete="current-password" placeholder="Mínimo 6 caracteres" style="width:100%; box-sizing:border-box; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                <small style="color:#777; font-size:0.78rem;">Para recuperar tu cuenta solo necesitas el correo.</small>
+            </div>
+            <div class="captcha-wrap">
+                <div id="recaptcha-container" aria-label="Verificación CAPTCHA"></div>
+                <p id="captchaHelp" class="captcha-help">Completa la verificación para continuar.</p>
+            </div>
+            <button type="button" id="btnIniciarSesion" style="width:100%; background:#28a745; color:white; padding:12px; border:none; border-radius:8px; font-weight:600; cursor:pointer;">Iniciar sesión</button>
+            <button type="button" id="btnCrearCuenta" style="width:100%; background:white; color:#218838; padding:12px; border:2px solid #28a745; border-radius:8px; font-weight:600; cursor:pointer;">Crear cuenta</button>
+            <button type="button" id="btnRecuperarCuenta" style="width:100%; background:transparent; color:#218838; padding:8px; border:none; font-weight:600; cursor:pointer; text-decoration:underline;">Cambiar / recuperar contraseña</button>
+            <p id="authStatus" role="status" aria-live="polite" style="margin:0; font-size:0.85rem; text-align:center; color:#555;"></p>
+        </form>
+    </div>
+
+    <!-- SECCIÓN CUANDO YA ESTÁ LOGUEADO -->
+    <div id="userProfileContainer" style="display: none; text-align: center;">
+        <i class="fa-solid fa-circle-user" style="font-size: 4rem; color: #28a745; margin-bottom: 10px;"></i>
+        <h3 id="userEmailText" style="font-size: 1rem; word-break: break-all;">usuario@email.com</h3>
+        <p style="color: #28a745; font-weight: bold; font-size: 0.85rem;">✓ Cuenta Verificada</p>
+        <button id="btnCerrarSesion" style="background: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; margin-top: 20px; cursor: pointer;">
+            Cerrar Sesión
+        </button>
+    </div>
+</aside>
+
+<!-- LIBRERÍAS Y CAPTCHA -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // La clave del sitio es pública. Reemplázala con la Site Key de reCAPTCHA v2.
+    window.NUTRIFIT_RECAPTCHA_SITE_KEY = "6LdtEfctAAAAAHAwYxgNVkt3ekyR5mzKPwUp6y6N";
+    window.nutriFitCaptchaId = null;
+    window.onNutriFitRecaptchaLoad = function () {
+        const key = window.NUTRIFIT_RECAPTCHA_SITE_KEY;
+        const container = document.getElementById("recaptcha-container");
+        if (!container || !window.grecaptcha || !key || key.startsWith("REEMPLAZA_")) return;
+        window.nutriFitCaptchaId = window.grecaptcha.render(container, {
+            sitekey: key,
+            theme: "light"
+        });
+    };
+</script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onNutriFitRecaptchaLoad&render=explicit" async defer></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        sendEmailVerification,
+        sendPasswordResetEmail,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAoowzmCUuoyNQcrbEU60TknICVaA22StA",
+        authDomain: "tarea-588d2.firebaseapp.com",
+        projectId: "tarea-588d2",
+        storageBucket: "tarea-588d2.firebasestorage.app",
+        messagingSenderId: "1097872716155",
+        appId: "1:1097872716155:web:b71f4a189ba2f1a993cdde",
+        measurementId: "G-09ZTK2VCLG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof AOS !== 'undefined') AOS.init({ duration: 1000, once: true });
+
+        // Elementos del DOM
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        const sidePanel = document.getElementById('sidePanel');
+        const overlay = document.getElementById('overlay');
+        const btnAbrirLogin = document.getElementById('btnAbrirLogin');
+        const btnCerrarPanel = document.getElementById('btnCerrarPanel');
+        const btnComenzar = document.getElementById('btnComenzar');
+        const btnVerPlanes = document.getElementById('btnVerPlanes');
+
+        // Toggle del Menú Hamburguesa
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // Cierre del menú hamburguesa al pulsar cualquier enlace
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (navMenu) navMenu.classList.remove('active');
+            });
+        });
+
+        // Abrir y Cerrar Panel Lateral
+        const abrirPanel = () => {
+            if (navMenu) navMenu.classList.remove('active');
+            if (sidePanel) sidePanel.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+        };
+
+        const cerrarPanel = () => {
+            if (sidePanel) sidePanel.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+        };
+
+        if (btnAbrirLogin) btnAbrirLogin.addEventListener('click', abrirPanel);
+        if (btnComenzar) btnComenzar.addEventListener('click', abrirPanel);
+        if (btnCerrarPanel) btnCerrarPanel.addEventListener('click', cerrarPanel);
+        if (overlay) overlay.addEventListener('click', cerrarPanel);
+
+        if (btnVerPlanes) {
+            btnVerPlanes.addEventListener('click', () => {
+                document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // FAQ Acordeón
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const ans = q.nextElementSibling;
+                const icon = q.querySelector('.faq-icon');
+                if (ans.style.display === 'block') {
+                    ans.style.display = 'none';
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                    ans.style.display = 'block';
+                    if (icon) icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Autenticación separada: iniciar sesión, crear cuenta y recuperar contraseña.
+        const authForm = document.getElementById('authForm');
+        const emailInput = document.getElementById('identificador');
+        const passwordInput = document.getElementById('password');
+        const authStatus = document.getElementById('authStatus');
+        const btnIniciarSesion = document.getElementById('btnIniciarSesion');
+        const btnCrearCuenta = document.getElementById('btnCrearCuenta');
+        const btnRecuperarCuenta = document.getElementById('btnRecuperarCuenta');
+
+        const mostrarEstadoAuth = (mensaje, error = false) => {
+            if (!authStatus) return;
+            authStatus.textContent = mensaje;
+            authStatus.style.color = error ? '#b42318' : '#218838';
+        };
+
+        const resetCaptcha = () => {
+            const id = window.nutriFitCaptchaId;
+            if (window.grecaptcha && id !== null && id !== undefined) {
+                window.grecaptcha.reset(id);
+            }
+        };
+
+        const verificarCaptcha = async () => {
+            const id = window.nutriFitCaptchaId;
+            if (!window.grecaptcha || id === null || id === undefined) {
+                throw new Error('El CAPTCHA no se ha cargado. Recarga la página y comprueba la Site Key y el dominio registrado.');
+            }
+
+            const token = window.grecaptcha.getResponse(id);
+            if (!token) {
+                throw new Error('Completa la casilla CAPTCHA antes de continuar.');
+            }
+
+            let response;
+            try {
+                response = await fetch('/.netlify/functions/verify-captcha', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+            } catch (e) {
+                throw new Error('No fue posible contactar la función CAPTCHA de Netlify. Comprueba que el sitio y su función estén publicados.');
+            }
+
+            let resultado = {};
+            try { resultado = await response.json(); } catch (_) {}
+            if (!response.ok || !resultado.success) {
+                throw new Error(resultado.message || 'No se pudo validar el CAPTCHA. Inténtalo otra vez.');
+            }
+        };
+
+        const obtenerEmail = () => {
+            const email = emailInput ? emailInput.value.trim() : '';
+            if (!email || !emailInput.checkValidity()) {
+                emailInput.reportValidity();
+                return null;
+            }
+            return email;
+        };
+
+        const obtenerPassword = () => {
+            const password = passwordInput ? passwordInput.value : '';
+            if (password.length < 6) {
+                mostrarEstadoAuth('La contraseña debe tener al menos 6 caracteres.', true);
+                passwordInput.focus();
+                return null;
+            }
+            return password;
+        };
+
+        const traducirErrorAuth = (err, accion) => {
+            const code = err && err.code ? err.code : '';
+            if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+                return 'Correo o contraseña incorrectos. Revisa tus datos o usa recuperar contraseña.';
+            }
+            if (code === 'auth/email-already-in-use') {
+                return 'Este correo ya tiene una cuenta. Usa Iniciar sesión o Recuperar contraseña.';
+            }
+            if (code === 'auth/weak-password') return 'La contraseña debe tener al menos 6 caracteres.';
+            if (code === 'auth/invalid-email') return 'Escribe un correo electrónico válido.';
+            if (code === 'auth/too-many-requests') return 'Hubo demasiados intentos. Espera un momento e inténtalo de nuevo.';
+            if (code === 'auth/network-request-failed') return 'No hay conexión con Firebase. Comprueba tu internet e inténtalo de nuevo.';
+            if (accion === 'recuperar' && code === 'auth/user-not-found') {
+                return 'No encontramos una cuenta con ese correo. Comprueba que esté escrito correctamente.';
+            }
+            return err && err.message ? err.message : 'Ocurrió un error. Inténtalo nuevamente.';
+        };
+
+        const conCaptcha = async (boton, accion) => {
+            if (boton) boton.disabled = true;
+            if (boton) boton.style.opacity = '0.65';
+            try {
+                mostrarEstadoAuth('Verificando CAPTCHA…');
+                await verificarCaptcha();
+                await accion();
+            } catch (err) {
+                console.error('Autenticación NutriFit:', err);
+                mostrarEstadoAuth(err.message || 'No se pudo completar la operación.', true);
+                alert(err.message || 'No se pudo completar la operación.');
+            } finally {
+                resetCaptcha();
+                if (boton) {
+                    boton.disabled = false;
+                    boton.style.opacity = '1';
+                }
+            }
+        };
+
+        if (authForm) {
+            authForm.addEventListener('submit', (e) => e.preventDefault());
+        }
+
+        if (btnIniciarSesion) {
+            btnIniciarSesion.addEventListener('click', async () => {
+                const email = obtenerEmail();
+                if (!email) return;
+                const password = obtenerPassword();
+                if (!password) return;
+
+                await conCaptcha(btnIniciarSesion, async () => {
+                    const credencial = await signInWithEmailAndPassword(auth, email, password);
+                    if (!credencial.user.emailVerified) {
+                        await signOut(auth);
+                        throw new Error('Tu correo aún no está verificado. Busca el mensaje de verificación en tu bandeja de entrada.');
+                    }
+                    mostrarEstadoAuth('Sesión iniciada correctamente.');
+                    alert('¡Sesión iniciada correctamente!');
+                    cerrarPanel();
+                    if (navMenu) navMenu.classList.remove('active');
+                });
+            });
+        }
+
+        if (btnCrearCuenta) {
+            btnCrearCuenta.addEventListener('click', async () => {
+                const email = obtenerEmail();
+                if (!email) return;
+                const password = obtenerPassword();
+                if (!password) return;
+
+                await conCaptcha(btnCrearCuenta, async () => {
+                    const nuevaCuenta = await createUserWithEmailAndPassword(auth, email, password);
+                    await sendEmailVerification(nuevaCuenta.user);
+                    await signOut(auth);
+                    mostrarEstadoAuth('Cuenta creada. Revisa tu correo y verifica la cuenta antes de iniciar sesión.');
+                    alert('¡Cuenta creada! Te enviamos un correo de verificación. Confírmalo antes de iniciar sesión.');
+                });
+            });
+        }
+
+        if (btnRecuperarCuenta) {
+            btnRecuperarCuenta.addEventListener('click', async () => {
+                const email = obtenerEmail();
+                if (!email) return;
+
+                await conCaptcha(btnRecuperarCuenta, async () => {
+                    await sendPasswordResetEmail(auth, email);
+                    mostrarEstadoAuth('Si existe una cuenta con ese correo, recibirás instrucciones para restablecer la contraseña.');
+                    alert('Solicitud enviada. Revisa tu correo y la carpeta de spam para encontrar el enlace de recuperación.');
+                });
+            });
+        }
+
+        // Botón Cerrar Sesión
+        const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+        if (btnCerrarSesion) {
+            btnCerrarSesion.addEventListener('click', async () => {
+                await signOut(auth);
+                alert("Sesión cerrada correctamente.");
+                cerrarPanel();
+            });
+        }
+
+        // Observador de Estado de Autenticación
+        onAuthStateChanged(auth, (user) => {
+            const authContainer = document.getElementById('authContainer');
+            const userProfileContainer = document.getElementById('userProfileContainer');
+            const txtBotonPerfil = document.getElementById('txtBotonPerfil');
+            const userEmailText = document.getElementById('userEmailText');
+
+            if (user && user.emailVerified) {
+                if (authContainer) authContainer.style.display = 'none';
+                if (userProfileContainer) userProfileContainer.style.display = 'block';
+                if (txtBotonPerfil) txtBotonPerfil.textContent = 'Mi Cuenta';
+                if (userEmailText) userEmailText.textContent = user.email;
+            } else {
+                if (authContainer) authContainer.style.display = 'flex';
+                if (userProfileContainer) userProfileContainer.style.display = 'none';
+                if (txtBotonPerfil) txtBotonPerfil.textContent = 'Iniciar Sesión';
+            }
+        });
+    });
+</script>
+</body>
+</html>
