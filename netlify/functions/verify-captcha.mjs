@@ -120,7 +120,7 @@ export default async (request) => {
 
     const allowedHosts = (
         process.env.RECAPTCHA_ALLOWED_HOSTS ||
-        "nutrifilt-movil.netlify.app"
+        "nutrifit-movil.netlify.app"
     )
         .split(",")
         .map(normalizeHost)
