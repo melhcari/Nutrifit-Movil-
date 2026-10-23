@@ -182,6 +182,11 @@
         }
     </style>
         <link rel="stylesheet" href="responsivo.css">
+        <script src="mensajes.js"></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#28a745">
 </head>
 <body>
 
@@ -649,7 +654,7 @@
             } catch (err) {
                 console.error('Autenticación NutriFit:', err);
                 mostrarEstadoAuth(err.message || 'No se pudo completar la operación.', true);
-                alert(err.message || 'No se pudo completar la operación.');
+                avisar(err.message || 'No se pudo completar la operación.');
             } finally {
                 resetCaptcha();
                 if (boton) {
@@ -677,7 +682,7 @@
                         throw new Error('Tu correo aún no está verificado. Busca el mensaje de verificación en tu bandeja de entrada.');
                     }
                     mostrarEstadoAuth('Sesión iniciada correctamente.');
-                    alert('¡Sesión iniciada correctamente!');
+                    avisar('¡Sesión iniciada correctamente!');
                     cerrarPanel();
                     if (navMenu) navMenu.classList.remove('active');
                 });
@@ -696,7 +701,7 @@
                     await sendEmailVerification(nuevaCuenta.user);
                     await signOut(auth);
                     mostrarEstadoAuth('Cuenta creada. Revisa tu correo y verifica la cuenta antes de iniciar sesión.');
-                    alert('¡Cuenta creada! Te enviamos un correo de verificación. Confírmalo antes de iniciar sesión.');
+                    avisar('¡Cuenta creada! Te enviamos un correo de verificación. Confírmalo antes de iniciar sesión.');
                 });
             });
         }
@@ -709,7 +714,7 @@
                 await conCaptcha(btnRecuperarCuenta, async () => {
                     await sendPasswordResetEmail(auth, email);
                     mostrarEstadoAuth('Si existe una cuenta con ese correo, recibirás instrucciones para restablecer la contraseña.');
-                    alert('Solicitud enviada. Revisa tu correo y la carpeta de spam para encontrar el enlace de recuperación.');
+                    avisar('Solicitud enviada. Revisa tu correo y la carpeta de spam para encontrar el enlace de recuperación.');
                 });
             });
         }
@@ -719,7 +724,7 @@
         if (btnCerrarSesion) {
             btnCerrarSesion.addEventListener('click', async () => {
                 await signOut(auth);
-                alert("Sesión cerrada correctamente.");
+                avisar("Sesión cerrada correctamente.");
                 cerrarPanel();
             });
         }
