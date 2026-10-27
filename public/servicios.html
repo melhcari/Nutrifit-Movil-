@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Servicios de Nutrifit">
+    <title>Servicios | Nutrifit</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#28a745">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body, h1, h2, h3, p, a, button, span, div { font-family: 'Poppins', sans-serif !important; }
+        @media (max-width: 768px) { .nav-menu.active { left: 0 !important; display: flex !important; flex-direction: column; } }
+        .serv-hero { padding: 130px 20px 20px; max-width: 900px; margin: 0 auto; text-align: left; }
+        .serv-hero h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 8px; color: #1a1a1a; }
+        .serv-hero p { margin: 0; color: #555; line-height: 1.6; }
+        .serv-bloque { max-width: 900px; margin: 0 auto; padding: 24px 20px 8px; text-align: left; }
+        .serv-bloque h2 { font-size: 1.3rem; font-weight: 700; margin: 0 0 16px; }
+        .serv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .serv-card { background: #fff; border: 1px solid #e8ece8; border-radius: 16px; padding: 20px; }
+        .serv-ico { width: 44px; height: 44px; border-radius: 12px; background: #28a745; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 12px; }
+        .serv-card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+        .serv-card p { margin: 0; color: #666; font-size: .9rem; line-height: 1.5; }
+        .serv-chip { display: inline-block; margin-top: 12px; padding: 4px 12px; border-radius: 999px; background: #def5e4; color: #1e7a35; font-size: .75rem; font-weight: 600; }
+        .serv-cta { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; text-align: left; }
+        .serv-cta a { display: inline-block; padding: 12px 28px; border-radius: 999px; background: #28a745; color: #fff; font-weight: 600; text-decoration: none; }
+    </style>
+    <link rel="stylesheet" href="responsivo.css">
+    <link rel="stylesheet" href="mejoras.css">
+</head>
+<body>
+
+<header class="header-navbar">
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Abrir Menú"><i class="fa-solid fa-bars"></i></button>
+        <div class="nav-menu" id="nav-menu">
+            <a href="index.html#inicio" class="nav-link menu-item">INICIO</a>
+            <a href="servicios.html" class="nav-link menu-item">SERVICIOS</a>
+            <a href="index.html#planes" class="nav-link menu-item">PLANES</a>
+            <a href="recetas.html" class="nav-link menu-item">RECETAS</a>
+            <a href="ejercicios.html" class="nav-link menu-item">EJERCICIOS</a>
+            <a href="index.html#aprende" class="nav-link menu-item">APRENDE</a>
+            <a href="index.html#faq" class="nav-link menu-item">FAQ</a>
+            <div id="menuLoginSection" class="mobile-login-btn show">
+                <button id="btnAbrirLogin" onclick="location.href='index.html#login'"><i class="fa-solid fa-user"></i> <span>Iniciar Sesión</span></button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="serv-hero">
+        <h1>Nuestros servicios</h1>
+        <p>Acompañamiento y herramientas para que comer bien sea simple y sostenible.</p>
+    </section>
+    <section class="serv-bloque"><h2>Especialidades</h2><div class="serv-grid" id="especialidades"></div></section>
+    <section class="serv-bloque"><h2>Incluido en los planes</h2><div class="serv-grid" id="incluido"></div></section>
+    <section class="serv-cta"><a href="index.html#planes">Ver planes</a></section>
+</main>
+
+<footer style="background: #2d3436; color: white; text-align: left; padding: 32px 20px;">
+    <p style="margin: 0; color: #aaa;">García, Nuevo León | soporte@nutrifit.com</p>
+</footer>
+
+<script>
+    var ESPECIALIDADES = [
+        ["fa-apple-whole", "Control de peso", "Estrategias sostenibles para perder grasa o ganar masa, ajustadas a tu ritmo."],
+        ["fa-person-running", "Nutrición deportiva", "Optimiza tu rendimiento y tu recuperación según tu entrenamiento."],
+        ["fa-clipboard-check", "Educación alimentaria", "Aprende a leer etiquetas y a elegir mejores alimentos en tu día a día."]
+    ];
+    var INCLUIDO = [
+        ["fa-calculator", "Calculadora de macros", "Calcula tus calorías y macronutrientes según tu objetivo.", "Todos los planes"],
+        ["fa-droplet", "Tracker de agua", "Registra tus vasos al día y mantén tu hidratación.", "Todos los planes"],
+        ["fa-calendar-week", "Menú semanal", "Un menú organizado para toda la semana.", "Integral y Pro"],
+        ["fa-comments", "Soporte VIP por WhatsApp", "Resuelve tus dudas directamente por mensaje.", "Integral y Pro"],
+        ["fa-video", "Videollamada quincenal", "Una sesión cada dos semanas para revisar tu avance.", "Plan Pro"],
+        ["fa-capsules", "Protocolo de suplementos", "Orientación sobre qué suplementos usar y cuándo.", "Plan Pro"]
+    ];
+    function pintar(id, lista) {
+        document.getElementById(id).innerHTML = lista.map(function (s) {
+            return '<div class="serv-card"><div class="serv-ico"><i class="fa-solid ' + s[0] + '"></i></div>' +
+                   '<h3>' + s[1] + '</h3><p>' + s[2] + '</p>' +
+                   (s[3] ? '<span class="serv-chip">' + s[3] + '</span>' : '') + '</div>';
+        }).join("");
+    }
+    pintar("especialidades", ESPECIALIDADES);
+    pintar("incluido", INCLUIDO);
+
+    var menu = document.getElementById("nav-menu");
+    document.getElementById("mobile-menu").addEventListener("click", function (e) { e.stopPropagation(); menu.classList.toggle("active"); });
+    document.querySelectorAll(".menu-item").forEach(function (a) { a.addEventListener("click", function () { menu.classList.remove("active"); }); });
+</script>
+</body>
+</html>
