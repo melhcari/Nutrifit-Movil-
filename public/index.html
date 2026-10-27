@@ -311,15 +311,15 @@
                 </ul>
                 <button class="btn-main" style="width: 100%;">Elegir este Plan</button>
             </div>
-            <!-- Plan <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a> -->
+            <!-- Plan Pro -->
             <div class="plan-card carousel-item" style="background: #2d3436; color: white; padding: 40px 30px; border-radius: 15px;">
-                <div style="font-size: 0.9rem; margin-bottom: 10px;"><a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a></div>
-                <h3 class="plan-title">Plan <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a> Sport</h3>
+                <div style="font-size: 0.9rem; margin-bottom: 10px;">Pro</div>
+                <h3 class="plan-title">Plan Pro Sport</h3>
                 <div class="price" style="font-size: 2.5rem; font-weight: 700; margin: 20px 0;">$1,200<span style="font-size: 1rem;">/mes</span></div>
                 <ul style="list-style: none; padding: 0; margin-bottom: 30px; text-align: left;">
                     <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Todo lo Integral</li>
                     <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Videollamada quincenal</li>
-                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>tocolo suplementos</li>
+                    <li><i class="fa-solid fa-check" style="color: #28a745;"></i> Protocolo suplementos</li>
                 </ul>
                 <button class="btn-main" style="width: 100%;">Seleccionar</button>
             </div>
@@ -370,7 +370,7 @@
                 </div>
                 <div style="padding: 20px;">
                     <h3 style="font-size: 1.1rem; margin-bottom: 10px;">El uso de suplementos</h3>
-                    <p style="font-size: 0.9rem; color: #666; margin: 0;">La <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>teína en polvo solo es comida rápida para alcanzar tus macros, y la creatina ayuda al rendimiento.</p>
+                    <p style="font-size: 0.9rem; color: #666; margin: 0;">La Proteína en polvo solo es comida rápida para alcanzar tus macros, y la creatina ayuda al rendimiento.</p>
                 </div>
             </div>
         </div>
@@ -419,7 +419,7 @@
     <div id="authContainer">
         <form id="authForm" style="display: flex; flex-direction: column; gap: 13px;" novalidate>
             <h3 style="text-align: center; margin-bottom: 4px;">Bienvenido a NutriFit</h3>
-            <p style="text-align:center; color:#666; font-size:0.88rem; margin:0 0 5px;">Inicia sesión o crea tu <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>pia cuenta.</p>
+            <p style="text-align:center; color:#666; font-size:0.88rem; margin:0 0 5px;">Inicia sesión o crea tu propia cuenta.</p>
             <div style="display: flex; flex-direction: column; gap: 5px;">
                 <label for="identificador" style="font-size: 0.9rem; font-weight: 600;">Correo electrónico</label>
                 <input type="email" id="identificador" autocomplete="email" required placeholder="tu@email.com" style="width:100%; box-sizing:border-box; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
@@ -441,7 +441,7 @@
     </div>
 
     <!-- SECCIÓN CUANDO YA ESTÁ LOGUEADO -->
-    <div id="user<a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>fileContainer" style="display: none; text-align: center;">
+    <div id="userProfileContainer" style="display: none; text-align: center;">
         <i class="fa-solid fa-circle-user" style="font-size: 4rem; color: #28a745; margin-bottom: 10px;"></i>
         <h3 id="userEmailText" style="font-size: 1rem; word-break: break-all;">usuario@email.com</h3>
         <p style="color: #28a745; font-weight: bold; font-size: 0.85rem;">✓ Cuenta Verificada</p>
@@ -483,7 +483,7 @@
     const firebaseConfig = {
         apiKey: "AIzaSyAoowzmCUuoyNQcrbEU60TknICVaA22StA",
         authDomain: "tarea-588d2.firebaseapp.com",
-        <a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>jectId: "tarea-588d2",
+        projectId: "tarea-588d2",
         storageBucket: "tarea-588d2.firebasestorage.app",
         messagingSenderId: "1097872716155",
         appId: "1:1097872716155:web:b71f4a189ba2f1a993cdde",
@@ -509,7 +509,7 @@
         // Toggle del Menú Hamburguesa
         if (mobileMenuBtn && navMenu) {
             mobileMenuBtn.addEventListener('click', (e) => {
-                e.stop<a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>pagation();
+                e.stopPropagation();
                 navMenu.classList.toggle('active');
             });
         }
@@ -735,7 +735,7 @@
         // Observador de Estado de Autenticación
         onAuthStateChanged(auth, (user) => {
             const authContainer = document.getElementById('authContainer');
-            const user<a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>fileContainer = document.getElementById('user<a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>fileContainer');
+            const userProfileContainer = document.getElementById('userProfileContainer');
             const txtBotonPerfil = document.getElementById('txtBotonPerfil');
             const userEmailText = document.getElementById('userEmailText');
 
@@ -746,7 +746,7 @@
                 if (userEmailText) userEmailText.textContent = user.email;
             } else {
                 if (authContainer) authContainer.style.display = 'flex';
-                if (user<a href="#estilo-vida" class="nav-link menu-item">SERVICIOS</a>fileContainer) userProfileContainer.style.display = 'none';
+                if (userProfileContainer) userProfileContainer.style.display = 'none';
                 if (txtBotonPerfil) txtBotonPerfil.textContent = 'Iniciar Sesión';
             }
         });
