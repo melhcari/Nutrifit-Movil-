@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3faf5">
+  <meta name="description" content="Recetas saludables, prácticas y balanceadas de NutriFit.">
+  <title>Recetario | NutriFit</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="recetario.css">
+</head>
+<body class="rc">
+  <header class="rc-top">
+    <a class="marca" href="index.html" aria-label="NutriFit, volver al inicio">
+      <span class="marca-hoja" aria-hidden="true">🍃</span> NUTRI<span class="marca-fit">FIT</span>
+      <span class="marca-separador">·</span><span class="marca-seccion">Recetas</span>
+    </a>
+    <a class="atras" href="index.html">← Inicio</a>
+  </header>
+
+  <section class="rc-hero">
+    <p class="kicker">Nutrición inteligente</p>
+    <h1>Recetas <span>saludables</span></h1>
+    <p>Ideas deliciosas y prácticas para acompañar tus objetivos. Explora las categorías y encuentra tu siguiente platillo favorito.</p>
+    <div class="hero-chips" aria-label="Características del recetario">
+      <span>Ingredientes simples</span><span>Preparaciones prácticas</span><span>Nutrición balanceada</span>
+    </div>
+  </section>
+
+  <nav class="indice" id="indice" aria-label="Categorías de recetas"></nav>
+  <p class="info" id="info" aria-live="polite"></p>
+  <main class="lista" id="lista" aria-label="Lista de recetas"></main>
+
+  <footer class="rc-footer">
+    <span class="footer-leaf" aria-hidden="true">🍃</span>
+    <p><strong>NutriFit</strong> · Comer saludable también puede ser delicioso.</p>
+    <a href="index.html">Volver al inicio</a>
+  </footer>
+
+  <script src="recetas-data.js"></script>
+  <script src="plato.js"></script>
+  <script>
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+    let actual = "";
+
+    // Fotografías de respaldo organizadas por tipo de platillo.
+    // Si una receta ya contiene fotoGoogle, se usa esa imagen primero.
+    const FOTOS_RESPALDO = [
+      { re: /ensalada|lechuga|espinaca|verdura|vegetal|br[oó]coli|pepino|hummus|garbanzo|quinoa|tofu/i,
+        url: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1000&q=85" },
+      { re: /batido|smoothie|licuado|jugo|bebida|fruta|fresa|pl[aá]tano|mango/i,
+        url: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=1000&q=85" },
+      { re: /pescado|tilapia|salm[oó]n|at[uú]n|camar[oó]n|ceviche|marisco/i,
+        url: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1000&q=85" },
+      { re: /pollo|pavo|res|carne|bistec|alb[oó]ndiga/i,
+        url: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=1000&q=85" },
+      { re: /taco|tortilla|quesadilla|burrito|wrap|mollete/i,
+        url: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=1000&q=85" },
+      { re: /pasta|tallar[ií]n|espagueti|fideo|macarr[oó]n/i,
+        url: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85" },
+      { re: /sopa|caldo|crema|lenteja|frijol|curry/i,
+        url: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85" },
+      { re: /avena|yogur|granola|panqu[eé]|hot cake|pancake|waffle|huevo|omelette|tostada/i,
+        url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85" }
+    ];
+    const FOTO_GENERAL = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85";
+
+    function fotoDeRespaldo(receta) {
+      const texto = [receta.titulo || "", receta.desc || "", ...(receta.ingredientes || [])].join(" ");
+      const encontrada = FOTOS_RESPALDO.find((grupo) => grupo.re.test(texto));
+      return encontrada ? encontrada.url : FOTO_GENERAL;
+    }
+
+    function asignarFoto(img, receta) {
+      const respaldo = fotoDeRespaldo(receta);
+      const original = typeof receta.fotoGoogle === "string" ? receta.fotoGoogle.trim() : "";
+      img.alt = "Fotografía ilustrativa de " + (receta.titulo || "una receta saludable");
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+      img.onerror = function () {
+        img.onerror = null;
+        if (img.src !== respaldo) {
+          img.src = respaldo;
+        } else {
+          // Último recurso visual local para evitar un cuadro de imagen roto.
+          img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360"><rect width="600" height="360" fill="#e7f4e9"/><circle cx="300" cy="170" r="92" fill="#fff" stroke="#2b8a4b" stroke-width="9"/><circle cx="300" cy="170" r="63" fill="#d2e9d7"/><path d="M285 170c-22-40 25-76 54-40-7 38-25 54-54 40Z" fill="#2b8a4b"/><text x="300" y="305" text-anchor="middle" font-family="Poppins, sans-serif" font-size="28" font-weight="700" fill="#1c5631">NutriFit</text></svg>'
+          );
+        }
+      };
+      img.src = original || respaldo;
+    }
+
+    function pintar(cat) {
+      actual = cat;
+      const categoria = CATEGORIAS.find((x) => x.id === cat) || CATEGORIAS[0];
+      if (!categoria) return;
+
+      const recetasCategoria = RECETAS.filter((r) => r.categorias && r.categorias[0] === categoria.id);
+
+      document.querySelectorAll("#indice button").forEach((boton) => {
+        const activa = boton.dataset.id === categoria.id;
+        boton.classList.toggle("on", activa);
+        boton.setAttribute("aria-pressed", String(activa));
+      });
+
+      $("info").textContent = categoria.desc || "Explora estas recetas saludables.";
+      $("lista").replaceChildren();
+
+      recetasCategoria.forEach((receta, index) => {
+        const enlace = document.createElement("a");
+        enlace.className = "item";
+        enlace.href = "receta.html?id=" + encodeURIComponent(receta.id) + "&cat=" + encodeURIComponent(categoria.id);
+        enlace.setAttribute("aria-label", "Ver receta: " + receta.titulo);
+
+        const contenedorFoto = document.createElement("span");
+        contenedorFoto.className = "mini";
+        const img = document.createElement("img");
+        img.className = "foto-receta";
+        asignarFoto(img, receta);
+        contenedorFoto.appendChild(img);
+
+        const contenido = document.createElement("span");
+        contenido.className = "item-contenido";
+        const numero = document.createElement("small");
+        numero.textContent = "RECETA " + String(index + 1).padStart(2, "0");
+        const titulo = document.createElement("h3");
+        titulo.textContent = receta.titulo;
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = Array.isArray(receta.tags) ? receta.tags.join(" · ") : "NutriFit";
+        const ver = document.createElement("span");
+        ver.className = "ver-receta";
+        ver.textContent = "Ver preparación →";
+
+        contenido.append(numero, titulo, meta, ver);
+        enlace.append(contenedorFoto, contenido);
+        $("lista").appendChild(enlace);
+      });
+
+      history.replaceState(null, "", "#" + categoria.id);
+    }
+
+    CATEGORIAS.forEach((categoria, index) => {
+      const boton = document.createElement("button");
+      boton.type = "button";
+      boton.dataset.id = categoria.id;
+      boton.setAttribute("aria-pressed", "false");
+
+      const numero = document.createElement("small");
+      numero.textContent = String(index + 1).padStart(2, "0");
+      const nombre = document.createElement("b");
+      nombre.textContent = categoria.nombre;
+      const cuenta = document.createElement("span");
+      cuenta.textContent = RECETAS.filter((r) => r.categorias && r.categorias[0] === categoria.id).length + " recetas";
+
+      boton.append(numero, nombre, cuenta);
+      boton.addEventListener("click", () => pintar(categoria.id));
+      $("indice").appendChild(boton);
+    });
+
+    function desdeHash() {
+      const hash = location.hash.slice(1);
+      return CATEGORIAS.some((categoria) => categoria.id === hash)
+        ? hash
+        : (CATEGORIAS[0] && CATEGORIAS[0].id);
+    }
+
+    pintar(desdeHash());
+    window.addEventListener("hashchange", () => {
+      const hash = desdeHash();
+      if (hash && hash !== actual) pintar(hash);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+/* NutriFit Recetario: diseño móvil con Poppins y paleta verde */
+:root {
+  --papel: #f3faf5;
+  --crema: #ffffff;
+  --tinta: #18251d;
+  --suave: #657469;
+  --terracota: #23874a;
+  --oliva: #2c7848;
+  --linea: #dce9df;
+  --verde-claro: #e5f4e9;
+  --verde-medio: #cce8d3;
+  --sombra: 0 10px 28px rgba(31, 91, 49, .08);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body.rc {
+  margin: 0;
+  min-width: 320px;
+  color: var(--tinta);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.55;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #edf8f0 0, #f8fcf9 320px, #fff 720px);
+}
+.rc h1, .rc h2, .rc h3, .rc .serif,
+.rc-top .marca, .indice button small, .item small,
+.fila strong, .pasos li::before {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  letter-spacing: -0.02em;
+}
+.rc a { color: inherit; }
+
+.rc-top {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 15px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--linea);
+}
+.rc-top .marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--tinta);
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.marca-hoja { font-size: 1.25rem; margin-right: 3px; }
+.marca-fit { color: var(--terracota); }
+.marca-separador { color: #a2b9a8; margin: 0 3px; }
+.marca-seccion { color: var(--suave); font-size: .86rem; font-weight: 500; }
+.rc-top .atras {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid #b8d8c1;
+  border-radius: 999px;
+  color: var(--oliva);
+  background: #fff;
+  font-size: .82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s ease, transform .2s ease;
+}
+.rc-top .atras:hover { background: var(--verde-claro); }
+
+.rc-hero {
+  position: relative;
+  max-width: 1084px;
+  margin: 18px auto 0;
+  padding: 30px 22px 28px;
+  border: 1px solid #d5eadb;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #e9f7ed 0%, #f8fcf8 72%, #fff 100%);
+  overflow: hidden;
+}
+.rc-hero::after {
+  content: "";
+  position: absolute;
+  width: 185px;
+  height: 185px;
+  right: -52px;
+  bottom: -72px;
+  border: 28px solid rgba(47, 143, 78, .08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.kicker {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 8px;
+  color: var(--terracota);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.rc-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 10px;
+  color: var(--tinta);
+  font-size: clamp(2rem, 8vw, 3.35rem);
+  font-weight: 800;
+  line-height: 1.13;
+}
+.rc-hero h1 span { color: var(--terracota); }
+.rc-hero > p:not(.kicker) {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0;
+  color: var(--suave);
+  font-size: .93rem;
+}
+.hero-chips {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 18px;
+}
+.hero-chips span {
+  padding: 6px 10px;
+  border: 1px solid #d3e9d9;
+  border-radius: 999px;
+  color: #326b44;
+  background: rgba(255,255,255,.78);
+  font-size: .7rem;
+  font-weight: 500;
+}
+
+.indice {
+  max-width: 1084px;
+  margin: 19px auto 0;
+  padding: 0 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.indice button {
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--linea);
+  border-radius: 15px;
+  background: #fff;
+  color: var(--tinta);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  box-shadow: 0 3px 10px rgba(31,91,49,.035);
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.indice button:hover { border-color: #9dceaa; transform: translateY(-1px); }
+.indice button small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--terracota);
+  font-size: .68rem;
+  font-weight: 700;
+}
+.indice button b {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: .85rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.indice button span {
+  display: block;
+  margin-top: 3px;
+  color: var(--suave);
+  font-size: .68rem;
+}
+.indice button.on {
+  border-color: var(--terracota);
+  color: #fff;
+  background: var(--terracota);
+  box-shadow: 0 6px 16px rgba(35,135,74,.17);
+}
+.indice button.on small, .indice button.on span { color: #e2f4e7; }
+
+.info {
+  max-width: 1084px;
+  margin: 19px auto 7px;
+  padding: 0 18px;
+  color: var(--suave);
+  font-size: .86rem;
+}
+.lista {
+  max-width: 1084px;
+  margin: 0 auto;
+  padding: 9px 18px 50px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  gap: 15px;
+}
+.item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 11px;
+  border: 1px solid var(--linea);
+  border-radius: 20px;
+  color: var(--tinta);
+  background: var(--crema);
+  box-shadow: var(--sombra);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.item:hover {
+  transform: translateY(-3px);
+  border-color: #add6b7;
+  box-shadow: 0 14px 30px rgba(31,91,49,.12);
+}
+.item:focus-visible, .indice button:focus-visible, .rc-top a:focus-visible, #ojo:focus-visible {
+  outline: 3px solid #79bd8b;
+  outline-offset: 3px;
+}
+.mini {
+  display: block;
+  width: 100%;
+  height: 178px;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--verde-claro);
+}
+.mini img, .grande img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.item-contenido { display: block; padding: 0 5px 5px; }
+.item small {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--terracota);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+.item h3 {
+  margin: 0 0 7px;
+  color: var(--tinta);
+  font-size: 1.03rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.meta {
+  display: block;
+  color: var(--oliva);
+  font-size: .69rem;
+  font-weight: 600;
+  letter-spacing: .035em;
+  line-height: 1.55;
+  text-transform: uppercase;
+}
+.ver-receta {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--terracota);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+/* Página de detalle de cada receta */
+.det { max-width: 780px; margin: 0 auto; padding: 22px 18px 56px; }
+.grande {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 6px 0 23px;
+  overflow: hidden;
+  border: 1px solid var(--linea);
+  border-radius: 22px;
+  background: var(--verde-claro);
+  box-shadow: 0 12px 28px rgba(31,91,49,.12);
+}
+.det h1 {
+  margin: 0 0 10px;
+  color: var(--tinta);
+  font-size: clamp(1.8rem, 7vw, 2.65rem);
+  font-weight: 800;
+  line-height: 1.18;
+}
+.det .desc { margin: 0 0 14px; color: var(--suave); }
+.det .meta { display: block; margin-bottom: 24px; }
+.det h2 { margin: 28px 0 12px; color: var(--tinta); font-size: 1.35rem; font-weight: 700; }
+.etiqueta {
+  padding: 16px;
+  border: 1px solid var(--linea);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(31,91,49,.06);
+}
+.et-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 10px; border-bottom: 2px solid var(--verde-claro); }
+.et-cab h2 { margin: 0; font-size: 1.12rem; }
+#ojo {
+  min-height: 38px;
+  padding: 7px 13px;
+  border: 1px solid #b9d9c2;
+  border-radius: 999px;
+  color: var(--oliva);
+  background: var(--verde-claro);
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+#ojo[aria-pressed="true"] { color: #fff; background: var(--terracota); border-color: var(--terracota); }
+.et-sub { margin: 9px 0 0; color: var(--suave); font-size: .77rem; }
+.fila { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--linea); }
+.fila:last-child { border-bottom: 0; }
+.fila span { font-weight: 500; }
+.fila strong { color: var(--terracota); font-size: 1.15rem; font-weight: 700; }
+.ing { list-style: none; margin: 0; padding: 0; }
+.ing li { position: relative; padding: 10px 0 10px 28px; border-bottom: 1px solid #eaf3ec; }
+.ing li::before { content: ""; position: absolute; left: 2px; top: 16px; width: 11px; height: 11px; border: 2px solid var(--terracota); border-radius: 4px; background: var(--verde-claro); }
+.pasos { list-style: none; margin: 0; padding: 0; counter-reset: p; }
+.pasos li { counter-increment: p; display: grid; grid-template-columns: 35px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid #eaf3ec; }
+.pasos li::before { content: counter(p, decimal-leading-zero); font-size: 1rem; line-height: 1.7; color: var(--terracota); font-weight: 800; }
+.nota { margin: 24px 0 0; padding: 13px 15px; border-left: 4px solid var(--terracota); border-radius: 0 12px 12px 0; background: var(--verde-claro); color: var(--suave); font-size: .81rem; }
+.rc-footer { padding: 22px 18px 30px; border-top: 1px solid var(--linea); color: var(--suave); text-align: center; font-size: .8rem; }
+.rc-footer p { margin: 5px 0 10px; }
+.rc-footer strong { color: var(--tinta); }
+.rc-footer a { color: var(--terracota); font-weight: 600; text-decoration: none; }
+.footer-leaf { font-size: 1.2rem; }
+
+@media (min-width: 620px) {
+  .rc-hero { padding: 36px 30px 32px; }
+  .indice { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mini { height: 170px; }
+}
+@media (min-width: 980px) {
+  .indice { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lista { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mini { height: 165px; }
+}
+@media (max-width: 380px) {
+  .rc-top { padding: 12px; }
+  .rc-top .marca { font-size: .9rem; }
+  .marca-seccion, .marca-separador { display: none; }
+  .rc-top .atras { min-height: 36px; padding: 6px 10px; font-size: .75rem; }
+  .rc-hero { margin: 12px 12px 0; padding: 23px 17px; border-radius: 19px; }
+  .indice, .lista { padding-left: 12px; padding-right: 12px; }
+  .indice button { padding: 10px; }
+  .item h3 { font-size: .96rem; }
+}

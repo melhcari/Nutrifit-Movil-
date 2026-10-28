@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3faf5">
+  <title>Receta | NutriFit</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="recetario.css">
+</head>
+<body class="rc">
+  <header class="rc-top">
+    <a class="marca" href="index.html" aria-label="NutriFit, volver al inicio">
+      <span class="marca-hoja" aria-hidden="true">🍃</span> NUTRI<span class="marca-fit">FIT</span>
+      <span class="marca-separador">·</span><span class="marca-seccion">Recetas</span>
+    </a>
+    <a class="atras" id="volver" href="recetas.html">← Recetas</a>
+  </header>
+
+  <main class="det" id="det">
+    <div class="grande" id="foto" aria-label="Fotografía de la receta"></div>
+    <h1 id="titulo"></h1>
+    <p class="desc" id="desc"></p>
+    <span class="meta" id="meta"></span>
+
+    <section class="etiqueta" aria-labelledby="et-t">
+      <div class="et-cab">
+        <h2 id="et-t">Datos nutricionales</h2>
+        <button id="ojo" type="button" aria-pressed="false">Mostrar</button>
+      </div>
+      <p class="et-sub">Valores aproximados por porción.</p>
+      <div id="nut"></div>
+    </section>
+
+    <h2>Ingredientes</h2>
+    <ul class="ing" id="ing"></ul>
+    <h2>Preparación</h2>
+    <ol class="pasos" id="pasos"></ol>
+    <p class="nota" id="nota" hidden></p>
+  </main>
+
+  <script src="recetas-data.js"></script>
+  <script src="plato.js"></script>
+  <script>
+    "use strict";
+    const $ = (id) => document.getElementById(id);
+    const parametros = new URLSearchParams(location.search);
+    const id = parseInt(parametros.get("id"), 10);
+    const receta = RECETAS.find((item) => item.id === id);
+
+    const FOTOS_RESPALDO = [
+      { re: /ensalada|lechuga|espinaca|verdura|vegetal|br[oó]coli|pepino|hummus|garbanzo|quinoa|tofu/i,
+        url: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=85" },
+      { re: /batido|smoothie|licuado|jugo|bebida|fruta|fresa|pl[aá]tano|mango/i,
+        url: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=1200&q=85" },
+      { re: /pescado|tilapia|salm[oó]n|at[uú]n|camar[oó]n|ceviche|marisco/i,
+        url: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1200&q=85" },
+      { re: /pollo|pavo|res|carne|bistec|alb[oó]ndiga/i,
+        url: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=1200&q=85" },
+      { re: /taco|tortilla|quesadilla|burrito|wrap|mollete/i,
+        url: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=1200&q=85" },
+      { re: /pasta|tallar[ií]n|espagueti|fideo|macarr[oó]n/i,
+        url: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1200&q=85" },
+      { re: /sopa|caldo|crema|lenteja|frijol|curry/i,
+        url: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85" },
+      { re: /avena|yogur|granola|panqu[eé]|hot cake|pancake|waffle|huevo|omelette|tostada/i,
+        url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1200&q=85" }
+    ];
+    const FOTO_GENERAL = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=85";
+
+    function fotoDeRespaldo(r) {
+      const texto = [r.titulo || "", r.desc || "", ...(r.ingredientes || [])].join(" ");
+      const grupo = FOTOS_RESPALDO.find((item) => item.re.test(texto));
+      return grupo ? grupo.url : FOTO_GENERAL;
+    }
+
+    function mostrarFoto(contenedor, r) {
+      const img = document.createElement("img");
+      img.alt = "Fotografía ilustrativa de " + (r.titulo || "una receta saludable");
+      img.loading = "eager";
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+      const respaldo = fotoDeRespaldo(r);
+      const original = typeof r.fotoGoogle === "string" ? r.fotoGoogle.trim() : "";
+      img.onerror = function () {
+        img.onerror = null;
+        if (img.src !== respaldo) {
+          img.src = respaldo;
+        } else {
+          img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360"><rect width="600" height="360" fill="#e7f4e9"/><circle cx="300" cy="160" r="90" fill="#fff" stroke="#2b8a4b" stroke-width="9"/><path d="M280 160c-18-35 24-70 50-37-5 34-23 50-50 37Z" fill="#2b8a4b"/><text x="300" y="300" text-anchor="middle" font-family="Poppins, sans-serif" font-size="28" font-weight="700" fill="#1c5631">NutriFit</text></svg>'
+          );
+        }
+      };
+      img.src = original || respaldo;
+      contenedor.replaceChildren(img);
+    }
+
+    if (!receta) {
+      $("det").innerHTML = '<h1>No encontramos esa receta</h1><p class="desc">Regresa al recetario y elige otra opción.</p>';
+    } else {
+      const categoriaId = receta.categorias && receta.categorias[0] ? receta.categorias[0] : "";
+      $("volver").href = "recetas.html#" + encodeURIComponent(categoriaId);
+      document.title = receta.titulo + " | NutriFit";
+      mostrarFoto($("foto"), receta);
+      $("titulo").textContent = receta.titulo;
+      $("desc").textContent = receta.desc || "Una idea práctica para comer delicioso y balanceado.";
+      $("meta").textContent = Array.isArray(receta.tags) ? receta.tags.join(" · ") : "NutriFit";
+
+      (receta.ingredientes || []).forEach((ingrediente) => {
+        const li = document.createElement("li");
+        li.textContent = ingrediente;
+        $("ing").appendChild(li);
+      });
+      (receta.pasos || []).forEach((paso) => {
+        const li = document.createElement("li");
+        li.textContent = paso;
+        $("pasos").appendChild(li);
+      });
+
+      const categoria = CATEGORIAS.find((item) => item.id === categoriaId);
+      if (categoria && categoria.nota) {
+        $("nota").textContent = categoria.nota + " Esta información es general y no sustituye la indicación de tu médico o nutriólogo.";
+        $("nota").hidden = false;
+      }
+
+      const datos = [["Calorías", "calorias"], ["Proteína", "proteina"], ["Carbohidratos", "carbos"], ["Grasas", "grasas"]];
+      let visible = false;
+      try { visible = localStorage.getItem("nutrifit_ver_nutricion") === "1"; } catch (e) {}
+
+      function pintarNutricion() {
+        $("nut").replaceChildren();
+        datos.forEach(([etiqueta, clave]) => {
+          const fila = document.createElement("div");
+          fila.className = "fila";
+          const nombre = document.createElement("span");
+          nombre.textContent = etiqueta;
+          const valor = document.createElement("strong");
+          valor.textContent = visible && receta.nutricion ? (receta.nutricion[clave] || "No disponible") : "•••";
+          fila.append(nombre, valor);
+          $("nut").appendChild(fila);
+        });
+        $("ojo").setAttribute("aria-pressed", String(visible));
+        $("ojo").setAttribute("aria-label", visible ? "Ocultar datos nutricionales" : "Mostrar datos nutricionales");
+        $("ojo").textContent = visible ? "👁 Ocultar" : "👁 Mostrar";
+      }
+
+      $("ojo").addEventListener("click", () => {
+        visible = !visible;
+        try { localStorage.setItem("nutrifit_ver_nutricion", visible ? "1" : "0"); } catch (e) {}
+        pintarNutricion();
+      });
+      pintarNutricion();
+    }
+  </script>
+</body>
+</html>
