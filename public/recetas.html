@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario | Nutrifit</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#f7f1e5">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="recetario.css">
+</head>
+<body class="rc">
+    <header class="rc-top">
+        <a class="marca" href="index.html">Nutri<b>Fit</b> · Recetario</a>
+        <a class="atras" href="index.html">Inicio</a>
+    </header>
+
+    <section class="rc-hero">
+        <p class="kicker">Cocina de todos los días</p>
+        <h1>El recetario</h1>
+        <p>Elige una sección y cocina con ingredientes simples. Cada receta trae sus pasos y sus datos nutricionales.</p>
+    </section>
+
+    <nav class="indice" id="indice" aria-label="Secciones del recetario"></nav>
+    <p class="info" id="info"></p>
+    <main class="lista" id="lista"></main>
+
+    <script src="recetas-data.js"></script>
+    <script src="plato.js"></script>
+    <script>
+        var $ = function (id) { return document.getElementById(id); };
+        var actual = "";
+
+        function pintar(cat) {
+            actual = cat;
+            var c = CATEGORIAS.filter(function (x) { return x.id === cat; })[0];
+            var lista = RECETAS.filter(function (r) { return r.categorias[0] === cat; });
+            document.querySelectorAll("#indice button").forEach(function (b) {
+                var on = b.dataset.id === cat;
+                b.classList.toggle("on", on);
+                b.setAttribute("aria-pressed", on);
+            });
+            $("info").textContent = c.desc;
+            $("lista").textContent = "";
+            lista.forEach(function (r, i) {
+                var a = document.createElement("a");
+                a.className = "item";
+                a.href = "receta.html?id=" + r.id + "&cat=" + cat;
+                a.innerHTML = '<span class="mini"></span><span><small>Nº ' + String(i + 1).padStart(2, "0") + '</small><h3></h3><span class="meta"></span></span>';
+                a.querySelector(".mini").innerHTML = dibujarPlato(r);
+                a.querySelector("h3").textContent = r.titulo;
+                a.querySelector(".meta").textContent = r.tags.join(" · ");
+                $("lista").appendChild(a);
+            });
+            history.replaceState(null, "", "#" + cat);
+        }
+
+        CATEGORIAS.forEach(function (c, i) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.dataset.id = c.id;
+            b.innerHTML = '<small>' + String(i + 1).padStart(2, "0") + '</small><b></b><span></span>';
+            b.querySelector("b").textContent = c.nombre;
+            b.querySelector("span").textContent = RECETAS.filter(function (r) { return r.categorias[0] === c.id; }).length + " recetas";
+            b.addEventListener("click", function () { pintar(c.id); });
+            $("indice").appendChild(b);
+        });
+
+        function desdeHash() {
+            var h = location.hash.slice(1);
+            return CATEGORIAS.some(function (c) { return c.id === h; }) ? h : CATEGORIAS[0].id;
+        }
+        pintar(desdeHash());
+        window.addEventListener("hashchange", function () { var h = desdeHash(); if (h !== actual) pintar(h); });
+    </script>
+</body>
+</html>

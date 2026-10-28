@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receta | Nutrifit</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#f7f1e5">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="recetario.css">
+</head>
+<body class="rc">
+    <header class="rc-top">
+        <a class="marca" href="index.html">Nutri<b>Fit</b> · Recetario</a>
+        <a class="atras" id="volver" href="recetas.html">← Recetas</a>
+    </header>
+
+    <main class="det" id="det">
+        <div class="grande" id="foto"></div>
+        <h1 id="titulo"></h1>
+        <p class="desc" id="desc"></p>
+        <span class="meta" id="meta"></span>
+
+        <section class="etiqueta" aria-labelledby="et-t">
+            <div class="et-cab">
+                <h2 id="et-t">Datos nutricionales</h2>
+                <button id="ojo" type="button" aria-pressed="false">Mostrar</button>
+            </div>
+            <p class="et-sub">Valores aproximados por porción.</p>
+            <div id="nut"></div>
+        </section>
+
+        <h2>Ingredientes</h2>
+        <ul class="ing" id="ing"></ul>
+        <h2>Preparación</h2>
+        <ol class="pasos" id="pasos"></ol>
+        <p class="nota" id="nota" hidden></p>
+    </main>
+
+    <script src="recetas-data.js"></script>
+    <script src="plato.js"></script>
+    <script>
+        var $ = function (id) { return document.getElementById(id); };
+        var q = new URLSearchParams(location.search);
+        var id = parseInt(q.get("id"), 10);
+        var r = RECETAS.filter(function (x) { return x.id === id; })[0];
+
+        if (!r) {
+            $("det").innerHTML = '<h1>No encontramos esa receta</h1><p class="desc">Regresa al recetario y elige otra.</p>';
+        } else {
+            var cat = r.categorias[0];
+            $("volver").href = "recetas.html#" + cat;
+            document.title = r.titulo + " | Nutrifit";
+            $("foto").innerHTML = dibujarPlato(r);
+            $("titulo").textContent = r.titulo;
+            $("desc").textContent = r.desc;
+            $("meta").textContent = r.tags.join(" · ");
+            r.ingredientes.forEach(function (x) { var li = document.createElement("li"); li.textContent = x; $("ing").appendChild(li); });
+            r.pasos.forEach(function (x) { var li = document.createElement("li"); li.textContent = x; $("pasos").appendChild(li); });
+
+            var c = CATEGORIAS.filter(function (x) { return x.id === cat; })[0];
+            if (c && c.nota) { $("nota").textContent = c.nota + " Esta información es general y no sustituye la indicación de tu médico o nutriólogo."; $("nota").hidden = false; }
+
+            var DATOS = [["Calorías", "calorias"], ["Proteína", "proteina"], ["Carbohidratos", "carbos"], ["Grasas", "grasas"]];
+            var visible = false;
+            try { visible = localStorage.getItem("nutrifit_ver_nutricion") === "1"; } catch (e) {}
+
+            function pintarNutricion() {
+                $("nut").textContent = "";
+                DATOS.forEach(function (d) {
+                    var f = document.createElement("div");
+                    f.className = "fila";
+                    var s = document.createElement("span"); s.textContent = d[0];
+                    var v = document.createElement("strong"); v.textContent = visible ? r.nutricion[d[1]] : "•••";
+                    f.appendChild(s); f.appendChild(v);
+                    $("nut").appendChild(f);
+                });
+                $("ojo").setAttribute("aria-pressed", visible);
+                $("ojo").setAttribute("aria-label", visible ? "Ocultar datos nutricionales" : "Mostrar datos nutricionales");
+                $("ojo").textContent = visible ? "👁 Ocultar" : "👁 Mostrar";
+            }
+            $("ojo").addEventListener("click", function () {
+                visible = !visible;
+                try { localStorage.setItem("nutrifit_ver_nutricion", visible ? "1" : "0"); } catch (e) {}
+                pintarNutricion();
+            });
+            pintarNutricion();
+        }
+    </script>
+</body>
+</html>
