@@ -1,7 +1,7 @@
 /*
  * MEJORAS DEL RECETARIO NUTRIFIT
- * - Asigna una fotografía según el tipo de receta.
- * - Utiliza identificadores diferentes para cada receta.
+ * - Conserva las fotografías originales definidas en recetas-data.js.
+ * - No reemplaza imágenes por direcciones aleatorias de terceros.
  * - Amplía los pasos de preparación.
  * - No modifica ingredientes, categorías ni información nutricional.
  */
@@ -14,95 +14,6 @@
             "NutriFit: no se encontró window.RECETAS. Revisa el orden de los scripts."
         );
         return;
-    }
-
-    // Etiquetas para buscar fotografías relacionadas con cada platillo.
-    const REGLAS_FOTO = [
-        { re: /pechuga.*mostaza|mostaza.*pollo/i, tag: "chicken" },
-        { re: /salm[oó]n/i, tag: "salmon" },
-        { re: /omelette.*espinaca|frittata.*espinaca/i, tag: "omelette" },
-        { re: /pechuga.*rellena.*br[oó]coli/i, tag: "chicken" },
-        { re: /avena.*frutos rojos|avena.*fresa/i, tag: "oatmeal" },
-        { re: /ensalada.*c[eé]sar/i, tag: "salad" },
-        { re: /ensalada.*pollo|pollo.*ensalada/i, tag: "chicken" },
-        { re: /filete.*pescado.*parrilla|pescado.*parrilla/i, tag: "fish" },
-        { re: /yogur.*granola|yogurt.*granola/i, tag: "yogurt" },
-        { re: /arroz integral.*pollo|pollo.*arroz integral/i, tag: "chicken" },
-        { re: /sopa.*lentejas.*pollo|lentejas.*pollo/i, tag: "lentils" },
-        { re: /pavo.*champi[nñ][oó]n|champi[nñ][oó]n.*pavo/i, tag: "turkey" },
-        { re: /tofu.*parrilla|tofu.*verduras/i, tag: "tofu" },
-        { re: /tilapia/i, tag: "tilapia" },
-        { re: /batido.*prote[ií]co|smoothie.*prote[ií]co/i, tag: "smoothie" },
-        { re: /tallar[ií]n.*calabac[ií]n|fideos.*calabac[ií]n/i, tag: "zucchini" },
-        { re: /filete de res|bistec|carne asada/i, tag: "steak" },
-        { re: /tortilla de claras|claras de huevo/i, tag: "eggs" },
-        { re: /at[uú]n/i, tag: "tuna" },
-        { re: /pollo.*salsa.*tomate|pollo.*jitomate/i, tag: "chicken" },
-        { re: /smoothie bowl/i, tag: "smoothie" },
-        { re: /quinoa.*frijoles|frijoles.*quinoa/i, tag: "quinoa" },
-        { re: /ceviche/i, tag: "ceviche" },
-        { re: /camar[oó]n|langostino/i, tag: "shrimp" },
-        { re: /tacos?/i, tag: "tacos" },
-        { re: /tostadas?/i, tag: "tostadas" },
-        { re: /enchiladas?/i, tag: "enchiladas" },
-        { re: /chilaquiles/i, tag: "chilaquiles" },
-        { re: /chile poblano|chiles rellenos/i, tag: "pepper" },
-        { re: /frijoles?/i, tag: "beans" },
-        { re: /nopales?/i, tag: "nopales" },
-        { re: /alb[oó]ndigas/i, tag: "meatballs" },
-        { re: /pavo/i, tag: "turkey" },
-        { re: /res magra|carne molida|res con/i, tag: "beef" },
-        { re: /pollo|pechuga/i, tag: "chicken" },
-        { re: /pescado|merluza|bacalao/i, tag: "fish" },
-        { re: /huevo|huevos|frittata|omelette/i, tag: "eggs" },
-        { re: /panqu[eé]|pancake|hot cake|waffle/i, tag: "pancakes" },
-        { re: /avena|porridge/i, tag: "oatmeal" },
-        { re: /yogur|yogurt|granola/i, tag: "yogurt" },
-        { re: /batido|smoothie|licuado/i, tag: "smoothie" },
-        { re: /pasta|tallar[ií]n|espagueti|macarr[oó]n|fideo/i, tag: "pasta" },
-        { re: /sopa|caldo|crema de|consom[eé]/i, tag: "soup" },
-        { re: /berenjena/i, tag: "eggplant" },
-        { re: /champi[nñ][oó]n|setas|hongos/i, tag: "mushrooms" },
-        { re: /pimientos? rellenos|pimiento morr[oó]n/i, tag: "peppers" },
-        { re: /tofu/i, tag: "tofu" },
-        { re: /quinoa/i, tag: "quinoa" },
-        { re: /lentejas?/i, tag: "lentils" },
-        { re: /garbanzos?|falafel/i, tag: "chickpeas" },
-        { re: /arroz/i, tag: "rice" },
-        { re: /ensalada|lechuga|pepino/i, tag: "salad" },
-        { re: /wrap|rollitos de lechuga|burrito/i, tag: "wrap" },
-        { re: /calabac[ií]n|zucchini/i, tag: "zucchini" },
-        { re: /aguacate|avocado/i, tag: "avocado" },
-        { re: /br[oó]coli/i, tag: "broccoli" },
-        { re: /curry/i, tag: "curry" },
-        { re: /fruta|fresa|pl[aá]tano|mango|frutos rojos/i, tag: "fruit" },
-        { re: /verduras|vegetales|vegetariana|vegano/i, tag: "vegetables" }
-    ];
-
-    function etiquetaFoto(receta) {
-        const ingredientes = Array.isArray(receta.ingredientes)
-            ? receta.ingredientes
-            : [];
-
-        const texto = [
-            receta.titulo || "",
-            receta.desc || "",
-            ...ingredientes
-        ].join(" ");
-
-        const regla = REGLAS_FOTO.find(item => item.re.test(texto));
-
-        return regla ? regla.tag : "food";
-    }
-
-    // Generador de fotografías con un identificador distinto por receta.
-    function urlFoto(etiqueta, lock) {
-        return (
-            "https://loremflickr.com/960/640/" +
-            encodeURIComponent(etiqueta) +
-            "?lock=" +
-            lock
-        );
     }
 
     // Ampliación de las instrucciones de preparación.
@@ -200,26 +111,18 @@
         return base + ". " + detalle;
     }
 
-    // Aplicar fotografías y mejorar las preparaciones.
-    window.RECETAS.forEach((receta, indice) => {
+    // Mejorar las preparaciones sin sobrescribir las fotografías originales.
+    window.RECETAS.forEach((receta) => {
 
-        const etiqueta = etiquetaFoto(receta);
-
-        const id = Number.isFinite(Number(receta.id))
-            ? Number(receta.id)
-            : indice;
-
-        const lockBase = 910000 + id * 2;
-
-        // Fotografía principal y fotografía alternativa.
-        receta.fotoGoogle = urlFoto(etiqueta, lockBase);
-        receta.fotoAlternativa = urlFoto(etiqueta, lockBase + 1);
-
-        receta.fotoAlt =
-            "Fotografía ilustrativa de " +
-            (receta.titulo || "una receta saludable");
+        // Conserva fotoGoogle, foto, imagen y fotoAlternativa tal como
+        // estén definidas en recetas-data.js. Así recetas.html puede usar
+        // sus imágenes propias y su mecanismo de respaldo.
+        receta.fotoAlt = receta.fotoAlt || (
+            "Fotografía de " + (receta.titulo || "una receta saludable")
+        );
 
         // Ampliar los pasos originales sin modificar los ingredientes.
+        // La marca evita que los pasos se amplíen dos veces.
         if (
             !receta._nutrifitPasosAmpliados &&
             Array.isArray(receta.pasos)
