@@ -3,62 +3,745 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicios | Nutrifit</title>
+    <title>Ejercicios | NutriFit</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <meta name="theme-color" content="#28a745">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#f4faf5">
+    <meta name="description" content="Crea una rutina de ejercicios adaptada a tus objetivos y nivel con NutriFit.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- ESTILOS EXCLUSIVOS DE LA PESTAÑA EJERCICIOS -->
     <style>
-        body { margin: 0; background: linear-gradient(to bottom, #ffffff, #f0fdf4); overflow-x: hidden; }
-        .ej-wrap, .ej-wrap *, #hoja, #hoja * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
-        .ej-wrap { max-width: 720px; margin: 0 auto; padding: 92px 16px 90px; text-align: left; color: #2d3436; }
-        .ej-wrap h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 6vw, 2rem); line-height: 1.2; }
-        .ej-sub { margin: 0 0 16px; color: #636e72; font-size: .92rem; }
-        .ej-aviso { margin: 22px 0 0; padding: 12px 14px; border-radius: 12px; background: #fff6e0; color: #7a5600; font-size: .78rem; line-height: 1.5; }
-        .ej-hero { padding: 28px 22px; border-radius: 24px; color: #fff; background: linear-gradient(135deg, #28a745, #1e8a38); }
-        .ej-hero p { margin: 0 0 20px; opacity: .95; line-height: 1.6; }
-        .ej-btn { display: block; width: 100%; min-height: 50px; padding: 0 20px; margin-top: 10px; border: 2px solid #28a745; border-radius: 999px; background: #28a745; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; }
-        .ej-btn.sec { background: #fff; color: #1e7a35; }
-        .ej-btn.blanco { background: #fff; color: #1e7a35; border-color: #fff; }
-        .ej-btn.borde { background: transparent; color: #fff; border-color: #fff; }
-        .ej-btn:disabled { opacity: .45; cursor: default; }
-        .ej-nav { display: grid; gap: 10px; margin-top: 18px; }
-        @media (min-width: 520px) { .ej-nav { grid-template-columns: 1fr 1fr; } .ej-btn { margin-top: 0; } }
-        .ej-prog { height: 8px; border-radius: 999px; background: #dff3e5; overflow: hidden; margin-bottom: 14px; }
-        .ej-prog i { display: block; height: 100%; background: #28a745; border-radius: 999px; transition: width .3s; }
-        .ej-paso { margin: 0 0 6px; font-size: .78rem; font-weight: 600; color: #28a745; text-transform: uppercase; letter-spacing: .08em; }
-        .ej-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        @media (min-width: 520px) { .ej-grid { grid-template-columns: repeat(3, 1fr); } }
-        .ej-op { display: block; width: 100%; margin: 0 0 10px; padding: 14px 16px; text-align: left; border: 2px solid #d9eedf; border-radius: 16px; background: #fff; color: #2d3436; cursor: pointer; font-size: 1rem; }
-        .ej-grid .ej-op { margin: 0; text-align: center; }
-        .ej-op b { display: block; font-weight: 600; }
-        .ej-op span { display: block; margin-top: 4px; font-size: .82rem; line-height: 1.5; color: #636e72; }
-        .ej-op.on { border-color: #28a745; background: #effaf2; box-shadow: 0 0 0 1px #28a745 inset; }
-        .ej-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+        :root {
+            --ej-verde: #23864a;
+            --ej-verde-oscuro: #175b35;
+            --ej-verde-claro: #eaf6ed;
+            --ej-verde-suave: #f4faf5;
+            --ej-texto: #202a23;
+            --ej-secundario: #68756c;
+            --ej-borde: #dfeae1;
+            --ej-sombra: 0 14px 35px rgba(28, 79, 44, .08);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 5% 14%, rgba(193, 226, 200, .28), transparent 25rem),
+                linear-gradient(180deg, #ffffff 0%, #f5faf6 48%, #f1f8f3 100%);
+            color: var(--ej-texto);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .ej-wrap,
+        .ej-wrap *,
+        #hoja,
+        #hoja * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .ej-wrap {
+            width: min(100% - 32px, 760px);
+            margin: 0 auto;
+            padding: 104px 0 76px;
+            color: var(--ej-texto);
+            text-align: left;
+        }
+
+        .ej-wrap h1 {
+            margin: 0 0 9px;
+            color: var(--ej-texto);
+            font-size: clamp(1.65rem, 6vw, 2.25rem);
+            font-weight: 800;
+            line-height: 1.18;
+            letter-spacing: -.045em;
+        }
+
+        .ej-wrap h2 {
+            color: var(--ej-texto);
+            font-weight: 700;
+            letter-spacing: -.025em;
+        }
+
+        .ej-sub {
+            margin: 0 0 20px;
+            color: var(--ej-secundario);
+            font-size: .9rem;
+            line-height: 1.7;
+        }
+
+        /* PORTADA DE EJERCICIOS */
+        .ej-hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding: clamp(25px, 6vw, 38px) clamp(20px, 5vw, 34px);
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: 28px;
+            color: #fff;
+            background: linear-gradient(135deg, #174f31 0%, #207b43 57%, #35a45e 100%);
+            box-shadow: 0 18px 38px rgba(25, 94, 49, .18);
+        }
+
+        .ej-hero::before,
+        .ej-hero::after {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            pointer-events: none;
+        }
+
+        .ej-hero::before {
+            width: 245px;
+            height: 245px;
+            top: -125px;
+            right: -76px;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 50%;
+            box-shadow: 0 0 0 22px rgba(255,255,255,.045), 0 0 0 48px rgba(255,255,255,.035);
+        }
+
+        .ej-hero::after {
+            width: 155px;
+            height: 155px;
+            right: 14%;
+            bottom: -115px;
+            border-radius: 50%;
+            background: rgba(215, 246, 222, .13);
+            filter: blur(2px);
+        }
+
+        .ej-hero h1 {
+            max-width: 520px;
+            margin: 0 0 12px;
+            color: #fff;
+            font-size: clamp(1.8rem, 7vw, 2.65rem);
+            font-weight: 800;
+            line-height: 1.12;
+            letter-spacing: -.05em;
+        }
+
+        .ej-hero h1::before {
+            display: block;
+            margin-bottom: 12px;
+            color: #c8e8d0;
+            content: "MUÉVETE A TU RITMO";
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+        }
+
+        .ej-hero p {
+            max-width: 540px;
+            margin: 0 0 24px;
+            color: rgba(255,255,255,.9);
+            font-size: .91rem;
+            line-height: 1.75;
+        }
+
+        /* BOTONES */
+        .ej-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 50px;
+            margin-top: 10px;
+            padding: 12px 20px;
+            border: 1.5px solid var(--ej-verde);
+            border-radius: 999px;
+            background: var(--ej-verde);
+            color: #fff;
+            font-size: .91rem;
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 7px 16px rgba(35, 134, 74, .15);
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ej-btn.sec {
+            border-color: #cfe3d3;
+            background: #fff;
+            color: var(--ej-verde-oscuro);
+            box-shadow: none;
+        }
+
+        .ej-btn.blanco {
+            border-color: #fff;
+            background: #fff;
+            color: var(--ej-verde-oscuro);
+            box-shadow: 0 8px 20px rgba(0,0,0,.1);
+        }
+
+        .ej-btn.borde {
+            border-color: rgba(255,255,255,.72);
+            background: rgba(255,255,255,.08);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .ej-btn:disabled {
+            opacity: .42;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .ej-btn:focus-visible,
+        .ej-op:focus-visible,
+        .ej-tab:focus-visible,
+        .ej-card:focus-visible,
+        .ej-acc summary:focus-visible {
+            outline: 3px solid #8bc99a;
+            outline-offset: 3px;
+        }
+
+        @media (hover: hover) {
+            .ej-btn:not(:disabled):hover {
+                transform: translateY(-2px);
+                box-shadow: 0 11px 22px rgba(35, 134, 74, .2);
+            }
+            .ej-btn.sec:hover { background: #f1f8f3; }
+            .ej-btn.blanco:hover { background: #eff8f1; }
+            .ej-btn.borde:hover { background: rgba(255,255,255,.16); }
+        }
+
+        .ej-nav {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        /* AVISO DE SEGURIDAD */
+        .ej-aviso {
+            position: relative;
+            margin: 18px 0 0;
+            padding: 14px 16px 14px 43px;
+            border: 1px solid #e7dfbd;
+            border-radius: 15px;
+            background: #fffaf0;
+            color: #765c1d;
+            font-size: .77rem;
+            line-height: 1.65;
+        }
+
+        .ej-aviso::before {
+            position: absolute;
+            top: 14px;
+            left: 15px;
+            color: #b58a2a;
+            content: "!";
+            display: grid;
+            width: 18px;
+            height: 18px;
+            place-items: center;
+            border: 1.5px solid currentColor;
+            border-radius: 50%;
+            font-size: .7rem;
+            font-weight: 800;
+        }
+
+        /* CUESTIONARIO */
+        .ej-prog {
+            height: 9px;
+            margin: 0 0 20px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e3eee5;
+        }
+
+        .ej-prog i {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #8cc99a, #23864a);
+            transition: width .3s ease;
+        }
+
+        .ej-paso {
+            margin: 0 0 8px;
+            color: var(--ej-verde);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+
+        .ej-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .ej-op {
+            display: block;
+            width: 100%;
+            min-height: 76px;
+            margin: 0 0 10px;
+            padding: 15px 16px;
+            border: 1.5px solid var(--ej-borde);
+            border-radius: 17px;
+            background: rgba(255,255,255,.94);
+            color: var(--ej-texto);
+            font-size: .91rem;
+            line-height: 1.45;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(34, 75, 44, .035);
+            transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ej-grid .ej-op {
+            display: flex;
+            min-height: 76px;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0;
+            text-align: center;
+        }
+
+        .ej-op b {
+            display: block;
+            color: inherit;
+            font-size: .92rem;
+            font-weight: 700;
+        }
+
+        .ej-op span {
+            display: block;
+            margin-top: 5px;
+            color: var(--ej-secundario);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .ej-op.on {
+            border-color: #58a96e;
+            background: #edf8ef;
+            color: #195d34;
+            box-shadow: 0 0 0 1px #58a96e inset, 0 7px 16px rgba(35, 134, 74, .08);
+        }
+
+        .ej-op.on span { color: #52765b; }
+
+        @media (hover: hover) {
+            .ej-op:hover {
+                border-color: #8fc79a;
+                transform: translateY(-2px);
+            }
+        }
+
+        /* PESTAÑAS DE DÍAS */
+        .ej-tabs {
+            display: flex;
+            gap: 9px;
+            margin: 18px -2px 6px;
+            padding: 3px 2px 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            scroll-snap-type: x proximity;
+        }
+
         .ej-tabs::-webkit-scrollbar { display: none; }
-        .ej-tab { flex: none; min-height: 42px; padding: 0 18px; border: 2px solid #28a745; border-radius: 999px; background: #fff; color: #1e7a35; font-weight: 600; cursor: pointer; }
-        .ej-tab.on { background: #28a745; color: #fff; }
-        .ej-dia { margin: 20px 0 12px; font-size: 1.15rem; }
-        .ej-lista { display: grid; gap: 12px; }
-        @media (min-width: 640px) { .ej-lista { grid-template-columns: 1fr 1fr; } }
-        .ej-card { text-align: left; padding: 16px; border: 2px solid #e5e7eb; border-radius: 18px; background: #fff; cursor: pointer; color: #2d3436; }
-        .ej-card:active { border-color: #28a745; }
-        .ej-card b { display: block; font-size: 1rem; margin-bottom: 6px; }
-        .ej-card span { display: inline-block; padding: 4px 12px; border-radius: 999px; background: #def5e4; color: #1e7a35; font-size: .85rem; font-weight: 600; }
-        .ej-card small { display: block; margin-top: 8px; color: #8a9396; font-size: .75rem; }
-        .ej-acc { margin-bottom: 10px; border: 2px solid #e5e7eb; border-radius: 14px; background: #fff; }
-        .ej-acc summary { padding: 14px 16px; font-weight: 600; cursor: pointer; }
-        .ej-acc p { margin: 0; padding: 0 16px 16px; color: #636e72; font-size: .9rem; line-height: 1.6; }
-        #hoja { position: fixed; inset: 0; z-index: 3500; display: flex; align-items: flex-end; justify-content: center; }
+
+        .ej-tab {
+            flex: 0 0 auto;
+            min-width: 82px;
+            min-height: 43px;
+            padding: 0 17px;
+            border: 1.5px solid #cfe3d3;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--ej-verde-oscuro);
+            font-family: inherit;
+            font-size: .83rem;
+            font-weight: 700;
+            cursor: pointer;
+            scroll-snap-align: start;
+            transition: background .18s ease, color .18s ease, border-color .18s ease;
+        }
+
+        .ej-tab.on {
+            border-color: var(--ej-verde);
+            background: var(--ej-verde);
+            color: #fff;
+            box-shadow: 0 5px 13px rgba(35, 134, 74, .16);
+        }
+
+        .ej-dia {
+            margin: 22px 0 13px;
+            color: var(--ej-texto);
+            font-size: 1.18rem;
+            font-weight: 800;
+            letter-spacing: -.03em;
+        }
+
+        /* TARJETAS DE EJERCICIO */
+        .ej-lista {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 11px;
+        }
+
+        .ej-card {
+            position: relative;
+            display: block;
+            width: 100%;
+            min-height: 112px;
+            overflow: hidden;
+            padding: 17px 48px 16px 18px;
+            border: 1px solid var(--ej-borde);
+            border-radius: 18px;
+            background: #fff;
+            color: var(--ej-texto);
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(34, 75, 44, .045);
+            transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ej-card::before {
+            position: absolute;
+            top: 16px;
+            bottom: 16px;
+            left: 0;
+            width: 4px;
+            border-radius: 0 5px 5px 0;
+            background: linear-gradient(180deg, #8cc99a, #23864a);
+            content: "";
+        }
+
+        .ej-card::after {
+            position: absolute;
+            top: 50%;
+            right: 17px;
+            color: #4b9861;
+            content: "\f054";
+            font-family: "Font Awesome 6 Free";
+            font-size: .8rem;
+            font-weight: 900;
+            transform: translateY(-50%);
+        }
+
+        .ej-card b {
+            display: block;
+            margin: 0 0 9px;
+            color: var(--ej-texto);
+            font-size: .94rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .ej-card span {
+            display: inline-flex;
+            align-items: center;
+            min-height: 26px;
+            padding: 4px 11px;
+            border: 1px solid #d8eddd;
+            border-radius: 999px;
+            background: #eff8f1;
+            color: #267342;
+            font-size: .73rem;
+            font-weight: 700;
+        }
+
+        .ej-card small {
+            display: block;
+            margin-top: 8px;
+            color: #849087;
+            font-size: .72rem;
+            line-height: 1.5;
+        }
+
+        @media (hover: hover) {
+            .ej-card:hover {
+                transform: translateY(-2px);
+                border-color: #a9d4b2;
+                box-shadow: 0 12px 24px rgba(34, 75, 44, .08);
+            }
+        }
+
+        /* INFORMACIÓN DESPLEGABLE */
+        .ej-acc {
+            margin: 0 0 10px;
+            overflow: hidden;
+            border: 1px solid var(--ej-borde);
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 4px 13px rgba(34, 75, 44, .035);
+        }
+
+        .ej-acc summary {
+            position: relative;
+            padding: 16px 44px 16px 16px;
+            color: var(--ej-texto);
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1.45;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .ej-acc summary::-webkit-details-marker { display: none; }
+
+        .ej-acc summary::after {
+            position: absolute;
+            top: 50%;
+            right: 17px;
+            color: var(--ej-verde);
+            content: "+";
+            font-size: 1.3rem;
+            font-weight: 500;
+            transform: translateY(-50%);
+        }
+
+        .ej-acc[open] summary {
+            background: #f3faf4;
+            color: var(--ej-verde-oscuro);
+        }
+
+        .ej-acc[open] summary::after { content: "−"; }
+
+        .ej-acc p {
+            margin: 0;
+            padding: 13px 16px 17px;
+            color: var(--ej-secundario);
+            font-size: .84rem;
+            line-height: 1.75;
+        }
+
+        /* PANEL INFERIOR DE DETALLE */
+        #hoja {
+            position: fixed;
+            inset: 0;
+            z-index: 3500;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
         #hoja[hidden] { display: none; }
-        .ej-fondo { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
-        .ej-panel { position: relative; width: min(560px, 100%); max-height: 86dvh; overflow-y: auto; padding: 22px 18px calc(22px + env(safe-area-inset-bottom, 0px)); border-radius: 24px 24px 0 0; background: #fff; color: #2d3436; text-align: left; }
-        .ej-panel h2 { margin: 0 0 8px; font-size: 1.25rem; }
-        .ej-panel p { margin: 0 0 12px; color: #636e72; line-height: 1.6; font-size: .92rem; }
-        .ej-tag { display: inline-block; padding: 3px 12px; border-radius: 999px; background: #def5e4; color: #1e7a35 !important; font-size: .78rem !important; font-weight: 600; }
-        .ej-dato { padding: 10px 14px; border-radius: 12px; background: #f0fdf4; color: #1e7a35 !important; font-weight: 600; }
-        .ej-panel .ej-btn { margin-top: 10px; }
+
+        .ej-fondo {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 35, 22, .56);
+            backdrop-filter: blur(3px);
+        }
+
+        .ej-panel {
+            position: relative;
+            width: min(560px, 100%);
+            max-height: min(86dvh, 760px);
+            overflow-y: auto;
+            padding: 28px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+            border: 1px solid rgba(255,255,255,.7);
+            border-radius: 25px 25px 0 0;
+            background: #fff;
+            color: var(--ej-texto);
+            text-align: left;
+            box-shadow: 0 -15px 45px rgba(0,0,0,.12);
+            overscroll-behavior: contain;
+        }
+
+        .ej-panel::before {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: #dce7de;
+            content: "";
+            transform: translateX(-50%);
+        }
+
+        .ej-panel h2 {
+            margin: 0 0 11px;
+            color: var(--ej-texto);
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.3;
+            letter-spacing: -.03em;
+        }
+
+        .ej-panel p {
+            margin: 0 0 14px;
+            color: var(--ej-secundario);
+            font-size: .87rem;
+            line-height: 1.75;
+        }
+
+        .ej-tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 27px;
+            margin: 0 0 13px;
+            padding: 4px 12px;
+            border: 1px solid #d6eadb;
+            border-radius: 999px;
+            background: #eff8f1;
+            color: #267342 !important;
+            font-size: .75rem !important;
+            font-weight: 700;
+        }
+
+        .ej-dato {
+            margin: 15px 0 !important;
+            padding: 13px 15px;
+            border: 1px solid #d9eddf;
+            border-radius: 14px;
+            background: #f1f9f3;
+            color: #206a3a !important;
+            font-size: .86rem !important;
+            font-weight: 700;
+        }
+
+        .ej-panel .ej-btn { margin-top: 9px; }
+        .ej-panel .ej-op { min-height: 62px; margin-bottom: 9px; }
+
+        /* TABLET Y PANTALLAS GRANDES */
+        @media (min-width: 520px) {
+            .ej-wrap {
+                width: min(100% - 48px, 760px);
+                padding-top: 112px;
+            }
+
+            .ej-nav { grid-template-columns: 1fr 1fr; }
+            .ej-btn { margin-top: 0; }
+            .ej-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+
+        @media (min-width: 640px) {
+            .ej-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .ej-panel { margin-bottom: 20px; border-radius: 25px; }
+        }
+
+        /* CELULARES PEQUEÑOS */
+        @media (max-width: 380px) {
+            .ej-wrap {
+                width: calc(100% - 26px);
+                padding-top: 94px;
+            }
+
+            .ej-hero { padding: 24px 18px; border-radius: 23px; }
+            .ej-hero p { font-size: .84rem; }
+            .ej-grid { gap: 8px; }
+            .ej-op { padding: 12px 10px; font-size: .84rem; }
+            .ej-grid .ej-op { min-height: 72px; }
+            .ej-card { padding-right: 42px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+
+
+        /* COMPONENTES DE LA RUTINA PERSONALIZADA */
+        .ej-intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0; }
+        .ej-mini-info { min-width:0; padding:15px 13px; border:1px solid var(--ej-borde); border-radius:17px; background:#fff; box-shadow:0 5px 15px rgba(34,75,44,.035); }
+        .ej-mini-info b { display:block; margin:8px 0 4px; color:var(--ej-texto); font-size:.78rem; line-height:1.35; }
+        .ej-mini-info small { display:block; color:var(--ej-secundario); font-size:.69rem; line-height:1.5; }
+        .ej-mini-icon { display:grid; width:34px; height:34px; place-items:center; border-radius:11px; background:#eaf6ed; color:var(--ej-verde); }
+        .ej-hint { display:flex; align-items:flex-start; gap:10px; margin:14px 0; padding:13px 14px; border:1px solid #d9eadc; border-radius:14px; background:#f2f9f3; color:#41634a; font-size:.78rem; line-height:1.55; }
+        .ej-hint i { margin-top:2px; color:var(--ej-verde); }
+        .ej-seleccion-resumen { display:flex; justify-content:space-between; gap:8px; align-items:center; margin:14px 0 4px; padding:11px 13px; border-radius:13px; background:#edf7ef; color:#236d3e; font-size:.78rem; }
+        .ej-seleccion-resumen span { color:#5e7865; font-size:.72rem; }
+        .ej-seleccion-ayuda { margin-top:10px; padding:10px 12px; border-radius:12px; background:#fff9e9; color:#80601a; font-size:.78rem; }
+        .ej-opciones { display:grid; grid-template-columns:1fr; gap:2px; margin-top:16px; }
+        .ej-opciones .ej-op { position:relative; margin-bottom:9px; padding-right:42px; }
+        .ej-op-check { position:absolute; top:50%; right:15px; color:var(--ej-verde); font-size:1.1rem; transform:translateY(-50%); }
+        .ej-rutina-head { margin:0 0 18px; padding:22px 19px 18px; border:1px solid #d9ebdd; border-radius:22px; background:linear-gradient(145deg,#fff 0%,#f0f8f2 100%); box-shadow:var(--ej-sombra); }
+        .ej-rutina-head h1 { margin-bottom:8px; }
+        .ej-rutina-head .ej-sub { margin-bottom:14px; }
+        .ej-resumen-chips { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 16px; }
+        .ej-resumen-chips span { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid #d7e9db; border-radius:999px; background:#fff; color:#336c43; font-size:.69rem; font-weight:600; line-height:1.3; }
+        .ej-week-progress { display:grid; gap:7px; }
+        .ej-week-progress > div { display:flex; justify-content:space-between; gap:12px; color:var(--ej-texto); font-size:.77rem; }
+        .ej-week-progress strong { color:var(--ej-verde); }
+        .ej-week-progress > span { display:block; height:8px; overflow:hidden; border-radius:99px; background:#deede1; }
+        .ej-week-progress > span > i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#91c99c,#23864a); transition:width .25s ease; }
+        .ej-tab.done { border-color:#9bcda5; background:#eaf6ed; color:#236d3e; }
+        .ej-dia-head { display:flex; justify-content:space-between; align-items:flex-end; gap:10px; margin:18px 0 12px; }
+        .ej-dia-head .ej-dia { margin:0; }
+        .ej-dia-head .ej-paso { margin-bottom:4px; }
+        .ej-dia-count { flex:0 0 auto; padding:6px 9px; border-radius:999px; background:#eff7f0; color:#39754a; font-size:.68rem; font-weight:700; }
+        .ej-card.completed { border-color:#b4d9bc; background:#f4faf5; }
+        .ej-card.completed b::after { content:"  ✓"; color:var(--ej-verde); }
+        .ej-card-progress { display:block; height:5px; margin-top:10px; overflow:hidden; border-radius:99px; background:#e8f1e9; }
+        .ej-card-progress > i { display:block; height:100%; border-radius:inherit; background:#339454; transition:width .25s ease; }
+
+        /* DETALLE DEL EJERCICIO Y SEGUIMIENTO DE SERIES */
+        .ej-panel-desc { margin:12px 0 !important; }
+        .ej-visual-placeholder { display:flex; min-height:138px; flex-direction:column; align-items:center; justify-content:center; gap:7px; margin:14px 0; padding:18px; border:1px solid #dcece0; border-radius:18px; background:radial-gradient(circle at 50% 0%,#e1f2e5,#f7fbf7 68%); color:#267342; text-align:center; }
+        .ej-visual-placeholder i { display:grid; width:56px; height:56px; place-items:center; border-radius:18px; background:#fff; color:#23864a; font-size:1.65rem; box-shadow:0 6px 17px rgba(30,95,48,.08); }
+        .ej-visual-placeholder span { font-size:.82rem; font-weight:700; }
+        .ej-visual-placeholder small { max-width:260px; color:#758278; font-size:.7rem; line-height:1.5; }
+        .ej-exercise-image { display:block; width:100%; max-height:250px; margin:14px 0; border-radius:17px; background:#f1f7f2; object-fit:contain; }
+        .ej-serie-heading { margin:18px 0 10px; color:var(--ej-texto); font-size:.95rem; font-weight:800; }
+        .ej-series-list { display:grid; gap:8px; margin-bottom:14px; }
+        .ej-serie { display:flex; align-items:center; gap:10px; min-height:64px; padding:10px 12px; border:1px solid var(--ej-borde); border-radius:14px; background:#fff; cursor:pointer; }
+        .ej-serie input { position:absolute; width:1px; height:1px; opacity:0; }
+        .ej-serie-check { display:grid; width:24px; height:24px; flex:0 0 24px; place-items:center; border:1.5px solid #b8cbbd; border-radius:8px; color:transparent; font-size:.75rem; }
+        .ej-serie.done { border-color:#b6d9bd; background:#f0f8f2; }
+        .ej-serie.done .ej-serie-check { border-color:#23864a; background:#23864a; color:#fff; }
+        .ej-serie-text { display:grid; gap:2px; min-width:0; }
+        .ej-serie-text b { color:var(--ej-texto); font-size:.8rem; }
+        .ej-serie-text small { color:var(--ej-secundario); font-size:.7rem; }
+        .ej-serie-state { margin-left:auto; color:#8a958d; font-size:.65rem; font-weight:600; text-align:right; }
+        .ej-serie.done .ej-serie-state { color:#23864a; }
+        .ej-timer { margin:14px 0; padding:16px; border:1px solid #cfe5d4; border-radius:18px; background:linear-gradient(150deg,#f3faf4,#eaf6ed); text-align:center; }
+        .ej-timer-title { display:flex; align-items:center; gap:10px; color:#286e40; text-align:left; }
+        .ej-timer-title > i { display:grid; width:38px; height:38px; flex:0 0 38px; place-items:center; border-radius:13px; background:#fff; font-size:1.05rem; }
+        .ej-timer-title div { display:grid; gap:2px; }
+        .ej-timer-title b { font-size:.79rem; }
+        .ej-timer-title small { color:#6f8173; font-size:.68rem; }
+        .ej-timer-time { display:block; margin:12px 0 8px; color:#175b35; font-size:2.35rem; font-weight:800; letter-spacing:.04em; font-variant-numeric:tabular-nums; }
+        .ej-timer-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .ej-timer-actions .ej-btn { min-height:43px; margin:0; padding:9px 10px; font-size:.76rem; }
+        .ej-timer-status { margin:9px 0 0 !important; color:#6b7b6e !important; font-size:.68rem !important; }
+        .ej-timer-done { margin:14px 0 !important; padding:12px; border-radius:13px; background:#eff8f1; color:#287343 !important; font-size:.78rem !important; font-weight:700; }
+        .ej-alternativa { min-height:unset; }
+        .ej-alternativa small { display:block; margin-top:6px; color:var(--ej-secundario); font-size:.72rem; line-height:1.5; }
+
+        /* CELEBRACIÓN AL COMPLETAR DÍA O SEMANA */
+        .ej-celebracion { position:fixed; inset:0; z-index:5000; display:none; align-items:center; justify-content:center; overflow:hidden; padding:20px; background:rgba(12,35,20,.72); }
+        .ej-celebracion.show { display:flex; }
+        .ej-celebracion-card { position:relative; z-index:2; width:min(100%,390px); padding:30px 22px 24px; border:1px solid rgba(255,255,255,.8); border-radius:25px; background:#fff; box-shadow:0 22px 65px rgba(0,0,0,.2); text-align:center; animation:ej-pop .35s ease both; }
+        .ej-celebracion-icon { display:grid; width:76px; height:76px; place-items:center; margin:0 auto 14px; border-radius:23px; background:#edf8ef; font-size:2.5rem; }
+        .ej-celebracion-card h2 { margin:0 0 10px; color:var(--ej-texto); font-size:1.45rem; font-weight:800; }
+        .ej-celebracion-card p:not(.ej-paso) { color:var(--ej-secundario); font-size:.85rem; line-height:1.65; }
+        .ej-confeti { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+        .ej-confeti-piece { position:absolute; top:-15px; width:8px; height:14px; border-radius:2px; opacity:.95; animation:ej-fall 3s linear forwards; }
+        @keyframes ej-fall { to { top:110%; transform:translateX(35px) rotate(760deg); opacity:.85; } }
+        @keyframes ej-pop { from { transform:translateY(18px) scale(.96); opacity:0; } to { transform:translateY(0) scale(1); opacity:1; } }
+
+        @media (max-width: 380px) {
+            .ej-intro-grid { gap:8px; }
+            .ej-mini-info { padding:12px 10px; }
+            .ej-resumen-chips span { font-size:.64rem; }
+            .ej-dia-head { align-items:flex-start; flex-direction:column; }
+            .ej-timer-actions { grid-template-columns:1fr; }
+        }
+
     </style>
 </head>
 <body>
@@ -71,6 +754,7 @@
 
     <main class="ej-wrap" id="app"></main>
 
+    <!-- Se conserva la lógica y los datos originales de ejercicios -->
     <script src="ejercicios-data.js"></script>
     <script src="ejercicios.js"></script>
 </body>

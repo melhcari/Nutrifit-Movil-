@@ -1,12 +1,10 @@
 /* Datos de la sección de ejercicios de NutriFit */
 window.AVISO = "Información general. Si tienes una lesión, una condición médica o hace mucho que no haces ejercicio, consulta a un profesional de la salud antes de empezar.";
-
 window.GRUPOS = [
     { id: "pecho", n: "Pecho" }, { id: "espalda", n: "Espalda" }, { id: "hombro", n: "Hombro" },
     { id: "biceps", n: "Bíceps" }, { id: "triceps", n: "Tríceps" }, { id: "cuadriceps", n: "Cuádriceps" },
     { id: "femoral", n: "Femoral" }, { id: "gluteo", n: "Glúteo" }, { id: "abdomen", n: "Abdomen" }
 ];
-
 // [grupo, nombre, equipo, descripción, ¿es por tiempo?]
 window.EJ = [
     ["pecho", "Press de banca con barra", "Barra", "Acostado en el banco, baja la barra al centro del pecho con los codos a unos 45° del cuerpo y empuja hacia arriba sin despegar la espalda baja ni los glúteos."],
@@ -46,7 +44,6 @@ window.EJ = [
     ["abdomen", "Elevación de piernas", "Peso corporal", "Acostado, sube las piernas casi rectas hasta la vertical y baja lento sin arquear la espalda baja."],
     ["abdomen", "Crunch en polea", "Polea", "De rodillas frente a la polea, flexiona el tronco llevando los codos hacia las rodillas con el abdomen."]
 ].map(function (a, i) { return { id: i, g: a[0], n: a[1], e: a[2], d: a[3], t: !!a[4] }; });
-
 // min = minutos según el nivel (principiante, intermedio, avanzado)
 window.CARDIO = [
     ["Caminata rápida", "Camina a paso ligero, con el que puedas hablar pero no cantar. Mantén la postura erguida y mueve los brazos.", [25, 35, 45]],
@@ -55,19 +52,16 @@ window.CARDIO = [
     ["Saltar la cuerda", "Salta con rebotes pequeños sobre la punta de los pies y los codos pegados al cuerpo. Alterna 1 minuto de saltos con 1 de descanso.", [10, 15, 20]],
     ["Intervalos (HIIT básico)", "Alterna 30 segundos de esfuerzo fuerte (trote rápido, bicicleta o saltos) con 60 segundos de recuperación suave.", [15, 20, 25]]
 ].map(function (a, i) { return { id: 100 + i, g: "cardio", n: a[0], e: "Cardio", d: a[1], min: a[2] }; });
-
 window.OBJETIVOS = [
     { id: "cardio", n: "Cardio", d: "Ejercicio que eleva tu ritmo cardiaco durante varios minutos, como caminar rápido, trotar o andar en bicicleta. Mejora tu resistencia y la salud de tu corazón, y gasta calorías." },
     { id: "masa", n: "Masa muscular", d: "Entrenar con pesas y cargas más pesadas, con pocas repeticiones, para que tus músculos crezcan y se hagan más fuertes. Necesita comer suficiente proteína y descansar bien." },
     { id: "tonificar", n: "Tonificar", d: "Trabajar con cargas moderadas y más repeticiones para fortalecer los músculos. No es un tipo distinto de músculo: con una alimentación adecuada, se ve un cuerpo más firme y definido." }
 ];
-
 window.NIVELES = [
     { id: "principiante", n: "Principiante", d: "Apenas empiezas o llevas menos de 6 meses entrenando." },
     { id: "intermedio", n: "Intermedio", d: "Entrenas con constancia desde hace entre 6 meses y 2 años." },
     { id: "avanzado", n: "Avanzado", d: "Llevas más de 2 años entrenando y dominas la técnica de los ejercicios básicos." }
 ];
-
 window.QUE_ES = [
     ["Calentamiento", "Antes de empezar dedica 5 a 10 minutos a subir tu temperatura: caminata rápida o bicicleta suave, movilidad de hombros, cadera y rodillas, y 1 o 2 series ligeras del primer ejercicio. Prepara tus articulaciones y músculos y reduce el riesgo de lesión."],
     ["Series y repeticiones (por ejemplo 4×12)", "Una repetición es un movimiento completo. Una serie es un grupo de repeticiones seguidas. «4×12» significa 4 series de 12 repeticiones: haces 12, descansas y lo repites 4 veces. Elige un peso con el que las últimas repeticiones cuesten, pero con buena técnica."],
