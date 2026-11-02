@@ -1,35 +1,68 @@
+/* ==========================================================
+   NutriFit | Complementos visuales para la sección Ejercicios
+   ========================================================== */
 
-/* =====================================================
-   NUTRIFIT - COMPLEMENTOS VISUALES DE EJERCICIOS
-   Diseño móvil, iconos, imágenes e instrucciones.
-   ===================================================== */
-
-
-/* ================= TARJETAS INFORMATIVAS ================= */
+/* ---------- Tarjetas informativas ---------- */
+.ej-intro-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 14px 0 0;
+}
 
 .ej-mini-info {
     position: relative;
+    display: flex;
+    min-width: 0;
     min-height: 112px;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 15px 13px;
+    border: 1px solid var(--ej-borde, #dfeae1);
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(34, 75, 44, .035);
 }
 
 .ej-mini-icon {
-    display: grid;
-    width: 38px;
-    height: 38px;
+    display: grid !important;
+    width: 38px !important;
+    height: 38px !important;
     min-width: 38px;
     min-height: 38px;
+    flex: 0 0 38px;
     place-items: center;
     border-radius: 12px;
     background: #eaf6ed;
     color: #23864a;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .ej-mini-icon i {
-    display: block;
-    color: inherit;
-    font-size: 18px !important;
+    display: inline-block !important;
+    margin: 0;
+    color: currentColor !important;
+    font-size: 17px !important;
     line-height: 1 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.ej-mini-info > b {
+    display: block;
+    margin: 8px 0 4px;
+    color: var(--ej-texto, #202a23);
+    font-size: .78rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.ej-mini-info > small {
+    display: block;
+    color: var(--ej-secundario, #68756c);
+    font-size: .69rem;
+    line-height: 1.5;
 }
 
 .ej-mini-icon-outdoor {
@@ -42,9 +75,7 @@
     background: linear-gradient(145deg, #fff 0%, #f5faff 100%);
 }
 
-
-/* ================= MINIATURAS DE EJERCICIOS ================= */
-
+/* ---------- Miniaturas en las tarjetas de ejercicios ---------- */
 .ej-card.ej-card-with-image {
     display: grid;
     grid-template-columns: 82px minmax(0, 1fr);
@@ -99,9 +130,7 @@
     margin-top: 3px;
 }
 
-
-/* ================= GALERÍA DE EJERCICIOS ================= */
-
+/* ---------- Galería de posiciones ---------- */
 .ej-visual-gallery {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -134,9 +163,7 @@
     text-align: center;
 }
 
-
-/* ================= INSTRUCCIONES PASO A PASO ================= */
-
+/* ---------- Instrucciones y consejos ---------- */
 .ej-visual-technique {
     margin: 16px 0;
     padding: 15px;
@@ -178,9 +205,6 @@
     font-weight: 800;
 }
 
-
-/* ================= CONSEJOS DE TÉCNICA ================= */
-
 .ej-visual-tips {
     margin-top: 14px;
     padding: 12px;
@@ -210,9 +234,7 @@
     color: #2878b9;
 }
 
-
-/* ================= CRÉDITO DE IMÁGENES ================= */
-
+/* ---------- Crédito de ilustraciones ---------- */
 .ej-repdb-credit {
     margin: 18px 0 0;
     padding: 10px 12px;
@@ -228,12 +250,10 @@
     text-decoration: underline;
 }
 
-
-/* ================= ICONOS FONT AWESOME ================= */
-
-/* Iconos sólidos */
-.fa-solid,
-.fas,
+/* ---------- Corrección de Font Awesome ----------
+   El HTML aplica Poppins a los elementos internos de #app.
+   Estas reglas más específicas recuperan la fuente de los iconos.
+*/
 #app i.fa-solid,
 #app i.fas,
 #hoja i.fa-solid,
@@ -246,9 +266,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
-/* Iconos regulares */
-.fa-regular,
-.far,
 #app i.fa-regular,
 #app i.far,
 #hoja i.fa-regular,
@@ -256,11 +273,11 @@
     font-family: "Font Awesome 6 Free" !important;
     font-weight: 400 !important;
     font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Iconos de marcas */
-.fa-brands,
-.fab,
 #app i.fa-brands,
 #app i.fab,
 #hoja i.fa-brands,
@@ -268,22 +285,25 @@
     font-family: "Font Awesome 6 Brands" !important;
     font-weight: 400 !important;
     font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Mantener los iconos visibles dentro de las tarjetas */
+/* Fuerza la visibilidad de los iconos dentro de las tarjetas. */
 #app .ej-mini-icon {
-    display: inline-grid !important;
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    min-height: 38px;
-    place-items: center;
+    display: grid !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    place-items: center !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
 #app .ej-mini-icon i {
-    display: block !important;
+    display: inline-block !important;
     font-size: 18px !important;
     line-height: 1 !important;
     color: currentColor !important;
@@ -291,28 +311,17 @@
     opacity: 1 !important;
 }
 
-
-/* ================= ANIMACIONES SUAVES ================= */
-
-.ej-mini-info,
-.ej-visual-figure {
-    transition: transform .2s ease, box-shadow .2s ease;
+/* ---------- Accesibilidad ---------- */
+.ej-visual-figure img,
+.ej-card-thumb {
+    max-width: 100%;
 }
 
-@media (hover: hover) {
-    .ej-mini-info:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 9px 20px rgba(35, 90, 48, .07);
-    }
-
-    .ej-visual-figure:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 18px rgba(35, 90, 48, .08);
-    }
+.ej-mini-info:focus-within,
+.ej-visual-figure:focus-within {
+    outline: 2px solid #8bc99a;
+    outline-offset: 3px;
 }
-
-
-/* ================= DISEÑO RESPONSIVE ================= */
 
 @media (min-width: 520px) {
     .ej-intro-grid {
@@ -349,18 +358,43 @@
     .ej-visual-gallery {
         gap: 6px;
     }
+}
 
-    .ej-visual-figure figcaption {
-        font-size: .62rem;
+@media (prefers-reduced-motion: reduce) {
+    .ej-mini-info,
+    .ej-card-with-image,
+    .ej-visual-figure {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
     }
 }
 
 
-/* ================= ACCESIBILIDAD ================= */
+/* Iconos de la tarjeta lanzadora del GPS (se inserta dentro de #app). */
+#app .gps-launch-icon i,
+#app .gps-launch-button i {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    display: inline-block !important;
+    line-height: 1 !important;
+}
 
-@media (prefers-reduced-motion: reduce) {
-    .ej-mini-info,
-    .ej-visual-figure {
-        transition: none !important;
-    }
+#app .gps-launch-icon {
+    flex: 0 0 44px;
+}
+
+#app .gps-launch-button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Las miniaturas no desbordan las tarjetas en pantallas estrechas. */
+#app .ej-card-with-image {
+    min-width: 0;
+}
+
+#app .ej-card-with-image .ej-card-thumb {
+    max-width: 100%;
 }

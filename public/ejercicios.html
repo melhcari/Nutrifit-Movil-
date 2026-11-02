@@ -743,10 +743,71 @@
             .ej-timer-actions { grid-template-columns:1fr; }
         }
 
+
+
+        /* CORRECCIÓN DE FONT AWESOME: Poppins no debe reemplazar la fuente de los iconos. */
+        #app i.fa-solid,
+        #app i.fas,
+        #hoja i.fa-solid,
+        #hoja i.fas,
+        .ej-wrap i.fa-solid,
+        .ej-wrap i.fas {
+            font-family: "Font Awesome 6 Free" !important;
+            font-weight: 900 !important;
+            font-style: normal !important;
+            font-variant: normal !important;
+            display: inline-block !important;
+            text-rendering: auto !important;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #app i.fa-regular,
+        #app i.far,
+        #hoja i.fa-regular,
+        #hoja i.far,
+        .ej-wrap i.fa-regular,
+        .ej-wrap i.far {
+            font-family: "Font Awesome 6 Free" !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+
+        #app i.fa-brands,
+        #app i.fab,
+        #hoja i.fa-brands,
+        #hoja i.fab,
+        .ej-wrap i.fa-brands,
+        .ej-wrap i.fab {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+
+        #app .ej-mini-icon {
+            display: inline-grid !important;
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            min-height: 38px !important;
+            place-items: center !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        #app .ej-mini-icon i {
+            display: inline-block !important;
+            margin: 0 !important;
+            font-size: 18px !important;
+            line-height: 1 !important;
+            color: currentColor !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
 </style>
 
-    <!-- Imágenes, guías paso a paso e iconos de la sección de ejercicios -->
-    <link rel="stylesheet" href="ejercicios-visual.css?v=20261101-iconfix">
+    <!-- Estilos visuales de tarjetas, imágenes, guías e iconos -->
+    <link rel="stylesheet" href="ejercicios-visual.css?v=20261101-ejercicios-final2">
 </head>
 <body>
     <nav class="navbar">
@@ -761,8 +822,9 @@
     <script src="ejercicios-data.js"></script>
     <script src="ejercicios.js"></script>
 
-    <!-- Imágenes, instrucciones e iconos para los ejercicios -->
-    <script src="ejercicios-visual.js?v=20261101-iconfix"></script>
+    <!-- Imágenes, instrucciones y corrección de iconos -->
+    <script src="ejercicios-visual.js?v=20261101-ejercicios-final2"></script>
+
 
     <!-- Librería del mapa y módulo GPS de NutriFit -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
