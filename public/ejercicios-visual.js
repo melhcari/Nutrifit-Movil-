@@ -320,6 +320,7 @@
 
     function agregarCredito(mensaje) {
         var credit = app.querySelector(".ej-repdb-credit");
+
         if (!credit) {
             credit = document.createElement("p");
             credit.className = "ej-repdb-credit";
@@ -327,15 +328,34 @@
             credit.setAttribute("aria-live", "polite");
             app.appendChild(credit);
         }
+
+        /*
+         * IMPORTANTE:
+         * El MutationObserver observa #app. No debemos reescribir el mismo
+         * innerHTML en cada ejecución, porque eso genera nuevas mutaciones
+         * y puede crear un ciclo infinito que congela la página.
+         */
         if (mensaje) {
-            credit.textContent = mensaje + " · Ilustraciones e instrucciones: RepDB.";
+            if (credit.dataset.estado !== mensaje) {
+                credit.dataset.estado = mensaje;
+                credit.textContent = mensaje + " · Ilustraciones e instrucciones: RepDB.";
+            }
             return;
         }
+
+        /* Si ya mostramos un estado de carga/error, no lo sobrescribimos. */
+        if (credit.dataset.estado) return;
+
+        /* El enlace de crédito se crea una sola vez. */
+        if (credit.dataset.inicializado === "true") return;
+
+        credit.dataset.inicializado = "true";
         credit.innerHTML = 'Las ilustraciones e instrucciones se cargan desde <a href="https://repdb.co" target="_blank" rel="noopener noreferrer nofollow">RepDB</a>.';
     }
 
     function decorarApp() {
-        agregarTarjetaAireLibre();
+        // actividad-gps.js crea la tarjeta "Actividad al aire libre" con su botón Explorar.
+        // No añadimos una segunda tarjeta para evitar duplicados.
         agregarMiniaturas();
         agregarCredito();
         decorarPanel();
@@ -344,7 +364,7 @@
     function iniciarObservadores() {
         if (window.MutationObserver) {
             observer = new MutationObserver(function () { decorarApp(); });
-            observer.observe(app, { childList: true, subtree: true });
+            observer.observe(app, { childList: true, subtree: false });
 
             var hoja = document.getElementById("hoja");
             if (hoja) {
