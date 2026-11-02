@@ -10,6 +10,31 @@
     var app = document.getElementById("app");
     if (!app) return;
 
+    /* Font Awesome debe conservar su propia tipografía; el HTML aplica Poppins a los descendientes. */
+    (function repararFuenteIconos() {
+        if (document.getElementById("nutrifit-fontawesome-fix")) return;
+        var style = document.createElement("style");
+        style.id = "nutrifit-fontawesome-fix";
+        style.textContent = `
+            #app i.fa-solid, #app i.fas, #hoja i.fa-solid, #hoja i.fas {
+                font-family: "Font Awesome 6 Free" !important;
+                font-weight: 900 !important;
+                font-style: normal !important;
+            }
+            #app i.fa-regular, #app i.far, #hoja i.fa-regular, #hoja i.far {
+                font-family: "Font Awesome 6 Free" !important;
+                font-weight: 400 !important;
+                font-style: normal !important;
+            }
+            #app i.fa-brands, #app i.fab, #hoja i.fa-brands, #hoja i.fab {
+                font-family: "Font Awesome 6 Brands" !important;
+                font-weight: 400 !important;
+            }
+            #app .ej-mini-icon i { display:block !important; font-size:18px !important; line-height:1 !important; }
+        `;
+        document.head.appendChild(style);
+    })();
+
     var DATA_URL = "https://exercise-dataset.com/exercises.json";
     var DATA_HOME = "https://exercise-dataset.com/";
     var dataSet = [];
@@ -293,12 +318,20 @@
         crearInstrucciones(panel, ejercicio);
     }
 
-    function agregarCredito() {
-        if (app.querySelector(".ej-repdb-credit")) return;
-        var credit = document.createElement("p");
-        credit.className = "ej-repdb-credit";
-        credit.innerHTML = 'Ilustraciones e instrucciones de ejercicios por <a href="https://repdb.co" target="_blank" rel="noopener noreferrer nofollow">RepDB</a>.';
-        app.appendChild(credit);
+    function agregarCredito(mensaje) {
+        var credit = app.querySelector(".ej-repdb-credit");
+        if (!credit) {
+            credit = document.createElement("p");
+            credit.className = "ej-repdb-credit";
+            credit.setAttribute("role", "status");
+            credit.setAttribute("aria-live", "polite");
+            app.appendChild(credit);
+        }
+        if (mensaje) {
+            credit.textContent = mensaje + " · Ilustraciones e instrucciones: RepDB.";
+            return;
+        }
+        credit.innerHTML = 'Las ilustraciones e instrucciones se cargan desde <a href="https://repdb.co" target="_blank" rel="noopener noreferrer nofollow">RepDB</a>.';
     }
 
     function decorarApp() {
@@ -332,10 +365,15 @@
             .then(function (datos) {
                 dataSet = Array.isArray(datos.exercises) ? datos.exercises : [];
                 enriquecerEjercicios();
+                var conImagen = (window.EJ || []).concat(window.CARDIO || []).filter(function (e) { return !!e.img; }).length;
+                agregarCredito(conImagen
+                    ? "Ilustraciones listas para " + conImagen + " ejercicios"
+                    : "El catálogo respondió, pero no encontró ilustraciones para esta rutina");
                 decorarApp();
             })
             .catch(function (error) {
                 console.warn("NutriFit: no se pudieron cargar las ilustraciones externas. Se conservarán las descripciones actuales.", error);
+                agregarCredito("No se pudieron cargar las ilustraciones. Revisa tu conexión e inténtalo de nuevo");
             });
     }
 

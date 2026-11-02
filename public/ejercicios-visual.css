@@ -214,3 +214,53 @@
         padding: 12px;
     }
 }
+
+
+/* CORRECCIÓN: el estilo global Poppins del HTML estaba reemplazando la fuente de Font Awesome. */
+#app i.fa-solid,
+#app i.fas,
+#hoja i.fa-solid,
+#hoja i.fas {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased;
+}
+#app i.fa-regular,
+#app i.far,
+#hoja i.fa-regular,
+#hoja i.far {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+#app i.fa-brands,
+#app i.fab,
+#hoja i.fa-brands,
+#hoja i.fab {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+
+/* Evita que las cajas de icono se encojan o queden invisibles en móvil. */
+#app .ej-mini-icon {
+    display: inline-grid !important;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    place-items: center;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+#app .ej-mini-icon i {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    color: currentColor !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
