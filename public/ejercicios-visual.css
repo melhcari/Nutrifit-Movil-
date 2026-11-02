@@ -1,35 +1,50 @@
-/* Complementos visuales para la sección Ejercicios de NutriFit */
 
-/* Tarjetas informativas con iconos visibles */
+/* =====================================================
+   NUTRIFIT - COMPLEMENTOS VISUALES DE EJERCICIOS
+   Diseño móvil, iconos, imágenes e instrucciones.
+   ===================================================== */
+
+
+/* ================= TARJETAS INFORMATIVAS ================= */
+
 .ej-mini-info {
     position: relative;
     min-height: 112px;
+    padding: 15px 13px;
 }
+
 .ej-mini-icon {
     display: grid;
     width: 38px;
     height: 38px;
+    min-width: 38px;
+    min-height: 38px;
     place-items: center;
     border-radius: 12px;
     background: #eaf6ed;
     color: #23864a;
 }
+
 .ej-mini-icon i {
     display: block;
     color: inherit;
-    font-size: 17px;
-    line-height: 1;
+    font-size: 18px !important;
+    line-height: 1 !important;
 }
+
 .ej-mini-icon-outdoor {
     background: #e9f3ff;
     color: #2878b9;
 }
+
 .ej-mini-info-outdoor {
     border-color: #d8e8f4;
     background: linear-gradient(145deg, #fff 0%, #f5faff 100%);
 }
 
-/* Miniaturas de los ejercicios dentro de la rutina */
+
+/* ================= MINIATURAS DE EJERCICIOS ================= */
+
 .ej-card.ej-card-with-image {
     display: grid;
     grid-template-columns: 82px minmax(0, 1fr);
@@ -40,6 +55,7 @@
     min-height: 112px;
     padding: 12px 43px 12px 12px;
 }
+
 .ej-card-with-image .ej-card-thumb {
     display: block;
     grid-column: 1;
@@ -51,6 +67,7 @@
     background: #f3f8f4;
     object-fit: contain;
 }
+
 .ej-card-with-image > b,
 .ej-card-with-image > span,
 .ej-card-with-image > small,
@@ -58,33 +75,40 @@
     grid-column: 2;
     min-width: 0;
 }
+
 .ej-card-with-image > b {
     align-self: end;
     margin-bottom: 3px;
     font-size: .84rem;
 }
+
 .ej-card-with-image > span {
     justify-self: start;
     max-width: 100%;
     font-size: .68rem;
 }
+
 .ej-card-with-image > small {
     align-self: start;
     margin-top: 2px;
     font-size: .66rem;
 }
+
 .ej-card-with-image > .ej-card-progress {
     width: 100%;
     margin-top: 3px;
 }
 
-/* Galería de posiciones en el detalle del ejercicio */
+
+/* ================= GALERÍA DE EJERCICIOS ================= */
+
 .ej-visual-gallery {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 9px;
     margin: 14px 0;
 }
+
 .ej-visual-figure {
     min-width: 0;
     margin: 0;
@@ -93,6 +117,7 @@
     border-radius: 15px;
     background: #f4f8f5;
 }
+
 .ej-visual-figure img {
     display: block;
     width: 100%;
@@ -100,6 +125,7 @@
     object-fit: contain;
     background: #f1f6f2;
 }
+
 .ej-visual-figure figcaption {
     padding: 7px 5px;
     color: #55715d;
@@ -108,7 +134,9 @@
     text-align: center;
 }
 
-/* Instrucciones paso a paso y consejos */
+
+/* ================= INSTRUCCIONES PASO A PASO ================= */
+
 .ej-visual-technique {
     margin: 16px 0;
     padding: 15px;
@@ -116,6 +144,7 @@
     border-radius: 16px;
     background: #fbfefb;
 }
+
 .ej-visual-technique h3 {
     display: flex;
     align-items: center;
@@ -125,9 +154,11 @@
     font-size: .91rem;
     font-weight: 800;
 }
+
 .ej-visual-technique h3 i {
     color: #23864a;
 }
+
 .ej-visual-technique ol {
     display: grid;
     gap: 9px;
@@ -137,13 +168,19 @@
     font-size: .79rem;
     line-height: 1.65;
 }
+
 .ej-visual-technique li {
     padding-left: 3px;
 }
+
 .ej-visual-technique li::marker {
     color: #23864a;
     font-weight: 800;
 }
+
+
+/* ================= CONSEJOS DE TÉCNICA ================= */
+
 .ej-visual-tips {
     margin-top: 14px;
     padding: 12px;
@@ -151,6 +188,7 @@
     background: #eff7ff;
     color: #355c7b;
 }
+
 .ej-visual-tips > b {
     display: flex;
     align-items: center;
@@ -158,6 +196,7 @@
     margin-bottom: 7px;
     font-size: .77rem;
 }
+
 .ej-visual-tips ul {
     display: grid;
     gap: 6px;
@@ -166,11 +205,14 @@
     font-size: .72rem;
     line-height: 1.55;
 }
+
 .ej-visual-tips li::marker {
     color: #2878b9;
 }
 
-/* Crédito visible requerido por el catálogo visual */
+
+/* ================= CRÉDITO DE IMÁGENES ================= */
+
 .ej-repdb-credit {
     margin: 18px 0 0;
     padding: 10px 12px;
@@ -179,16 +221,104 @@
     line-height: 1.5;
     text-align: center;
 }
+
 .ej-repdb-credit a {
     color: #23864a;
     font-weight: 700;
     text-decoration: underline;
 }
 
+
+/* ================= ICONOS FONT AWESOME ================= */
+
+/* Iconos sólidos */
+.fa-solid,
+.fas,
+#app i.fa-solid,
+#app i.fas,
+#hoja i.fa-solid,
+#hoja i.fas {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Iconos regulares */
+.fa-regular,
+.far,
+#app i.fa-regular,
+#app i.far,
+#hoja i.fa-regular,
+#hoja i.far {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+
+/* Iconos de marcas */
+.fa-brands,
+.fab,
+#app i.fa-brands,
+#app i.fab,
+#hoja i.fa-brands,
+#hoja i.fab {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+
+/* Mantener los iconos visibles dentro de las tarjetas */
+#app .ej-mini-icon {
+    display: inline-grid !important;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    place-items: center;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#app .ej-mini-icon i {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    color: currentColor !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+/* ================= ANIMACIONES SUAVES ================= */
+
+.ej-mini-info,
+.ej-visual-figure {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+@media (hover: hover) {
+    .ej-mini-info:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(35, 90, 48, .07);
+    }
+
+    .ej-visual-figure:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(35, 90, 48, .08);
+    }
+}
+
+
+/* ================= DISEÑO RESPONSIVE ================= */
+
 @media (min-width: 520px) {
     .ej-intro-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+
     .ej-mini-info-outdoor {
         grid-column: auto;
     }
@@ -206,61 +336,31 @@
         column-gap: 9px;
         padding-left: 10px;
     }
+
     .ej-card-with-image .ej-card-thumb {
         width: 72px;
         height: 84px;
     }
+
     .ej-visual-technique {
         padding: 12px;
+    }
+
+    .ej-visual-gallery {
+        gap: 6px;
+    }
+
+    .ej-visual-figure figcaption {
+        font-size: .62rem;
     }
 }
 
 
-/* CORRECCIÓN: el estilo global Poppins del HTML estaba reemplazando la fuente de Font Awesome. */
-#app i.fa-solid,
-#app i.fas,
-#hoja i.fa-solid,
-#hoja i.fas {
-    font-family: "Font Awesome 6 Free" !important;
-    font-weight: 900 !important;
-    font-style: normal !important;
-    font-variant: normal !important;
-    text-rendering: auto !important;
-    -webkit-font-smoothing: antialiased;
-}
-#app i.fa-regular,
-#app i.far,
-#hoja i.fa-regular,
-#hoja i.far {
-    font-family: "Font Awesome 6 Free" !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
-}
-#app i.fa-brands,
-#app i.fab,
-#hoja i.fa-brands,
-#hoja i.fab {
-    font-family: "Font Awesome 6 Brands" !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
-}
+/* ================= ACCESIBILIDAD ================= */
 
-/* Evita que las cajas de icono se encojan o queden invisibles en móvil. */
-#app .ej-mini-icon {
-    display: inline-grid !important;
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    min-height: 38px;
-    place-items: center;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-#app .ej-mini-icon i {
-    display: block !important;
-    font-size: 18px !important;
-    line-height: 1 !important;
-    color: currentColor !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+@media (prefers-reduced-motion: reduce) {
+    .ej-mini-info,
+    .ej-visual-figure {
+        transition: none !important;
+    }
 }
