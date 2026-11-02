@@ -3,96 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Servicios de Nutrifit">
-    <title>Servicios | Nutrifit</title>
+    <title>Servicios | NutriFit</title>
+    <meta name="description" content="Conoce los servicios, herramientas y planes de NutriFit para acompañar tus hábitos de nutrición y bienestar.">
+    <meta name="theme-color" content="#f4faf5">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#28a745">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body, h1, h2, h3, p, a, button, span, div { font-family: 'Poppins', sans-serif !important; }
-        @media (max-width: 768px) { .nav-menu.active { left: 0 !important; display: flex !important; flex-direction: column; } }
-        .serv-hero { padding: 130px 20px 20px; max-width: 900px; margin: 0 auto; text-align: left; }
-        .serv-hero h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 8px; color: #1a1a1a; }
-        .serv-hero p { margin: 0; color: #555; line-height: 1.6; }
-        .serv-bloque { max-width: 900px; margin: 0 auto; padding: 24px 20px 8px; text-align: left; }
-        .serv-bloque h2 { font-size: 1.3rem; font-weight: 700; margin: 0 0 16px; }
-        .serv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-        .serv-card { background: #fff; border: 1px solid #e8ece8; border-radius: 16px; padding: 20px; }
-        .serv-ico { width: 44px; height: 44px; border-radius: 12px; background: #28a745; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 12px; }
-        .serv-card h3 { margin: 0 0 6px; font-size: 1.05rem; }
-        .serv-card p { margin: 0; color: #666; font-size: .9rem; line-height: 1.5; }
-        .serv-chip { display: inline-block; margin-top: 12px; padding: 4px 12px; border-radius: 999px; background: #def5e4; color: #1e7a35; font-size: .75rem; font-weight: 600; }
-        .serv-cta { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; text-align: left; }
-        .serv-cta a { display: inline-block; padding: 12px 28px; border-radius: 999px; background: #28a745; color: #fff; font-weight: 600; text-decoration: none; }
-    </style>
     <link rel="stylesheet" href="responsivo.css">
     <link rel="stylesheet" href="mejoras.css">
+    <link rel="stylesheet" href="servicios.css?v=20261102-servicios1">
 </head>
-<body>
+<body class="servicios-page">
+    <header class="header-navbar">
+        <nav class="navbar" aria-label="Navegación principal">
+            <a class="logo" href="index.html" aria-label="NutriFit, inicio"><i class="fa-solid fa-leaf" aria-hidden="true"></i> NUTRI<span>FIT</span></a>
 
-<header class="header-navbar">
-    <nav class="navbar">
-        <div class="logo"><i class="fa-solid fa-leaf"></i> NUTRI<span>FIT</span></div>
-        <button class="menu-toggle" id="mobile-menu" aria-label="Abrir Menú"><i class="fa-solid fa-bars"></i></button>
-        <div class="nav-menu" id="nav-menu">
-            <a href="index.html#inicio" class="nav-link menu-item">INICIO</a>
-            <a href="servicios.html" class="nav-link menu-item">SERVICIOS</a>
-            <a href="index.html#planes" class="nav-link menu-item">PLANES</a>
-            <a href="recetas.html" class="nav-link menu-item">RECETAS</a>
-            <a href="ejercicios.html" class="nav-link menu-item">EJERCICIOS</a>
-            <a href="index.html#aprende" class="nav-link menu-item">APRENDE</a>
-            <a href="index.html#faq" class="nav-link menu-item">FAQ</a>
-            <div id="menuLoginSection" class="mobile-login-btn show">
-                <button id="btnAbrirLogin" onclick="location.href='index.html#login'"><i class="fa-solid fa-user"></i> <span>Iniciar Sesión</span></button>
+            <button class="menu-toggle" id="mobile-menu" type="button" aria-label="Abrir menú" aria-controls="nav-menu" aria-expanded="false">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html#inicio" class="nav-link menu-item">Inicio</a>
+                <a href="servicios.html" class="nav-link menu-item" aria-current="page">Servicios</a>
+                <a href="index.html#planes" class="nav-link menu-item">Planes</a>
+                <a href="recetas.html" class="nav-link menu-item">Recetas</a>
+                <a href="ejercicios.html" class="nav-link menu-item">Ejercicios</a>
+                <a href="index.html#aprende" class="nav-link menu-item">Aprende</a>
+                <a href="index.html#faq" class="nav-link menu-item">FAQ</a>
+                <div id="menuLoginSection" class="mobile-login-btn show">
+                    <a class="serv-login-link" href="index.html#login"><i class="fa-solid fa-user" aria-hidden="true"></i> Iniciar sesión</a>
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
-<main>
-    <section class="serv-hero">
-        <h1>Nuestros servicios</h1>
-        <p>Acompañamiento y herramientas para que comer bien sea simple y sostenible.</p>
-    </section>
-    <section class="serv-bloque"><h2>Especialidades</h2><div class="serv-grid" id="especialidades"></div></section>
-    <section class="serv-bloque"><h2>Incluido en los planes</h2><div class="serv-grid" id="incluido"></div></section>
-    <section class="serv-cta"><a href="index.html#planes">Ver planes</a></section>
-</main>
+    <main>
+        <!-- PORTADA -->
+        <section class="serv-hero" id="inicio-servicios" aria-labelledby="serv-hero-title">
+            <div class="serv-hero-copy">
+                <span class="serv-eyebrow"><i class="fa-solid fa-leaf" aria-hidden="true"></i> NUTRICIÓN · MOVIMIENTO · BIENESTAR</span>
+                <h1 id="serv-hero-title">Tu bienestar, <span>nuestro objetivo.</span></h1>
+                <p>Encuentra herramientas y servicios que te acompañen a construir hábitos saludables, organizar tu alimentación y avanzar a tu propio ritmo.</p>
+                <div class="serv-hero-actions">
+                    <a class="serv-btn serv-btn-primary" href="#especialidades">Conocer servicios <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
+                    <a class="serv-btn serv-btn-outline" href="#planes">Ver planes <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+                <div class="serv-hero-note"><i class="fa-solid fa-heart" aria-hidden="true"></i> Pequeños hábitos, cambios que puedes sostener.</div>
+            </div>
+            <div class="serv-hero-media">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1500&q=85" alt="Tazón de comida equilibrada con verduras frescas y alimentos variados" fetchpriority="high">
+                <div class="serv-floating-card">
+                    <span class="serv-floating-icon"><i class="fa-solid fa-seedling" aria-hidden="true"></i></span>
+                    <span><strong>Hábitos saludables</strong><small>A tu ritmo y con constancia</small></span>
+                </div>
+            </div>
+        </section>
 
-<footer style="background: #2d3436; color: white; text-align: left; padding: 32px 20px;">
-    <p style="margin: 0; color: #aaa;">García, Nuevo León | soporte@nutrifit.com</p>
-</footer>
+        <!-- ESPECIALIDADES -->
+        <section class="serv-section" id="especialidades" aria-labelledby="especialidades-title">
+            <div class="serv-section-heading">
+                <span class="serv-kicker">EN QUÉ PODEMOS ACOMPAÑARTE</span>
+                <h2 id="especialidades-title">Servicios pensados para tus objetivos</h2>
+                <p>Conoce las áreas de NutriFit y elige por dónde quieres comenzar.</p>
+            </div>
+            <div class="serv-specialty-grid">
+                <article class="serv-specialty-card">
+                    <div class="serv-specialty-icon"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></div>
+                    <span class="serv-card-label">ALIMENTACIÓN</span>
+                    <h3>Control de peso</h3>
+                    <p>Estrategias sostenibles para perder grasa o ganar masa, ajustadas a tu ritmo y a tus objetivos.</p>
+                    <a href="#herramientas">Conoce las herramientas <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+                <article class="serv-specialty-card serv-specialty-featured">
+                    <div class="serv-specialty-icon"><i class="fa-solid fa-person-running" aria-hidden="true"></i></div>
+                    <span class="serv-card-label">RENDIMIENTO</span>
+                    <h3>Nutrición deportiva</h3>
+                    <p>Organiza tu alimentación e hidratación para acompañar tus entrenamientos y tu recuperación.</p>
+                    <a href="#herramientas">Conoce las herramientas <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+                <article class="serv-specialty-card">
+                    <div class="serv-specialty-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></div>
+                    <span class="serv-card-label">APRENDIZAJE</span>
+                    <h3>Educación alimentaria</h3>
+                    <p>Aprende a leer etiquetas, reconocer porciones y tomar decisiones informadas en tu día a día.</p>
+                    <a href="index.html#aprende">Explorar Aprende <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+            </div>
+        </section>
 
-<script>
-    var ESPECIALIDADES = [
-        ["fa-apple-whole", "Control de peso", "Estrategias sostenibles para perder grasa o ganar masa, ajustadas a tu ritmo."],
-        ["fa-person-running", "Nutrición deportiva", "Optimiza tu rendimiento y tu recuperación según tu entrenamiento."],
-        ["fa-clipboard-check", "Educación alimentaria", "Aprende a leer etiquetas y a elegir mejores alimentos en tu día a día."]
-    ];
-    var INCLUIDO = [
-        ["fa-calculator", "Calculadora de macros", "Calcula tus calorías y macronutrientes según tu objetivo.", "Todos los planes"],
-        ["fa-droplet", "Tracker de agua", "Registra tus vasos al día y mantén tu hidratación.", "Todos los planes"],
-        ["fa-calendar-week", "Menú semanal", "Un menú organizado para toda la semana.", "Integral y Pro"],
-        ["fa-comments", "Soporte VIP por WhatsApp", "Resuelve tus dudas directamente por mensaje.", "Integral y Pro"],
-        ["fa-video", "Videollamada quincenal", "Una sesión cada dos semanas para revisar tu avance.", "Plan Pro"],
-        ["fa-capsules", "Protocolo de suplementos", "Orientación sobre qué suplementos usar y cuándo.", "Plan Pro"]
-    ];
-    function pintar(id, lista) {
-        document.getElementById(id).innerHTML = lista.map(function (s) {
-            return '<div class="serv-card"><div class="serv-ico"><i class="fa-solid ' + s[0] + '"></i></div>' +
-                   '<h3>' + s[1] + '</h3><p>' + s[2] + '</p>' +
-                   (s[3] ? '<span class="serv-chip">' + s[3] + '</span>' : '') + '</div>';
-        }).join("");
-    }
-    pintar("especialidades", ESPECIALIDADES);
-    pintar("incluido", INCLUIDO);
+        <!-- HERRAMIENTAS Y BENEFICIOS -->
+        <section class="serv-tools-section" id="herramientas" aria-labelledby="herramientas-title">
+            <div class="serv-section-heading">
+                <span class="serv-kicker">TU PLATAFORMA DE BIENESTAR</span>
+                <h2 id="herramientas-title">Todo lo que puedes hacer con NutriFit</h2>
+                <p>Herramientas y beneficios organizados según el plan que elijas.</p>
+            </div>
+            <div class="serv-tools-grid">
+                <article class="serv-tool-card">
+                    <div class="serv-tool-icon"><i class="fa-solid fa-calculator" aria-hidden="true"></i></div>
+                    <div class="serv-tool-top"><span class="serv-tool-category">PLANIFICACIÓN</span><span class="serv-access access-all">Todos los planes</span></div>
+                    <h3>Calculadora de macros</h3>
+                    <p>Calcula tus calorías y macronutrientes según tu objetivo.</p>
+                </article>
+                <article class="serv-tool-card">
+                    <div class="serv-tool-icon blue"><i class="fa-solid fa-droplet" aria-hidden="true"></i></div>
+                    <div class="serv-tool-top"><span class="serv-tool-category">HIDRATACIÓN</span><span class="serv-access access-all">Todos los planes</span></div>
+                    <h3>Tracker de agua</h3>
+                    <p>Registra tus vasos al día y mantén tu hidratación.</p>
+                </article>
+                <article class="serv-tool-card">
+                    <div class="serv-tool-icon orange"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i></div>
+                    <div class="serv-tool-top"><span class="serv-tool-category">ORGANIZACIÓN</span><span class="serv-access access-integral">Integral y Pro</span></div>
+                    <h3>Menú semanal</h3>
+                    <p>Un menú organizado para toda la semana.</p>
+                </article>
+                <article class="serv-tool-card">
+                    <div class="serv-tool-icon violet"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div>
+                    <div class="serv-tool-top"><span class="serv-tool-category">ACOMPAÑAMIENTO</span><span class="serv-access access-integral">Integral y Pro</span></div>
+                    <h3>Soporte VIP por WhatsApp</h3>
+                    <p>Resuelve tus dudas directamente por mensaje.</p>
+                </article>
+                <article class="serv-tool-card">
+                    <div class="serv-tool-icon dark"><i class="fa-solid fa-video" aria-hidden="true"></i></div>
+                    <div class="serv-tool-top"><span class="serv-tool-category">SEGUIMIENTO</span><span class="serv-access access-pro">Plan Pro</span></div>
+                    <h3>Videollamada quincenal</h3>
+                    <p>Una sesión cada dos semanas para revisar tu avance.</p>
+                </article>
+                <article class="serv-tool-card">
+                    <div class="serv-tool-icon green"><i class="fa-solid fa-capsules" aria-hidden="true"></i></div>
+                    <div class="serv-tool-top"><span class="serv-tool-category">ORIENTACIÓN</span><span class="serv-access access-pro">Plan Pro</span></div>
+                    <h3>Protocolo de suplementos</h3>
+                    <p>Orientación sobre qué suplementos usar y cuándo.</p>
+                </article>
+            </div>
+            <p class="serv-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> La disponibilidad de cada herramienta depende del plan contratado.</p>
+        </section>
 
-    var menu = document.getElementById("nav-menu");
-    document.getElementById("mobile-menu").addEventListener("click", function (e) { e.stopPropagation(); menu.classList.toggle("active"); });
-    document.querySelectorAll(".menu-item").forEach(function (a) { a.addEventListener("click", function () { menu.classList.remove("active"); }); });
-</script>
+        <!-- PLANES -->
+        <section class="serv-section" id="planes" aria-labelledby="planes-title">
+            <div class="serv-section-heading">
+                <span class="serv-kicker">ELIGE TU ACOMPAÑAMIENTO</span>
+                <h2 id="planes-title">Un plan para cada etapa</h2>
+                <p>Consulta los precios y beneficios de cada opción de NutriFit.</p>
+            </div>
+            <div class="serv-plans-grid">
+                <article class="serv-plan-card">
+                    <span class="serv-plan-label">PARA COMENZAR</span>
+                    <h3>Básico</h3>
+                    <p class="serv-plan-price"><strong>$450</strong><span>/ mes</span></p>
+                    <p class="serv-plan-desc">Herramientas esenciales para comenzar a organizar tus hábitos.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Calculadora de macros</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Tracker de agua</li>
+                    </ul>
+                    <a class="serv-btn serv-btn-plan" href="index.html#planes">Ver plan Básico</a>
+                </article>
+                <article class="serv-plan-card popular">
+                    <span class="serv-popular-tag"><i class="fa-solid fa-star" aria-hidden="true"></i> MÁS POPULAR</span>
+                    <span class="serv-plan-label">MÁS ACOMPAÑAMIENTO</span>
+                    <h3>Integral</h3>
+                    <p class="serv-plan-price"><strong>$850</strong><span>/ mes</span></p>
+                    <p class="serv-plan-desc">Más organización y acompañamiento durante tu semana.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Calculadora de macros</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Tracker de agua</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Menú semanal</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Soporte VIP por WhatsApp</li>
+                    </ul>
+                    <a class="serv-btn serv-btn-primary serv-btn-plan" href="index.html#planes">Ver plan Integral</a>
+                </article>
+                <article class="serv-plan-card">
+                    <span class="serv-plan-label">ACOMPAÑAMIENTO PRO</span>
+                    <h3>Pro Sport</h3>
+                    <p class="serv-plan-price"><strong>$1,200</strong><span>/ mes</span></p>
+                    <p class="serv-plan-desc">La opción más completa de acompañamiento de NutriFit.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Calculadora de macros</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Tracker de agua</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Menú semanal</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Soporte VIP por WhatsApp</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Videollamada quincenal</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Protocolo de suplementos</li>
+                    </ul>
+                    <a class="serv-btn serv-btn-plan" href="index.html#planes">Ver plan Pro Sport</a>
+                </article>
+            </div>
+            <p class="serv-prices-note">Precios mensuales confirmados de NutriFit. Consulta las condiciones de cada plan antes de contratar.</p>
+        </section>
+
+        <!-- CÓMO FUNCIONA -->
+        <section class="serv-how-section" aria-labelledby="como-title">
+            <div class="serv-section-heading">
+                <span class="serv-kicker">EMPIEZA A TU RITMO</span>
+                <h2 id="como-title">¿Cómo funciona NutriFit?</h2>
+                <p>Un camino sencillo para comenzar a utilizar la plataforma.</p>
+            </div>
+            <div class="serv-steps-grid">
+                <article class="serv-step"><span>01</span><div><i class="fa-solid fa-user-plus" aria-hidden="true"></i></div><h3>Crea tu cuenta</h3><p>Regístrate e inicia sesión en NutriFit.</p></article>
+                <article class="serv-step"><span>02</span><div><i class="fa-solid fa-bullseye" aria-hidden="true"></i></div><h3>Define tus objetivos</h3><p>Identifica qué hábitos y metas quieres trabajar.</p></article>
+                <article class="serv-step"><span>03</span><div><i class="fa-solid fa-list-check" aria-hidden="true"></i></div><h3>Conoce los planes</h3><p>Compara los beneficios y elige el que se adapte a ti.</p></article>
+                <article class="serv-step"><span>04</span><div><i class="fa-solid fa-seedling" aria-hidden="true"></i></div><h3>Comienza tu progreso</h3><p>Explora las herramientas incluidas en tu plan.</p></article>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section class="serv-final-cta">
+            <div class="serv-final-icon"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i></div>
+            <span class="serv-kicker">TU SIGUIENTE PASO</span>
+            <h2>Empieza a construir hábitos que te hagan bien.</h2>
+            <p>Conoce los planes de NutriFit y descubre qué herramientas tienes disponibles.</p>
+            <a class="serv-btn serv-btn-light" href="index.html#planes">Explorar planes <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </section>
+    </main>
+
+    <footer class="serv-footer">
+        <a class="logo" href="index.html"><i class="fa-solid fa-leaf" aria-hidden="true"></i> NUTRI<span>FIT</span></a>
+        <p>García, Nuevo León · <a href="mailto:soporte@nutrifit.com">soporte@nutrifit.com</a></p>
+        <small>NutriFit · Tu bienestar, nuestro objetivo.</small>
+    </footer>
+
+    <script>
+    (function () {
+        "use strict";
+        var menuButton = document.getElementById("mobile-menu");
+        var menu = document.getElementById("nav-menu");
+        if (!menuButton || !menu) return;
+
+        function closeMenu() {
+            menu.classList.remove("active");
+            menuButton.setAttribute("aria-expanded", "false");
+            menuButton.setAttribute("aria-label", "Abrir menú");
+        }
+
+        menuButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            var isOpen = menu.classList.toggle("active");
+            menuButton.setAttribute("aria-expanded", String(isOpen));
+            menuButton.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+        });
+
+        menu.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") closeMenu();
+        });
+    })();
+    </script>
 </body>
 </html>
