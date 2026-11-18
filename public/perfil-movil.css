@@ -628,4 +628,283 @@
     outline: 3px solid var(--nf-mobile-accent-shadow) !important;
     outline-offset: 2px;
   }
+
+
+  /* PALETA GLOBAL DE NUTRIFIT MÓVIL: verde de fábrica o color personalizado. */
+  body[data-nf-mobile-palette="true"] {
+    --nf-mobile-accent-soft: color-mix(in srgb, var(--nf-mobile-accent, #28a745) 13%, #ffffff);
+    --nf-mobile-accent-soft-strong: color-mix(in srgb, var(--nf-mobile-accent, #28a745) 22%, #ffffff);
+    --nf-mobile-accent-dark: color-mix(in srgb, var(--nf-mobile-accent, #28a745) 68%, #000000);
+    --nf-mobile-accent-darker: color-mix(in srgb, var(--nf-mobile-accent, #28a745) 48%, #000000);
+    --nf-mobile-accent-border: color-mix(in srgb, var(--nf-mobile-accent, #28a745) 58%, #000000);
+    --nf-mobile-accent-shadow: color-mix(in srgb, var(--nf-mobile-accent, #28a745) 34%, transparent);
+  }
+
+  /* Barra de navegación y menú hamburguesa. */
+  body[data-nf-mobile-palette="true"] .header-navbar,
+  body[data-nf-mobile-palette="true"] .navbar,
+  body[data-nf-mobile-palette="true"] .rc-top {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 24%, #dce5df) !important;
+  }
+  body[data-nf-mobile-palette="true"] .header-navbar,
+  body[data-nf-mobile-palette="true"] .nav-menu,
+  body[data-nf-mobile-palette="true"] .rc-top {
+    background-color: var(--nf-mobile-accent-soft) !important;
+    box-shadow: 0 4px 16px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] #mobile-menu,
+  body[data-nf-mobile-palette="true"] .menu-toggle {
+    border: 1px solid var(--nf-mobile-accent-border) !important;
+    border-radius: 11px !important;
+    background: var(--nf-mobile-accent-soft) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+    box-shadow: 0 3px 9px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] #mobile-menu i,
+  body[data-nf-mobile-palette="true"] .menu-toggle i,
+  body[data-nf-mobile-palette="true"] .nav-link,
+  body[data-nf-mobile-palette="true"] .logo span,
+  body[data-nf-mobile-palette="true"] .nav-link[aria-current="page"] {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .nav-link:hover,
+  body[data-nf-mobile-palette="true"] .nav-link:focus-visible,
+  body[data-nf-mobile-palette="true"] .nav-link[aria-current="page"] {
+    background-color: color-mix(in srgb, var(--nf-mobile-accent) 12%, #ffffff) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+  }
+  body[data-nf-mobile-palette="true"] #nav-menu.active {
+    background: var(--nf-mobile-accent-soft) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    box-shadow: 0 10px 24px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Botones, pestañas y controles en todas las secciones de index.html. */
+  body[data-nf-mobile-palette="true"] .btn-main,
+  body[data-nf-mobile-palette="true"] #menuLoginSection button,
+  body[data-nf-mobile-palette="true"] .mobile-login-btn button,
+  body[data-nf-mobile-palette="true"] #authContainer #btnIniciarSesion,
+  body[data-nf-mobile-palette="true"] #mobileAccountRoot .nm-primary {
+    background: var(--nf-mobile-accent) !important;
+    border: 1px solid var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 5px 13px var(--nf-mobile-accent-shadow),
+      0 2px 4px color-mix(in srgb, var(--nf-mobile-accent-darker) 24%, transparent) !important;
+  }
+  body[data-nf-mobile-palette="true"] .btn-secondary,
+  body[data-nf-mobile-palette="true"] #authContainer #btnCrearCuenta,
+  body[data-nf-mobile-palette="true"] #mobileAccountRoot .nm-secondary {
+    background: var(--nf-mobile-accent-soft) !important;
+    border: 1px solid var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+    box-shadow: 0 3px 9px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] .plan-card .btn-main,
+  body[data-nf-mobile-palette="true"] .serv-btn-primary,
+  body[data-nf-mobile-palette="true"] .ej-btn,
+  body[data-nf-mobile-palette="true"] #mobileAccountRoot .nm-theme-option[aria-pressed="true"] {
+    background: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 6px 16px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Cambia cualquier franja, etiqueta o tarjeta que use el verde original inline. */
+  body[data-nf-mobile-palette="true"] [style*="background: #28a745"],
+  body[data-nf-mobile-palette="true"] [style*="background:#28a745"],
+  body[data-nf-mobile-palette="true"] [style*="background-color: #28a745"],
+  body[data-nf-mobile-palette="true"] [style*="background-color:#28a745"] {
+    background: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 6px 16px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] [style*="background: #28a745"] *,
+  body[data-nf-mobile-palette="true"] [style*="background:#28a745"] *,
+  body[data-nf-mobile-palette="true"] [style*="background-color: #28a745"] *,
+  body[data-nf-mobile-palette="true"] [style*="background-color:#28a745"] * {
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+  }
+  body[data-nf-mobile-palette="true"] [style*="color: #28a745"],
+  body[data-nf-mobile-palette="true"] [style*="color:#28a745"] {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .carousel-item.square-card-green,
+  body[data-nf-mobile-palette="true"] main > section[style*="background: #28a745"] *,
+  body[data-nf-mobile-palette="true"] main > section[style*="background:#28a745"] * {
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+  }
+  body[data-nf-mobile-palette="true"] .hero h1 span,
+  body[data-nf-mobile-palette="true"] .logo span,
+  body[data-nf-mobile-palette="true"] .faq-icon {
+    color: var(--nf-mobile-accent-dark) !important;
+    -webkit-text-fill-color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .faq-item {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 30%, #eeeeee) !important;
+    box-shadow: 0 4px 13px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] .faq-question:focus-visible,
+  body[data-nf-mobile-palette="true"] #mobileAccountRoot button:focus-visible {
+    outline: 3px solid var(--nf-mobile-accent-shadow) !important;
+    outline-offset: 2px;
+  }
+
+  /* Página Servicios: usa el mismo color que el selector de Apariencia. */
+  body[data-nf-mobile-palette="true"].servicios-page {
+    --sv-green: var(--nf-mobile-accent);
+    --sv-green-dark: var(--nf-mobile-accent-dark);
+    --sv-green-light: var(--nf-mobile-accent-soft);
+    --sv-border: color-mix(in srgb, var(--nf-mobile-accent) 25%, #dfeae1);
+    --sv-shadow: 0 14px 35px var(--nf-mobile-accent-shadow);
+  }
+  body[data-nf-mobile-palette="true"] .serv-eyebrow,
+  body[data-nf-mobile-palette="true"] .serv-kicker,
+  body[data-nf-mobile-palette="true"] .serv-hero h1 span,
+  body[data-nf-mobile-palette="true"] .serv-hero-note i,
+  body[data-nf-mobile-palette="true"] .serv-specialty-icon,
+  body[data-nf-mobile-palette="true"] .serv-tool-icon,
+  body[data-nf-mobile-palette="true"] .serv-section a:not(.serv-btn) {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .serv-btn-primary,
+  body[data-nf-mobile-palette="true"] .serv-login-link {
+    background: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 7px 17px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] .serv-btn-outline {
+    border-color: var(--nf-mobile-accent-border) !important;
+    background: var(--nf-mobile-accent-soft) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .serv-specialty-icon,
+  body[data-nf-mobile-palette="true"] .serv-tool-icon,
+  body[data-nf-mobile-palette="true"] .serv-eyebrow {
+    background: var(--nf-mobile-accent-soft) !important;
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 30%, #ffffff) !important;
+  }
+  body[data-nf-mobile-palette="true"] .serv-specialty-featured,
+  body[data-nf-mobile-palette="true"] .serv-hero-media::before {
+    background: var(--nf-mobile-accent-soft) !important;
+  }
+  body[data-nf-mobile-palette="true"] .serv-specialty-card,
+  body[data-nf-mobile-palette="true"] .serv-tool-card,
+  body[data-nf-mobile-palette="true"] .serv-plan-card,
+  body[data-nf-mobile-palette="true"] .serv-step-card {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 26%, #dfeae1) !important;
+    box-shadow: 0 8px 24px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Página Recetas: adapta etiquetas, categorías, enlaces y tarjetas. */
+  body[data-nf-mobile-palette="true"].rc {
+    --terracota: var(--nf-mobile-accent);
+    --oliva: var(--nf-mobile-accent-dark);
+    --verde-claro: var(--nf-mobile-accent-soft);
+    --verde-medio: color-mix(in srgb, var(--nf-mobile-accent) 22%, #ffffff);
+    --linea: color-mix(in srgb, var(--nf-mobile-accent) 24%, #dce9df);
+    --sombra: 0 10px 28px var(--nf-mobile-accent-shadow);
+  }
+  body[data-nf-mobile-palette="true"] .marca-icono,
+  body[data-nf-mobile-palette="true"] .marca-fit,
+  body[data-nf-mobile-palette="true"] .kicker,
+  body[data-nf-mobile-palette="true"] .rc-hero h1 span,
+  body[data-nf-mobile-palette="true"] .indice button small,
+  body[data-nf-mobile-palette="true"] .item small,
+  body[data-nf-mobile-palette="true"] .ver-receta {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .rc-top .atras,
+  body[data-nf-mobile-palette="true"] .indice button.on {
+    background: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 6px 16px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] .rc-hero {
+    background: linear-gradient(135deg, var(--nf-mobile-accent-soft), #ffffff 78%) !important;
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 28%, #d5eadb) !important;
+  }
+  body[data-nf-mobile-palette="true"] .hero-chips span,
+  body[data-nf-mobile-palette="true"] .mini,
+  body[data-nf-mobile-palette="true"] .grande {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 28%, #d5eadb) !important;
+  }
+  body[data-nf-mobile-palette="true"] .indice button:hover,
+  body[data-nf-mobile-palette="true"] .hero-chips span {
+    background-color: var(--nf-mobile-accent-soft) !important;
+  }
+  body[data-nf-mobile-palette="true"] .item,
+  body[data-nf-mobile-palette="true"] .indice button {
+    box-shadow: 0 5px 15px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Página Ejercicios: la hoja completa usa la paleta común. */
+  body[data-nf-mobile-palette="true"] {
+    --ej-verde: var(--nf-mobile-accent);
+    --ej-verde-oscuro: var(--nf-mobile-accent-dark);
+    --ej-verde-claro: var(--nf-mobile-accent-soft);
+    --ej-verde-suave: color-mix(in srgb, var(--nf-mobile-accent) 7%, #ffffff);
+    --ej-borde: color-mix(in srgb, var(--nf-mobile-accent) 25%, #dfeae1);
+    --ej-sombra: 0 14px 35px var(--nf-mobile-accent-shadow);
+  }
+  body[data-nf-mobile-palette="true"] .ej-hero {
+    background: linear-gradient(135deg, var(--nf-mobile-accent-darker), var(--nf-mobile-accent-dark)) !important;
+    box-shadow: 0 18px 38px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] .ej-btn,
+  body[data-nf-mobile-palette="true"] .ej-tab.on,
+  body[data-nf-mobile-palette="true"] .ej-serie.done .ej-serie-check {
+    background: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 6px 16px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-palette="true"] .ej-op.on,
+  body[data-nf-mobile-palette="true"] .ej-acc[open] summary,
+  body[data-nf-mobile-palette="true"] .ej-hint,
+  body[data-nf-mobile-palette="true"] .ej-seleccion-resumen,
+  body[data-nf-mobile-palette="true"] .ej-timer,
+  body[data-nf-mobile-palette="true"] .ej-timer-done,
+  body[data-nf-mobile-palette="true"] .ej-visual-placeholder,
+  body[data-nf-mobile-palette="true"] .ej-op.on span,
+  body[data-nf-mobile-palette="true"] .ej-tab.done {
+    background-color: var(--nf-mobile-accent-soft) !important;
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 35%, #ffffff) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .ej-card::before,
+  body[data-nf-mobile-palette="true"] .ej-week-progress > span > i,
+  body[data-nf-mobile-palette="true"] .ej-card-progress > i {
+    background: linear-gradient(90deg, var(--nf-mobile-accent), var(--nf-mobile-accent-dark)) !important;
+  }
+  body[data-nf-mobile-palette="true"] .ej-card::after,
+  body[data-nf-mobile-palette="true"] .ej-acc summary::after,
+  body[data-nf-mobile-palette="true"] .ej-mini-icon,
+  body[data-nf-mobile-palette="true"] .ej-hint i,
+  body[data-nf-mobile-palette="true"] .ej-op-check,
+  body[data-nf-mobile-palette="true"] .ej-week-progress strong,
+  body[data-nf-mobile-palette="true"] .ej-card.completed b::after,
+  body[data-nf-mobile-palette="true"] .ej-serie.done .ej-serie-state {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .ej-mini-icon,
+  body[data-nf-mobile-palette="true"] .ej-tag,
+  body[data-nf-mobile-palette="true"] .ej-dato,
+  body[data-nf-mobile-palette="true"] .ej-visual-placeholder i,
+  body[data-nf-mobile-palette="true"] .ej-dia-count {
+    background-color: var(--nf-mobile-accent-soft) !important;
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 30%, #ffffff) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-palette="true"] .ej-card,
+  body[data-nf-mobile-palette="true"] .ej-acc,
+  body[data-nf-mobile-palette="true"] .ej-serie,
+  body[data-nf-mobile-palette="true"] .ej-mini-info {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 23%, #dfeae1) !important;
+    box-shadow: 0 5px 15px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Los estilos de la apariencia quedan limitados a móviles: la web de escritorio no cambia. */
 }

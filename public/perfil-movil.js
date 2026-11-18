@@ -39,6 +39,8 @@ const firebaseConfig = {
   measurementId: "G-09ZTK2VCLG"
 };
 
+const GLOBAL_APPEARANCE_KEY = "nutrifit-mobile-appearance-global";
+
 const MOBILE_QUERY = window.matchMedia("(max-width: 768px)");
 if (!MOBILE_QUERY.matches) {
   console.info("NutriFit Perfil Móvil: módulo inactivo fuera de pantallas móviles.");
@@ -175,7 +177,7 @@ function bootMobileProfile() {
 
     <section class="nm-screen" data-screen="appearance" hidden>
       <div class="nm-screen-head"><button class="nm-back" type="button" data-back aria-label="Volver"><i class="fa-solid fa-arrow-left"></i></button><h3>Apariencia</h3></div>
-      <p class="nm-screen-intro">Elige cómo quieres ver NutriFit Móvil. Tu preferencia se guardará en tu perfil móvil.</p>
+      <p class="nm-screen-intro">El color elegido se aplicará a Inicio, Servicios, Planes, Recetas, Ejercicios, Aprende y FAQ. También actualizará la barra del navegador cuando el dispositivo lo permita.</p>
       <div class="nm-form-card">
         <strong style="font-size:.82rem">Tema de la aplicación</strong>
         <div class="nm-theme-options" style="margin-top:12px">
@@ -185,7 +187,7 @@ function bootMobileProfile() {
         <div class="nm-divider"></div>
         <div class="nm-color-row"><label for="nmAccentColor">Color principal personalizado</label><input id="nmAccentColor" type="color" value="#28a745" aria-label="Seleccionar color principal"></div>
         <small class="nm-help">El verde NutriFit es el color inicial. Puedes elegir cualquier otro color.</small>
-        <button class="nm-secondary" id="nmResetAccent" type="button" style="margin-top:12px">Restablecer verde NutriFit</button>
+        <button class="nm-secondary" id="nmResetAccent" type="button" style="margin-top:12px" title="Restaurar el color verde original de NutriFit en todas las secciones">Restablecer verde original de NutriFit</button>
         <p class="nm-status" id="nmAppearanceStatus" role="status" aria-live="polite"></p>
       </div>
     </section>
@@ -304,20 +306,44 @@ function bootMobileProfile() {
     return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
   }
 
+  function updateBrowserThemeColor(color) {
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (!themeMeta) {
+      themeMeta = document.createElement("meta");
+      themeMeta.name = "theme-color";
+      document.head.appendChild(themeMeta);
+    }
+    themeMeta.setAttribute("content", color);
+  }
+
   function applyAppearance() {
     const accent = appearance.accent || "#28a745";
-    document.body.dataset.nfMobileTheme = appearance.mode === "dark" ? "dark" : "light";
-    document.body.style.setProperty("--nf-mobile-accent", accent);
-    // Elige texto negro o blanco según el contraste real del color seleccionado.
+    const mode = appearance.mode === "dark" ? "dark" : "light";
     const accentText = contrastRatio(accent, "#ffffff") >= 4.5 ? "#ffffff" : "#202124";
+
+    document.body.dataset.nfMobileTheme = mode;
+    // La paleta se activa incluso con el verde de fábrica para que todas las
+    // páginas compartan exactamente #28a745 al restablecer el tema.
+    document.body.dataset.nfMobilePalette = "true";
+    document.body.style.setProperty("--nf-mobile-accent", accent);
     document.body.style.setProperty("--nf-mobile-accent-contrast", accentText);
-    if ((appearance.accent || "#28a745").toLowerCase() === "#28a745") {
+    document.documentElement.style.setProperty("--nf-mobile-accent", accent);
+    document.documentElement.style.setProperty("--nf-mobile-accent-contrast", accentText);
+    document.documentElement.style.colorScheme = mode;
+    updateBrowserThemeColor(accent);
+
+    if (accent.toLowerCase() === "#28a745") {
       delete document.body.dataset.nfMobileCustom;
     } else {
       document.body.dataset.nfMobileCustom = "true";
     }
+
     try {
-      if (currentUser) localStorage.setItem(`nutrifit-mobile-appearance-${currentUser.uid}`, JSON.stringify(appearance));
+      const serialized = JSON.stringify(appearance);
+      localStorage.setItem(GLOBAL_APPEARANCE_KEY, serialized);
+      if (currentUser) {
+        localStorage.setItem(`nutrifit-mobile-appearance-${currentUser.uid}`, serialized);
+      }
     } catch (error) {
       console.warn("No se pudo guardar la apariencia localmente:", error);
     }
@@ -761,9 +787,11 @@ function bootMobileProfile() {
     applyAppearance();
   });
   $("#nmAccentColor").addEventListener("change", () => saveAppearance(appearance));
-  $("#nmResetAccent").addEventListener("click", () => {
+  $("#nmResetAccent").addEventListener("click", async () => {
     $("#nmAccentColor").value = "#28a745";
-    saveAppearance({ ...appearance, accent: "#28a745" });
+    await saveAppearance({ ...appearance, accent: "#28a745" });
+    setStatus("#nmAppearanceStatus", "Se restauró el verde original de NutriFit en todas las secciones móviles.", "ok");
+    toast("Color verde original de NutriFit restaurado.");
   });
 
   async function changeAccount(closePanel = false) {
@@ -792,10 +820,7 @@ function bootMobileProfile() {
       currentUser = null;
       currentProfile = null;
       appearance = { mode: "light", accent: "#28a745" };
-      document.body.dataset.nfMobileTheme = "light";
-      delete document.body.dataset.nfMobileCustom;
-      document.body.style.setProperty("--nf-mobile-accent", "#28a745");
-      document.body.style.setProperty("--nf-mobile-accent-contrast", "#ffffff");
+      applyAppearance();
       return;
     }
     try {
