@@ -1,0 +1,129 @@
+/* Complemento puntual para las tarjetas educativas de servicios.
+   Conserva la identidad visual existente: verde NutriFit, blanco y neutros. */
+.serv-habits-section .serv-tools-grid {
+    align-items: stretch;
+}
+
+.serv-habit-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.serv-habit-card .serv-tool-icon {
+    background: #eaf6ed;
+    color: #23864a;
+}
+
+.serv-habit-card .serv-tool-top {
+    justify-content: flex-start;
+}
+
+.serv-habit-card .serv-tool-category {
+    color: #68756c;
+}
+
+.serv-habit-card h3 {
+    line-height: 1.4;
+}
+
+.serv-habit-card > p {
+    min-height: 0;
+}
+
+.serv-habit-action {
+    margin-top: 15px;
+    padding: 11px 12px;
+    border-left: 3px solid #28a745;
+    border-radius: 0 10px 10px 0;
+    background: #f1f8f2;
+    color: #43564a;
+    font-size: .75rem;
+    line-height: 1.6;
+}
+
+.serv-habit-action strong {
+    color: #216b3b;
+}
+
+.serv-habit-details {
+    margin-top: 12px;
+    border-top: 1px solid #e5eee7;
+    padding-top: 10px;
+}
+
+.serv-habit-details summary {
+    color: #23864a;
+    font-size: .75rem;
+    font-weight: 700;
+    cursor: pointer;
+    list-style-position: inside;
+}
+
+.serv-habit-details p {
+    min-height: 0 !important;
+    margin: 9px 0 0 !important;
+    color: #68756c;
+    font-size: .75rem;
+    line-height: 1.65;
+}
+
+.serv-habit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 13px;
+    color: #23864a;
+    font-size: .75rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.serv-habit-link:hover {
+    text-decoration: underline;
+}
+
+.serv-habits-disclaimer {
+    max-width: 1120px;
+    margin: 24px auto 0;
+    padding: 13px 15px;
+    border: 1px solid #e4e9e5;
+    border-radius: 13px;
+    background: #fff;
+    color: #68756c;
+    font-size: .72rem;
+    line-height: 1.65;
+}
+
+.serv-habits-disclaimer i {
+    margin-right: 6px;
+    color: #23864a;
+}
+
+.serv-habits-sources {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+    max-width: 1120px;
+    margin: 13px auto 0;
+    color: #68756c;
+    font-size: .7rem;
+}
+
+.serv-habits-sources a {
+    color: #23864a;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+@media (max-width: 680px) {
+    .serv-habits-section .serv-tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .serv-habit-card {
+        padding: 19px;
+    }
+}
