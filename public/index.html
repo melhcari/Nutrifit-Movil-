@@ -182,10 +182,16 @@
             #recaptcha-container { transform: scale(.88); transform-origin: top center; height: 68px; }
         }
     </style>
-        <link rel="stylesheet" href="responsivo.css">
-       <link rel="stylesheet" href="mejoras.css">
-   <script src="mejoras.js" defer></script>
-        <script src="mensajes.js"></script>
+
+    <link rel="stylesheet" href="responsivo.css">
+    <link rel="stylesheet" href="mejoras.css">
+
+    <!-- NUEVO: estilos exclusivos del perfil y configuración móvil -->
+    <link rel="stylesheet" href="perfil-movil.css">
+
+    <script src="mejoras.js" defer></script>
+    <script src="mensajes.js"></script>
+
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
@@ -752,5 +758,9 @@
         });
     });
 </script>
+
+<!-- NUEVO: módulo independiente de perfil y configuración móvil -->
+<script type="module" src="perfil-movil.js"></script>
+
 </body>
 </html>
