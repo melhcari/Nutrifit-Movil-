@@ -1,0 +1,481 @@
+/* NutriFit Móvil - perfil, cuenta y apariencia
+   Todas las reglas están limitadas a móvil para no alterar la versión de escritorio. */
+@media (max-width: 768px) {
+  #userProfileContainer {
+    text-align: left !important;
+    width: 100%;
+  }
+
+  #userProfileContainer > :not(#mobileAccountRoot) {
+    display: none !important;
+  }
+
+  #mobileAccountRoot {
+    --nf-accent: var(--nf-mobile-accent, #28a745);
+    width: 100%;
+    color: #2d3436;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  #mobileAccountRoot * { box-sizing: border-box; }
+
+  #mobileAccountRoot .nm-screen[hidden] { display: none !important; }
+
+  #mobileAccountRoot .nm-home-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+  }
+
+  #mobileAccountRoot .nm-home-head .nm-mark {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    color: #fff;
+    background: var(--nf-accent);
+    flex: 0 0 36px;
+  }
+
+  #mobileAccountRoot .nm-home-head h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: inherit;
+  }
+
+  #mobileAccountRoot .nm-home-head p {
+    margin: 1px 0 0;
+    color: #7b858b;
+    font-size: .72rem;
+  }
+
+  #mobileAccountRoot .nm-profile-card {
+    overflow: hidden;
+    border: 1px solid #e8ece9;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(32, 57, 42, .07);
+    margin-bottom: 16px;
+  }
+
+  #mobileAccountRoot .nm-banner {
+    height: 104px;
+    position: relative;
+    background: linear-gradient(120deg, var(--nf-accent), #a8dcb5);
+    background-position: center;
+    background-size: cover;
+  }
+
+  #mobileAccountRoot .nm-avatar-wrap {
+    padding: 0 16px;
+    margin-top: -39px;
+    position: relative;
+  }
+
+  #mobileAccountRoot .nm-avatar {
+    width: 78px;
+    height: 78px;
+    display: grid;
+    place-items: center;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: #eef8f0;
+    color: var(--nf-accent);
+    font-size: 1.8rem;
+    overflow: hidden;
+  }
+
+  #mobileAccountRoot .nm-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #mobileAccountRoot .nm-profile-info { padding: 8px 16px 16px; }
+  #mobileAccountRoot .nm-profile-info h4 {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  #mobileAccountRoot .nm-username {
+    margin: 2px 0 10px;
+    color: #728078;
+    font-size: .82rem;
+  }
+  #mobileAccountRoot .nm-created {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 9px;
+    border-radius: 20px;
+    background: #f1f8f2;
+    color: #4d6955;
+    font-size: .69rem;
+  }
+
+  #mobileAccountRoot .nm-menu {
+    display: grid;
+    gap: 9px;
+  }
+
+  #mobileAccountRoot .nm-menu-btn {
+    width: 100%;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid #e8ece9;
+    border-radius: 13px;
+    background: #fff;
+    color: #2d3436;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    transition: transform .16s ease, border-color .16s ease;
+  }
+  #mobileAccountRoot .nm-menu-btn:active { transform: scale(.985); }
+  #mobileAccountRoot .nm-menu-icon {
+    width: 37px;
+    height: 37px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 37px;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--nf-accent) 12%, white);
+    color: var(--nf-accent);
+    font-size: .95rem;
+  }
+  #mobileAccountRoot .nm-menu-copy { flex: 1; min-width: 0; }
+  #mobileAccountRoot .nm-menu-copy strong {
+    display: block;
+    font-size: .83rem;
+    font-weight: 600;
+  }
+  #mobileAccountRoot .nm-menu-copy small {
+    display: block;
+    margin-top: 1px;
+    color: #829087;
+    font-size: .68rem;
+    line-height: 1.35;
+  }
+  #mobileAccountRoot .nm-chevron { color: #9aa59e; font-size: .8rem; }
+
+  #mobileAccountRoot .nm-home-foot {
+    margin: 13px 0 0;
+    color: #89948c;
+    font-size: .67rem;
+    text-align: center;
+  }
+
+  #mobileAccountRoot .nm-screen-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px;
+  }
+  #mobileAccountRoot .nm-back {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e4eae5;
+    border-radius: 11px;
+    background: #fff;
+    color: #2d3436;
+    font-size: .95rem;
+    cursor: pointer;
+  }
+  #mobileAccountRoot .nm-screen-head h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: inherit;
+  }
+  #mobileAccountRoot .nm-screen-intro {
+    margin: -8px 0 15px;
+    color: #758078;
+    font-size: .75rem;
+    line-height: 1.5;
+  }
+
+  #mobileAccountRoot .nm-form-card {
+    padding: 15px;
+    border: 1px solid #e8ece9;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 5px 17px rgba(32, 57, 42, .045);
+  }
+  #mobileAccountRoot .nm-field {
+    display: block;
+    margin: 0 0 13px;
+    color: #39443d;
+    font-size: .77rem;
+    font-weight: 600;
+  }
+  #mobileAccountRoot .nm-field input,
+  #mobileAccountRoot .nm-field select {
+    width: 100%;
+    min-height: 44px;
+    display: block;
+    margin-top: 6px;
+    padding: 10px 11px;
+    border: 1px solid #dce4de;
+    border-radius: 9px;
+    outline: none;
+    background: #fff;
+    color: #2d3436;
+    font: 400 .82rem 'Poppins', sans-serif;
+  }
+  #mobileAccountRoot .nm-field input:focus {
+    border-color: var(--nf-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nf-accent) 14%, transparent);
+  }
+  #mobileAccountRoot .nm-help {
+    display: block;
+    margin-top: 5px;
+    color: #849087;
+    font-size: .67rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+  #mobileAccountRoot .nm-file {
+    padding: 9px !important;
+    min-height: auto !important;
+    font-size: .7rem !important;
+  }
+  #mobileAccountRoot .nm-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: -2px 0 13px;
+  }
+  #mobileAccountRoot .nm-preview-avatar {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: #eef8f0;
+    color: var(--nf-accent);
+    font-size: 1.1rem;
+  }
+  #mobileAccountRoot .nm-preview-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  #mobileAccountRoot .nm-preview-banner {
+    height: 47px;
+    flex: 1;
+    border-radius: 9px;
+    background: linear-gradient(120deg, var(--nf-accent), #b7dfc0);
+    background-position: center;
+    background-size: cover;
+  }
+
+  #mobileAccountRoot .nm-primary,
+  #mobileAccountRoot .nm-secondary,
+  #mobileAccountRoot .nm-danger {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 10px;
+    font: 600 .8rem 'Poppins', sans-serif;
+    cursor: pointer;
+  }
+  #mobileAccountRoot .nm-primary { background: var(--nf-accent); color: #fff; }
+  #mobileAccountRoot .nm-secondary { background: #eff7f0; color: #267c3a; }
+  #mobileAccountRoot .nm-danger { background: #fff1f0; color: #b42318; }
+  #mobileAccountRoot button:disabled { opacity: .6; cursor: wait; }
+
+  #mobileAccountRoot .nm-divider { height: 1px; margin: 15px 0; background: #edf0ed; }
+  #mobileAccountRoot .nm-current-email {
+    margin: 0 0 13px;
+    padding: 10px 11px;
+    border-radius: 9px;
+    background: #f6f8f6;
+    color: #546159;
+    font-size: .76rem;
+    overflow-wrap: anywhere;
+  }
+  #mobileAccountRoot .nm-verified { color: #218838; font-size: .7rem; }
+  #mobileAccountRoot .nm-account-actions { display: grid; gap: 9px; margin-top: 14px; }
+
+  #mobileAccountRoot .nm-theme-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin: 0 0 15px;
+  }
+  #mobileAccountRoot .nm-theme-option {
+    min-height: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid #dfe7e1;
+    border-radius: 12px;
+    background: #fff;
+    color: #354239;
+    font: 600 .75rem 'Poppins', sans-serif;
+    cursor: pointer;
+  }
+  #mobileAccountRoot .nm-theme-option[aria-pressed="true"] {
+    border: 2px solid var(--nf-accent);
+    background: color-mix(in srgb, var(--nf-accent) 7%, white);
+  }
+  #mobileAccountRoot .nm-theme-dot {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 50%;
+  }
+  #mobileAccountRoot .nm-color-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 9px 0 15px;
+    color: #39443d;
+    font-size: .77rem;
+    font-weight: 600;
+  }
+  #mobileAccountRoot input[type="color"] {
+    width: 52px;
+    height: 38px;
+    padding: 3px;
+    border: 1px solid #dce4de;
+    border-radius: 9px;
+    background: #fff;
+  }
+  #mobileAccountRoot .nm-status {
+    min-height: 18px;
+    margin: 10px 0 0;
+    color: #657269;
+    font-size: .72rem;
+    line-height: 1.45;
+  }
+  #mobileAccountRoot .nm-status.is-error { color: #b42318; }
+  #mobileAccountRoot .nm-status.is-ok { color: #218838; }
+
+  /* Apariencia: los cambios solo se aplican al sitio abierto en un celular. */
+  body[data-nf-mobile-theme="dark"] {
+    background: #111a16 !important;
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] .header-navbar,
+  body[data-nf-mobile-theme="dark"] .navbar,
+  body[data-nf-mobile-theme="dark"] .nav-menu,
+  body[data-nf-mobile-theme="dark"] main > section,
+  body[data-nf-mobile-theme="dark"] footer {
+    background-color: #17221b !important;
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] .navbar { border-bottom-color: #2b3c30 !important; }
+  body[data-nf-mobile-theme="dark"] .logo,
+  body[data-nf-mobile-theme="dark"] .nav-link,
+  body[data-nf-mobile-theme="dark"] main h2,
+  body[data-nf-mobile-theme="dark"] main h3,
+  body[data-nf-mobile-theme="dark"] main p,
+  body[data-nf-mobile-theme="dark"] footer h2 {
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] .hero {
+    background-image: linear-gradient(to right, rgba(12,22,16,.92), rgba(12,22,16,.76), rgba(12,22,16,.4)),
+      url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=1500') !important;
+  }
+  body[data-nf-mobile-theme="dark"] .hero h1 { color: #f3f7f4 !important; }
+  body[data-nf-mobile-theme="dark"] .card,
+  body[data-nf-mobile-theme="dark"] .faq-item,
+  body[data-nf-mobile-theme="dark"] .faq-question,
+  body[data-nf-mobile-theme="dark"] .faq-answer {
+    background: #202e25 !important;
+    color: #edf4ef !important;
+    border-color: #34463a !important;
+  }
+  body[data-nf-mobile-theme="dark"] .faq-answer p,
+  body[data-nf-mobile-theme="dark"] .carousel-item p,
+  body[data-nf-mobile-theme="dark"] main section p {
+    color: #c4d0c7 !important;
+  }
+  body[data-nf-mobile-theme="dark"] .side-panel {
+    background: #17221b !important;
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] #sidePanel > div:first-child {
+    border-bottom-color: #34463a !important;
+  }
+  body[data-nf-mobile-theme="dark"] #sidePanel label,
+  body[data-nf-mobile-theme="dark"] #sidePanel h2,
+  body[data-nf-mobile-theme="dark"] #sidePanel h3,
+  body[data-nf-mobile-theme="dark"] #sidePanel p {
+    color: #edf4ef;
+  }
+  body[data-nf-mobile-theme="dark"] #authContainer input {
+    background: #202e25 !important;
+    border-color: #405347 !important;
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-profile-card,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-menu-btn,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-form-card,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-theme-option {
+    background: #202e25 !important;
+    border-color: #34463a !important;
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-field,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-color-row,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-screen-head h3,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-profile-info h4 {
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot input:not([type="color"]) {
+    background: #17221b !important;
+    color: #edf4ef !important;
+    border-color: #405347 !important;
+  }
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-back {
+    background: #202e25 !important;
+    border-color: #405347 !important;
+    color: #edf4ef !important;
+  }
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-current-email,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-created {
+    background: #293a2f !important;
+    color: #c9d9ce !important;
+  }
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-menu-copy small,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-screen-intro,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-help,
+  body[data-nf-mobile-theme="dark"] #mobileAccountRoot .nm-username {
+    color: #aab9af !important;
+  }
+
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-primary,
+  body[data-nf-mobile-custom="true"] .btn-main,
+  body[data-nf-mobile-custom="true"] #menuLoginSection button,
+  body[data-nf-mobile-custom="true"] .mobile-login-btn button {
+    background-color: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-menu-icon,
+  body[data-nf-mobile-custom="true"] .hero h1 span,
+  body[data-nf-mobile-custom="true"] .logo span,
+  body[data-nf-mobile-custom="true"] i[style*="#28a745"],
+  body[data-nf-mobile-custom="true"] span[style*="#28a745"] {
+    color: var(--nf-mobile-accent) !important;
+  }
+  body[data-nf-mobile-custom="true"] main > section[style*="background: #28a745"],
+  body[data-nf-mobile-custom="true"] .carousel-item[style*="background: #28a745"] {
+    background: var(--nf-mobile-accent) !important;
+  }
+  body[data-nf-mobile-custom="true"] .hero h1 span {
+    background: none !important;
+    -webkit-text-fill-color: var(--nf-mobile-accent) !important;
+  }
+}
