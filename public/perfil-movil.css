@@ -65,7 +65,7 @@
   #mobileAccountRoot .nm-banner {
     height: 104px;
     position: relative;
-    background: linear-gradient(120deg, var(--nf-accent), #a8dcb5);
+    background: linear-gradient(120deg, var(--nf-accent), color-mix(in srgb, var(--nf-accent) 48%, #ffffff));
     background-position: center;
     background-size: cover;
   }
@@ -83,7 +83,7 @@
     place-items: center;
     border: 4px solid #fff;
     border-radius: 50%;
-    background: #eef8f0;
+    background: color-mix(in srgb, var(--nf-accent) 11%, #ffffff);
     color: var(--nf-accent);
     font-size: 1.8rem;
     overflow: hidden;
@@ -114,8 +114,8 @@
     gap: 6px;
     padding: 6px 9px;
     border-radius: 20px;
-    background: #f1f8f2;
-    color: #4d6955;
+    background: color-mix(in srgb, var(--nf-accent) 11%, #ffffff);
+    color: color-mix(in srgb, var(--nf-accent) 72%, #000000);
     font-size: .69rem;
   }
 
@@ -261,7 +261,7 @@
     overflow: hidden;
     display: grid;
     place-items: center;
-    background: #eef8f0;
+    background: color-mix(in srgb, var(--nf-accent) 11%, #ffffff);
     color: var(--nf-accent);
     font-size: 1.1rem;
   }
@@ -270,7 +270,7 @@
     height: 47px;
     flex: 1;
     border-radius: 9px;
-    background: linear-gradient(120deg, var(--nf-accent), #b7dfc0);
+    background: linear-gradient(120deg, var(--nf-accent), color-mix(in srgb, var(--nf-accent) 48%, #ffffff));
     background-position: center;
     background-size: cover;
   }
@@ -477,5 +477,155 @@
   body[data-nf-mobile-custom="true"] .hero h1 span {
     background: none !important;
     -webkit-text-fill-color: var(--nf-mobile-accent) !important;
+  }
+
+  /* Controles para quitar o cancelar imágenes del perfil. */
+  #mobileAccountRoot .nm-image-remove {
+    width: 100%;
+    min-height: 39px;
+    display: block;
+    margin: -7px 0 13px;
+    padding: 8px 11px;
+    border: 1px solid #f0d3d3;
+    border-radius: 9px;
+    background: #fff7f7;
+    color: #a83232;
+    font: 600 .72rem 'Poppins', sans-serif;
+    text-align: center;
+    cursor: pointer;
+  }
+  #mobileAccountRoot .nm-image-remove[hidden] { display: none !important; }
+  #mobileAccountRoot .nm-image-remove:active { transform: scale(.99); }
+
+  /*
+    Tema personalizado: propaga el color elegido a toda la interfaz móvil.
+    El color del texto de los botones lo calcula JS para conservar contraste.
+  */
+  body[data-nf-mobile-custom="true"] {
+    --nf-mobile-accent-soft: color-mix(in srgb, var(--nf-mobile-accent) 13%, #ffffff);
+    --nf-mobile-accent-soft-strong: color-mix(in srgb, var(--nf-mobile-accent) 22%, #ffffff);
+    --nf-mobile-accent-dark: color-mix(in srgb, var(--nf-mobile-accent) 68%, #000000);
+    --nf-mobile-accent-border: color-mix(in srgb, var(--nf-mobile-accent) 58%, #000000);
+    --nf-mobile-accent-shadow: color-mix(in srgb, var(--nf-mobile-accent) 38%, transparent);
+  }
+
+  /* Botones principales de todas las secciones móviles. */
+  body[data-nf-mobile-custom="true"] .btn-main,
+  body[data-nf-mobile-custom="true"] #menuLoginSection button,
+  body[data-nf-mobile-custom="true"] .mobile-login-btn button,
+  body[data-nf-mobile-custom="true"] #authContainer #btnIniciarSesion,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-primary {
+    background: var(--nf-mobile-accent) !important;
+    background-color: var(--nf-mobile-accent) !important;
+    border: 1px solid var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 5px 13px var(--nf-mobile-accent-shadow),
+                0 2px 4px color-mix(in srgb, var(--nf-mobile-accent-dark) 22%, transparent) !important;
+    transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease, filter .18s ease;
+  }
+  body[data-nf-mobile-custom="true"] .btn-main:active,
+  body[data-nf-mobile-custom="true"] #menuLoginSection button:active,
+  body[data-nf-mobile-custom="true"] .mobile-login-btn button:active,
+  body[data-nf-mobile-custom="true"] #authContainer #btnIniciarSesion:active,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-primary:active {
+    filter: brightness(.91);
+    transform: translateY(1px);
+    box-shadow: 0 2px 7px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Botones secundarios y controles con contorno del mismo color. */
+  body[data-nf-mobile-custom="true"] .btn-secondary,
+  body[data-nf-mobile-custom="true"] #authContainer #btnCrearCuenta,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-secondary,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-image-remove:not([hidden]) {
+    background: var(--nf-mobile-accent-soft) !important;
+    border: 1px solid var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+    box-shadow: 0 3px 9px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-custom="true"] .btn-secondary:hover,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-secondary:active {
+    background: var(--nf-mobile-accent-soft-strong) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobile-menu {
+    color: var(--nf-mobile-accent-dark) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobile-menu i,
+  body[data-nf-mobile-custom="true"] #authContainer #btnRecuperarCuenta,
+  body[data-nf-mobile-custom="true"] #sidePanel #btnCerrarPanel,
+  body[data-nf-mobile-custom="true"] .nav-link:hover,
+  body[data-nf-mobile-custom="true"] .nav-link:focus-visible {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+
+  /* Superficies, tarjetas, indicadores y sombras coordinadas. */
+  body[data-nf-mobile-custom="true"] main > section[style*="background: #28a745"],
+  body[data-nf-mobile-custom="true"] main > section[style*="background:#28a745"],
+  body[data-nf-mobile-custom="true"] .carousel-item[style*="background: #28a745"],
+  body[data-nf-mobile-custom="true"] .carousel-item[style*="background:#28a745"] {
+    background: var(--nf-mobile-accent) !important;
+    border-color: var(--nf-mobile-accent-border) !important;
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+    box-shadow: 0 7px 19px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-custom="true"] .carousel-item.square-card-green,
+  body[data-nf-mobile-custom="true"] main > section[style*="background: #28a745"] *,
+  body[data-nf-mobile-custom="true"] main > section[style*="background:#28a745"] * {
+    color: var(--nf-mobile-accent-contrast, #ffffff) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-profile-card,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-form-card,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-menu-btn {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 25%, #dce5df) !important;
+    box-shadow: 0 5px 16px color-mix(in srgb, var(--nf-mobile-accent) 15%, transparent) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-menu-btn:active {
+    border-color: var(--nf-mobile-accent) !important;
+    box-shadow: 0 3px 10px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-menu-icon,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-created,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-current-email {
+    background: var(--nf-mobile-accent-soft) !important;
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-created,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-verified,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-status.is-ok {
+    color: var(--nf-mobile-accent-dark) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-theme-option[aria-pressed="true"] {
+    border-color: var(--nf-mobile-accent) !important;
+    background: var(--nf-mobile-accent-soft) !important;
+    box-shadow: 0 3px 10px var(--nf-mobile-accent-shadow) !important;
+  }
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-field input:focus,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot .nm-field select:focus,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot input[type="color"]:focus {
+    border-color: var(--nf-mobile-accent) !important;
+    box-shadow: 0 0 0 3px var(--nf-mobile-accent-shadow) !important;
+  }
+
+  /* Textos e pequeños detalles que antes tenían el verde fijo de NutriFit. */
+  body[data-nf-mobile-custom="true"] .hero h1 span,
+  body[data-nf-mobile-custom="true"] .logo span,
+  body[data-nf-mobile-custom="true"] main h2 span[style*="#28a745"],
+  body[data-nf-mobile-custom="true"] i[style*="#28a745"],
+  body[data-nf-mobile-custom="true"] span[style*="#28a745"],
+  body[data-nf-mobile-custom="true"] .faq-icon {
+    color: var(--nf-mobile-accent) !important;
+    -webkit-text-fill-color: var(--nf-mobile-accent) !important;
+  }
+  body[data-nf-mobile-custom="true"] .faq-item {
+    border-color: color-mix(in srgb, var(--nf-mobile-accent) 20%, #eeeeee) !important;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--nf-mobile-accent) 12%, transparent) !important;
+  }
+  body[data-nf-mobile-custom="true"] .faq-question:focus-visible,
+  body[data-nf-mobile-custom="true"] #mobileAccountRoot button:focus-visible,
+  body[data-nf-mobile-custom="true"] button.btn-main:focus-visible,
+  body[data-nf-mobile-custom="true"] button.btn-secondary:focus-visible {
+    outline: 3px solid var(--nf-mobile-accent-shadow) !important;
+    outline-offset: 2px;
   }
 }

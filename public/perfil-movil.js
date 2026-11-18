@@ -25,7 +25,8 @@ import {
   getStorage,
   ref as storageRef,
   uploadBytes,
-  getDownloadURL
+  getDownloadURL,
+  deleteObject
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -117,10 +118,16 @@ function bootMobileProfile() {
           <input class="nm-file" id="nmPhotoFile" type="file" accept="image/png,image/jpeg,image/webp">
           <small class="nm-help">JPG, PNG o WebP. Máximo 5 MB.</small>
         </label>
+        <button class="nm-image-remove" id="nmRemovePhoto" type="button" hidden>
+          <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Quitar foto de perfil
+        </button>
         <label class="nm-field">Banner o portada
           <input class="nm-file" id="nmBannerFile" type="file" accept="image/png,image/jpeg,image/webp">
           <small class="nm-help">JPG, PNG o WebP. Máximo 8 MB.</small>
         </label>
+        <button class="nm-image-remove" id="nmRemoveBanner" type="button" hidden>
+          <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Quitar banner o portada
+        </button>
         <button class="nm-primary" id="nmSaveProfile" type="submit">Guardar cambios</button>
         <p class="nm-status" id="nmProfileStatus" role="status" aria-live="polite"></p>
       </form>
@@ -192,6 +199,10 @@ function bootMobileProfile() {
   let currentScreen = "home";
   let selectedPhoto = null;
   let selectedBanner = null;
+  let removePhotoRequested = false;
+  let removeBannerRequested = false;
+  let photoPreviewObjectUrl = null;
+  let bannerPreviewObjectUrl = null;
   let appearance = { mode: "light", accent: "#28a745" };
 
   function toast(message, isError = false) {
@@ -273,15 +284,33 @@ function bootMobileProfile() {
     $("#nmUsername").value = profile.username || "";
     setAvatar($("#nmAvatarPreview"), profile.photoURL || "");
     $("#nmBannerPreview").style.backgroundImage = profile.bannerURL ? `url("${profile.bannerURL}")` : "";
+    refreshImageRemoveButtons();
     $("#nmCurrentEmail").textContent = user.email || "Correo no disponible";
     $("#nmVerifiedStatus").textContent = user.emailVerified ? "✓ Correo verificado" : "Tu correo aún no está verificado.";
     $("#nmAccentColor").value = appearance.accent || "#28a745";
     updateModeButtons();
   }
 
+  function hexLuminance(hex) {
+    const normalized = String(hex || "#28a745").replace("#", "");
+    const channels = [0, 2, 4].map((index) => parseInt(normalized.slice(index, index + 2), 16) / 255);
+    const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4));
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  }
+
+  function contrastRatio(hex, otherHex) {
+    const first = hexLuminance(hex);
+    const second = hexLuminance(otherHex);
+    return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+  }
+
   function applyAppearance() {
+    const accent = appearance.accent || "#28a745";
     document.body.dataset.nfMobileTheme = appearance.mode === "dark" ? "dark" : "light";
-    document.body.style.setProperty("--nf-mobile-accent", appearance.accent || "#28a745");
+    document.body.style.setProperty("--nf-mobile-accent", accent);
+    // Elige texto negro o blanco según el contraste real del color seleccionado.
+    const accentText = contrastRatio(accent, "#ffffff") >= 4.5 ? "#ffffff" : "#202124";
+    document.body.style.setProperty("--nf-mobile-accent-contrast", accentText);
     if ((appearance.accent || "#28a745").toLowerCase() === "#28a745") {
       delete document.body.dataset.nfMobileCustom;
     } else {
@@ -412,13 +441,67 @@ function bootMobileProfile() {
     return getDownloadURL(imageRef);
   }
 
-  $("#nmPhotoFile").addEventListener("change", (event) => {
-    selectedPhoto = event.target.files?.[0] || null;
-    if (!selectedPhoto) return;
+  async function deleteStoredImage(downloadURL) {
+    if (!downloadURL) return true;
     try {
-      validateImage(selectedPhoto, 5 * 1024 * 1024, "Foto de perfil");
-      const preview = URL.createObjectURL(selectedPhoto);
-      setAvatar($("#nmAvatarPreview"), preview);
+      // Firebase Storage acepta la URL de descarga para obtener la referencia.
+      await deleteObject(storageRef(storage, downloadURL));
+      return true;
+    } catch (error) {
+      if (error?.code === "storage/object-not-found") return true;
+      console.warn("No se pudo borrar una imagen anterior de Storage:", error);
+      return false;
+    }
+  }
+
+  function revokePreviewUrl(url) {
+    if (url) URL.revokeObjectURL(url);
+  }
+
+  function refreshImageRemoveButtons() {
+    const photoButton = $("#nmRemovePhoto");
+    const bannerButton = $("#nmRemoveBanner");
+    if (photoButton) {
+      photoButton.hidden = !(currentProfile?.photoURL || selectedPhoto);
+      photoButton.innerHTML = removePhotoRequested
+        ? '<i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Conservar foto actual'
+        : (selectedPhoto
+          ? '<i class="fa-regular fa-trash-can" aria-hidden="true"></i> Cancelar imagen seleccionada'
+          : '<i class="fa-regular fa-trash-can" aria-hidden="true"></i> Quitar foto de perfil');
+    }
+    if (bannerButton) {
+      bannerButton.hidden = !(currentProfile?.bannerURL || selectedBanner);
+      bannerButton.innerHTML = removeBannerRequested
+        ? '<i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Conservar banner actual'
+        : (selectedBanner
+          ? '<i class="fa-regular fa-trash-can" aria-hidden="true"></i> Cancelar imagen seleccionada'
+          : '<i class="fa-regular fa-trash-can" aria-hidden="true"></i> Quitar banner o portada');
+    }
+  }
+
+  function refreshImagePreviews() {
+    const photoUrl = selectedPhoto && photoPreviewObjectUrl
+      ? photoPreviewObjectUrl
+      : (removePhotoRequested ? "" : (currentProfile?.photoURL || ""));
+    const bannerUrl = selectedBanner && bannerPreviewObjectUrl
+      ? bannerPreviewObjectUrl
+      : (removeBannerRequested ? "" : (currentProfile?.bannerURL || ""));
+    setAvatar($("#nmAvatarPreview"), photoUrl);
+    $("#nmBannerPreview").style.backgroundImage = bannerUrl ? `url("${bannerUrl}")` : "";
+    refreshImageRemoveButtons();
+  }
+
+  $("#nmPhotoFile").addEventListener("change", (event) => {
+    const file = event.target.files?.[0] || null;
+    if (!file) return;
+    try {
+      validateImage(file, 5 * 1024 * 1024, "Foto de perfil");
+      revokePreviewUrl(photoPreviewObjectUrl);
+      selectedPhoto = file;
+      removePhotoRequested = false;
+      photoPreviewObjectUrl = URL.createObjectURL(file);
+      refreshImagePreviews();
+      setStatus("#nmProfileStatus", "Vista previa de la foto actualizada.");
     } catch (error) {
       selectedPhoto = null;
       event.target.value = "";
@@ -427,16 +510,55 @@ function bootMobileProfile() {
   });
 
   $("#nmBannerFile").addEventListener("change", (event) => {
-    selectedBanner = event.target.files?.[0] || null;
-    if (!selectedBanner) return;
+    const file = event.target.files?.[0] || null;
+    if (!file) return;
     try {
-      validateImage(selectedBanner, 8 * 1024 * 1024, "Banner");
-      $("#nmBannerPreview").style.backgroundImage = `url("${URL.createObjectURL(selectedBanner)}")`;
+      validateImage(file, 8 * 1024 * 1024, "Banner");
+      revokePreviewUrl(bannerPreviewObjectUrl);
+      selectedBanner = file;
+      removeBannerRequested = false;
+      bannerPreviewObjectUrl = URL.createObjectURL(file);
+      refreshImagePreviews();
+      setStatus("#nmProfileStatus", "Vista previa del banner actualizada.");
     } catch (error) {
       selectedBanner = null;
       event.target.value = "";
       setStatus("#nmProfileStatus", error.message, "error");
     }
+  });
+
+  $("#nmRemovePhoto").addEventListener("click", () => {
+    if (removePhotoRequested) {
+      removePhotoRequested = false;
+    } else if (selectedPhoto) {
+      selectedPhoto = null;
+    } else if (currentProfile?.photoURL) {
+      removePhotoRequested = true;
+    }
+    revokePreviewUrl(photoPreviewObjectUrl);
+    photoPreviewObjectUrl = null;
+    $("#nmPhotoFile").value = "";
+    refreshImagePreviews();
+    setStatus("#nmProfileStatus", removePhotoRequested
+      ? "La foto se quitará cuando guardes los cambios."
+      : "Se conservó la foto actual.");
+  });
+
+  $("#nmRemoveBanner").addEventListener("click", () => {
+    if (removeBannerRequested) {
+      removeBannerRequested = false;
+    } else if (selectedBanner) {
+      selectedBanner = null;
+    } else if (currentProfile?.bannerURL) {
+      removeBannerRequested = true;
+    }
+    revokePreviewUrl(bannerPreviewObjectUrl);
+    bannerPreviewObjectUrl = null;
+    $("#nmBannerFile").value = "";
+    refreshImagePreviews();
+    setStatus("#nmProfileStatus", removeBannerRequested
+      ? "El banner se quitará cuando guardes los cambios."
+      : "Se conservó el banner actual.");
   });
 
   $("#nmProfileForm").addEventListener("submit", async (event) => {
@@ -500,20 +622,46 @@ function bootMobileProfile() {
         }, { merge: true });
       });
 
-      let photoURL = currentProfile?.photoURL || "";
-      let bannerURL = currentProfile?.bannerURL || "";
+      const previousPhotoURL = currentProfile?.photoURL || "";
+      const previousBannerURL = currentProfile?.bannerURL || "";
+      let photoURL = previousPhotoURL;
+      let bannerURL = previousBannerURL;
+
       if (selectedPhoto) photoURL = await uploadImage(selectedPhoto, "foto");
+      else if (removePhotoRequested) photoURL = "";
+
       if (selectedBanner) bannerURL = await uploadImage(selectedBanner, "banner");
+      else if (removeBannerRequested) bannerURL = "";
+
       await updateDoc(profileRef, { photoURL, bannerURL, updatedAt: serverTimestamp() });
 
       currentProfile = { ...currentProfile, displayName, username, usernameKey: newKey, photoURL, bannerURL };
       selectedPhoto = null;
       selectedBanner = null;
+      removePhotoRequested = false;
+      removeBannerRequested = false;
+      revokePreviewUrl(photoPreviewObjectUrl);
+      revokePreviewUrl(bannerPreviewObjectUrl);
+      photoPreviewObjectUrl = null;
+      bannerPreviewObjectUrl = null;
       $("#nmPhotoFile").value = "";
       $("#nmBannerFile").value = "";
+
+      // La referencia se quita primero del perfil. Después intentamos borrar
+      // el archivo anterior de Storage para no dejar imágenes huérfanas.
+      const oldImagesToDelete = [];
+      if (previousPhotoURL && previousPhotoURL !== photoURL) oldImagesToDelete.push(previousPhotoURL);
+      if (previousBannerURL && previousBannerURL !== bannerURL) oldImagesToDelete.push(previousBannerURL);
+      const deleteResults = await Promise.all(oldImagesToDelete.map((url) => deleteStoredImage(url)));
+      const deletionHadErrors = deleteResults.some((result) => !result);
+
       renderProfile(currentProfile, currentUser);
-      setStatus("#nmProfileStatus", "Tu perfil móvil se guardó correctamente.", "ok");
-      toast("Tu perfil móvil se actualizó correctamente.");
+      setStatus("#nmProfileStatus", deletionHadErrors
+        ? "Tu perfil se guardó, pero no se pudo eliminar uno de los archivos antiguos de Storage."
+        : "Tu perfil móvil se guardó correctamente.", deletionHadErrors ? "" : "ok");
+      toast(deletionHadErrors
+        ? "Perfil guardado. Una imagen anterior no pudo borrarse de Storage."
+        : "Tu perfil móvil se actualizó correctamente.", deletionHadErrors);
       switchScreen("home");
     } catch (error) {
       console.error("Error al guardar perfil móvil:", error);
@@ -647,6 +795,7 @@ function bootMobileProfile() {
       document.body.dataset.nfMobileTheme = "light";
       delete document.body.dataset.nfMobileCustom;
       document.body.style.setProperty("--nf-mobile-accent", "#28a745");
+      document.body.style.setProperty("--nf-mobile-accent-contrast", "#ffffff");
       return;
     }
     try {
